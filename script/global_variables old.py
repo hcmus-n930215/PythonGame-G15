@@ -2,8 +2,6 @@ import pygame
 import math
 import random
 
-#normal_speed = 10 for racer
-
 class INIT_GAME():
     DELAY_TIME = 60
     FPS = 60
@@ -13,11 +11,11 @@ class INIT_GAME():
     def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption("Racing with me!")
-        #color_code = ['red', 'green']
-        self.IC_CIRCLE = pygame.image.load("image/racers/ball/ic_ball0.png")
-        self.IC_CLOUD = pygame.image.load("image/map/ic_cloud.png")
-        self.IC_RACETRACK = pygame.image.load("image/map/ic_racetrack.png")
-        self.IC_GRASS = pygame.image.load("image/map/ic_grass.png")
+
+        self.IC_CIRCLE = pygame.image.load("data/ic_circle.png")
+        self.IC_CLOUD = pygame.image.load("data/ic_cloud.png")
+        self.IC_RACETRACK = pygame.image.load("data/ic_racetrack.png")
+        self.IC_GRASS = pygame.image.load("data/ic_grass.png")
 
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
@@ -45,6 +43,8 @@ class INIT_GAME():
                 self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 500))
 
     pass
+
+
 
 
 
@@ -77,16 +77,14 @@ class GameController():
         """ Hien bang xep hang, hien thang thua"""
 
 
-
 class Player():
     """ Nguoi choi """
     def __init__(self):
-        #self.name = "NULL"
-        #self.password = "NULL"
-
+        self.name = "NULL"
+        self.password = "NULL"
         self.money = 0
         self.history = 0
-        self.racer_chosen = 0
+        self.chose = 0
         self.pay = 0
 
     def sign_in(self, name, password):

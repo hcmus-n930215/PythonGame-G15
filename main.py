@@ -1,4 +1,5 @@
-from libs.gobal_variables import INIT_GAME , Racer, Amulet, GameController, Player
+from script.global_variables import INIT_GAME , Racer, Amulet, GameController, Player
+
 import pygame
 import time
 import math
@@ -15,7 +16,7 @@ def data_manager():
 # main code
 player = Player()
 
-racers = (Racer(0, 170+0*50,gameLancher), Racer(0, 170+1*50,gameLancher), Racer(0, 170+2*50,gameLancher),
+racers = (Racer(0, 170+0*50,gameLancher.IC_CIRCLE), Racer(0, 170+1*50,gameLancher), Racer(0, 170+2*50,gameLancher),
           Racer(0, 170+3*50,gameLancher), Racer(0, 170+4*50,gameLancher), Racer(0, 170+5*50,gameLancher))
 
 finish = False
