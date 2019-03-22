@@ -9,6 +9,7 @@ class INIT_GAME():
 
     clock = pygame.time.Clock()
     def __init__(self) -> None:
+
         pygame.init()
         pygame.display.set_caption("Racing with me!")
 
@@ -60,15 +61,28 @@ class Racer(pygame.sprite.Sprite):
         self.speed = random.randrange(15, 30)/10
         self.rank = 1
         self.game = game
+        self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
+        self.bk_nowDraw = self.lastDrawRect
 
     def update(self, *args):
+        self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
         self.x += self.speed
         if self.x > self.game.GAME_WIDTH:
             self.x = 0
 
     def draw(self):
-        self.game.SCREEN.blit(self.img, (self.x, self.y))
+        self.bk_nowDraw = self.backupRect(self.lastDrawRect)
 
+        self.game.SCREEN.blit(self.img, (self.x, self.y))
+        rect = pygame.Rect((self.x, self.y), self.img.get_size())
+        self.lastDrawRect = rect
+
+        return rect
+    def backupRect(self, rect):
+        return
+
+    def clear(self):
+        return self.lastDrawRect
 
     def win(self):
         """" An mung """
@@ -87,11 +101,13 @@ class Amulet(pygame.sprite.Sprite):
         self.img = game.IC_CIRCLE
 
     def active(self):
+
         """ Thuc hien chuc nang cua bua """
 
 
 
 class GameController():
+
     """ Dieu khien UI, noi dung """
     def __init__(self):
         """ Khoi tao """
