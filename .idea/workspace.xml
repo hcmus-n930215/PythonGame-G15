@@ -167,7 +167,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PythonGame-G15" />
       <option name="INTERPRETER_OPTIONS" value="" />
