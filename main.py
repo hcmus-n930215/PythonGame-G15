@@ -1,4 +1,4 @@
-from libs.gobal_variables import INIT_GAME, Racer, Amulet, GameController, Player
+from libs.gobal_variables import INIT_GAME, Racer, Amulet, GameController, Player, Ranking
 from libs.Widgets import Button, EditText, TextView
 import pygame
 import time
@@ -17,9 +17,15 @@ def data_manager():
 # main code
 player = Player()
 
-racers = (Racer(0, 170+0*50, gameLancher), Racer(0, 170+1*50, gameLancher), Racer(0, 170+2*50, gameLancher),
-          Racer(0, 170+3*50, gameLancher), Racer(0, 170+4*50, gameLancher), Racer(0, 170+5*50, gameLancher))
 
+racers = (Racer(0, 170+0*50, gameLancher, "ic_snail", 0),
+          Racer(0, 170+1*50, gameLancher, "ic_snail", 1),
+          Racer(0, 170+2*50, gameLancher, "ic_snail", 2),
+          Racer(0, 170+3*50, gameLancher, "ic_snail", 3),
+          Racer(0, 170+4*50, gameLancher, "ic_snail", 4),
+          Racer(0, 170+5*50, gameLancher, "ic_snail", 5))
+
+ranking = Ranking(gameLancher, racers)
 finish = False
 
 
@@ -71,6 +77,8 @@ while not finish:
 
             list_area_to_be_update_display.append(r.clear())
             list_area_to_be_update_display.append(r.draw())
+
+        racers = ranking.update(racers)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

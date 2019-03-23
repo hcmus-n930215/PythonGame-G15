@@ -32,7 +32,7 @@ class Button(pygame.sprite.Sprite):
         self.bk_surf = self.surface.copy()
         return self.surface
     def stop(self):
-        pygame.event.post(pygame.event.Event(pygame.USEREVENT, surface=self.bk_surf, pos=mpos))
+        #pygame.event.post(pygame.event.Event(pygame.USEREVENT, surface=self.bk_surf, pos=mpos))
         self.surface.blit(self.bk_surf, (0, 0))
     def getSurface(self):
         return self.surface
