@@ -47,7 +47,6 @@ class INIT_GAME():
     pass
 
 
-
 class Amulet(pygame.sprite.Sprite):
     """ Bua """
     def __init__(self, x, y, kind, game):

@@ -42,7 +42,7 @@ class User():
     def __init__(self):
         self.name = "NULL"
         self.password = "NULL"
-        self.win_rate = 0
-        self.played_time = 0
-        self.money = 0
+        self.winrate = 0
+        self.playtime = 0
+        self.coins = 0
     pass
