@@ -1,4 +1,5 @@
-from script.global_variables import INIT_GAME , Racer, Amulet, GameController, Player
+from script.global_variables import INIT_GAME, Amulet, GameController, Player
+from script.main_class import Racer
 
 import pygame
 import time
