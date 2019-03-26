@@ -48,7 +48,7 @@ while not finish:
     list_area_to_be_update_display = []
 
     btn.show()
-    x , y = pygame.mouse.get_pos()
+    x, y = pygame.mouse.get_pos()
     tv_cusor_X.setText("CUSOR X: " + str(x))
     tv_cusor_Y.setText("CUSOR Y: " + str(y))
 
