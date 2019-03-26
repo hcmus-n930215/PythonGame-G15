@@ -78,7 +78,7 @@ while not finish:
             list_area_to_be_update_display.append(r.clear())
             list_area_to_be_update_display.append(r.draw())
 
-        racers = ranking.update(racers)
+        ranking.update(racers)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

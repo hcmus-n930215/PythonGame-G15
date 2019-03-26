@@ -153,7 +153,6 @@ class Ranking():
     """ Bang xep hang"""
     def __init__(self, game, rs):
         self.game = game
-        self.racers= rs
         self.img = self.game.IC_RANK
         self.size = self.img.get_rect().size
         self.img = pygame.transform.scale(self.img, (int(self.size[0]*(game.GAME_WIDTH/960)),
@@ -163,16 +162,15 @@ class Ranking():
         self.x = game.GAME_WIDTH - self.size[0]
         self.y = 0
 
-    def draw(self):
+    def draw(self, rs):
         m = self.x + int(self.size[0] / 2.5)
         n = int(self.size[1] / 7.7)
         self.game.SCREEN.blit(self.img, (self.x, self.y))
         for i in range(0, 6):
-            self.game.SCREEN.blit(self.racers[i].img, (m, n*(self.racers[i].rank+0.33)))
-            print(self.racers[i].rank)
+            self.game.SCREEN.blit(rs[i].img, (m, n*(rs[i].rank+0.33)))
+            #print(self.racers[i].rank)
 
     def update(self, rs):
-        self.racers = rs
 
         for i in range(0, 6):
             for j in range(0, 6):
@@ -186,6 +184,6 @@ class Ranking():
                             self.racers[i].rank -= 1
                             """
 
-        self.draw()
-        return self.racers
+        self.draw(rs)
+        #return self.racers
 
