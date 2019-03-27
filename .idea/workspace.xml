@@ -2,13 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26d51bbb-f62d-4f90-b9fa-3a29b26baf9d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/script/decryptData.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/encryptdata.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/usersData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/usersData.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/usersDatas.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/usersDatas.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/file.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/usersDatas.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ic_coin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ic_coin_down.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ic_coin_up.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/ic_win_rate.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/map/ic_cloud.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/map/ic_grass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/map/ic_racetrack.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/racers/ball/ic_ball_red.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/decryptData.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/encryptdata.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/file.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/global_variables old.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/global_variables.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/main_class.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,68 +29,13 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/script/file.py">
+        <entry file="file://$PROJECT_DIR$/libs/file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="121" column="25" lean-forward="true" selection-start-line="121" selection-start-column="25" selection-end-line="121" selection-end-column="25" />
+            <state relative-caret-position="69">
+              <caret line="143" column="8" selection-start-line="143" selection-start-column="8" selection-end-line="143" selection-end-column="8" />
               <folding>
-                <element signature="e#1#36#0" expanded="true" />
-                <element signature="e#646#961#0" />
-                <element signature="e#1007#1228#0" />
-                <element signature="e#3627#4264#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/encryptdata.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-                <element signature="e#198#472#0" />
-                <element signature="e#741#1493#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/decryptData.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="64" column="33" selection-start-line="64" selection-start-column="33" selection-end-line="64" selection-end-column="33" />
-              <folding>
-                <element signature="e#73#489#0" />
-                <element signature="e#526#723#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/main_class.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#99#980#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/global_variables.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="48" selection-start-line="48" selection-end-line="48" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#94#1603#0" />
+                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#1435#3756#0" />
               </folding>
             </state>
           </provider>
@@ -90,19 +45,7 @@
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="45" selection-start-column="45" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/global_variables old.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="47" selection-start-line="47" selection-end-line="47" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
+              <caret column="35" selection-start-column="35" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -142,6 +85,7 @@
         <option value="$PROJECT_DIR$/data/usersData.txt" />
         <option value="$PROJECT_DIR$/script/encryptdata.py" />
         <option value="$PROJECT_DIR$/script/file.py" />
+        <option value="$PROJECT_DIR$/libs/file.py" />
       </list>
     </option>
   </component>
@@ -159,6 +103,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -174,17 +119,16 @@
             <path>
               <item name="PythonGame-G15" type="b2602c69:ProjectViewProjectNode" />
               <item name="PythonGame-G15" type="462c0819:PsiDirectoryNode" />
-              <item name="script" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Compressed/Do_an1_NMCNTT2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -205,7 +149,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.file">
+  <component name="RunManager" selected="Python.file (1)">
     <configuration name="class" type="PythonConfigurationType" factoryName="Python">
       <module name="PythonGame-G15" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -219,6 +163,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/class.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="file (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PythonGame-G15" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/file.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -292,6 +257,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.file (1)" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -425,31 +391,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/global_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#94#1603#0" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/data/usersData.txt">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/global_variables old.py">
+    <entry file="file://$PROJECT_DIR$/data/usersDatas.txt" />
+    <entry file="file://$PROJECT_DIR$/script/decryptData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="45" selection-start-column="45" selection-end-column="45" />
+        <state relative-caret-position="1088">
+          <caret line="64" column="33" selection-start-line="64" selection-start-column="33" selection-end-line="64" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -464,48 +413,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script/decryptData.py">
+    <entry file="file://$PROJECT_DIR$/script/global_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="64" column="33" selection-start-line="64" selection-start-column="33" selection-end-line="64" selection-end-column="33" />
+        <state relative-caret-position="136">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
           <folding>
-            <element signature="e#73#489#0" />
-            <element signature="e#526#723#0" />
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#94#1603#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/global_variables old.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/script/encryptdata.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="544">
           <caret line="33" column="39" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
           <folding>
             <element signature="e#0#16#0" expanded="true" />
-            <element signature="e#198#472#0" />
-            <element signature="e#741#1493#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/usersData.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/usersDatas.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" lean-forward="true" selection-end-column="264" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/script/file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="121" column="25" lean-forward="true" selection-start-line="121" selection-start-column="25" selection-end-line="121" selection-end-column="25" />
+        <state relative-caret-position="306">
+          <caret line="22" column="39" lean-forward="true" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/file.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="143" column="8" selection-start-line="143" selection-start-column="8" selection-end-line="143" selection-end-column="8" />
           <folding>
-            <element signature="e#1#36#0" expanded="true" />
-            <element signature="e#646#961#0" />
-            <element signature="e#1007#1228#0" />
-            <element signature="e#3627#4264#0" />
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#1435#3756#0" />
           </folding>
         </state>
       </provider>
