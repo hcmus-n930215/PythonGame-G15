@@ -1,6 +1,11 @@
-from main_class import User
+from libs.global_variables import *
+from libs.decryptData import *
+from libs.encryptdata import *
 
 import os
+
+#key to encript and decrip      from 1 to 127
+key = 125
 
 nameTitle = "username = \""
 passTitle = "password = \""
@@ -9,10 +14,10 @@ playTimeTitle = "playTime = \""
 winrateTitle = "winrate = \""
 
 direct = os.getcwd()
-currentDirrect = "/script"
-
+currentDirrect = "/libs"
 dataDirect = direct[0]
-#change
+
+#change direction
 i = 1
 while(i < len(direct) - len(currentDirrect)):
     dataDirect = dataDirect + direct[i]
@@ -70,8 +75,7 @@ class ReadUsersData:
             i = i + len(nameTitle)
             user.append(User())
             user[len(user) - 1].name = ReadUsersData.StringCopy(data, i)
-            ahd = user[0].name
-            #print(user[0].name)
+            print(user[0].name)
         else:
             return -1
 
@@ -80,7 +84,7 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, passTitle, i)):
             i = i + len((passTitle))
             user[len(user) - 1].password = ReadUsersData.StringCopy(data, i)
-            #print(user[0].password)
+            print(user[0].password)
         else:
             return -1
 
@@ -89,17 +93,16 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, coinsTitle, i)):
             i = i + len((coinsTitle))
             user[len(user) - 1].coins = ReadUsersData.StringCopy(data, i)
-            #print(user[0].coins)
+            print(user[0].coins)
         else:
             return -1
 
         #get playtime
-        adsdfddd = len(str(user[len(user) - 1].coins))
         i = i + len(str(user[len(user) - 1].coins)) + 2    #change poss to playtime....
         if (ReadUsersData.StringCompare(data, playTimeTitle, i)):
             i = i + len((playTimeTitle))
             user[len(user) - 1].playTime = ReadUsersData.StringCopy(data, i)
-            #print(user[0].playTime)
+            print(user[0].playTime)
         else:
             return -1
 
@@ -108,7 +111,7 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, winrateTitle, i)):
             i = i + len((winrateTitle))
             user[len(user) - 1].winrate = ReadUsersData.StringCopy(data, i)
-            #print(user[0].winrate)
+            print(user[0].winrate)
         else:
             return -1
 
@@ -122,9 +125,11 @@ class ReadUsersData:
 
         data = f.read()
 
+        data = decrypt.DecyptData(data, key)
+
         dataLength = len(data)
         i = 0
-        while(i < dataLength):
+        while(i < dataLength - 20):
             i = ReadUsersData.GetUserData(data,i)
             if(i == -1):
                 print("loi")
@@ -134,27 +139,35 @@ class ReadUsersData:
 
 class WriteUsersData:
 
-    f = open("data/usersData.txt", "w")
+    def WriteAllUsersData():
+        f = open("data/usersData.txt", "w")
 
-    i = 0
+        i = 0
+        textToWrite = ""
+        while(i < len(user)):
+            textToWrite += nameTitle + user[i].name + "\" "
 
-    while(i < len(user)):
-        textToWrite = nameTitle + user[i] + "\" "
+            textToWrite = textToWrite + passTitle + user[i].password + "\" "
 
-        textToWrite = textToWrite + passTitle + password[i] + "\" "
+            textToWrite = textToWrite + coinsTitle + user[i].coins + "\" "
 
-        textToWrite = textToWrite + coinsTitle + coins[i] + "\" "
+            textToWrite = textToWrite + playTimeTitle + user[i].playTime + "\" "
 
-        textToWrite = textToWrite + playTimeTitle + playTime[i] + "\" "
+            textToWrite = textToWrite + winrateTitle + user[i].winrate + "\" "
 
-        textToWrite = textToWrite + '\n'
+            #textToWrite = textToWrite + '\n'
+
+            i = i + 1
+
+        textToWrite = encypt.EncryptData(textToWrite, key)
 
         f.write(textToWrite)
-        i = i + 1
 
     pass
 
+ReadUsersData.GetAllUsersData()
 
+WriteUsersData.WriteAllUsersData()
 
 
 
