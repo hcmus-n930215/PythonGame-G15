@@ -164,7 +164,6 @@ class Amulet(pygame.sprite.Sprite):
                 temp = True
 
 
-
 class GameController():
 
     """ Dieu khien UI, noi dung """
@@ -254,3 +253,9 @@ class User():
         self.playTime = 0
         self.coins = 0
     pass
+
+class PlayHistory():
+    def __init__(self):
+        self.racerType = "NULL"
+        self.racerNum = 0
+        self.coinResult = 0
