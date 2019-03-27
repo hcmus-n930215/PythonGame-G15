@@ -1,5 +1,6 @@
 import pygame
 import math
+import time
 import random
 
 class INIT_GAME():
@@ -13,37 +14,45 @@ class INIT_GAME():
         pygame.init()
         pygame.display.set_caption("Racing with me!")
 
-        self.IC_CIRCLE = pygame.image.load("data/ic_circle.png")
-        self.IC_CLOUD = pygame.image.load("data/ic_cloud.png")
-        self.IC_RACETRACK = pygame.image.load("data/ic_racetrack.png")
-        self.IC_GRASS = pygame.image.load("data/ic_grass.png")
-        self.IC_RANK = pygame.image.load("data/ic_rank.png")
-
+        self.IC_CIRCLE = pygame.image.load("img/ic_circle.png")
+        self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
+        self.IC_RACETRACK = pygame.transform.scale(pygame.image.load("img/ic_way.png"), (200,150))
+        self.IC_GRASS = pygame.image.load("img/ic_grass.png")
+        self.IC_GRASS = pygame.transform.scale(self.IC_GRASS, (80, 80))
+        self.IC_RANK = pygame.image.load("img/ic_rank.png")
+        self.IC_STONE = pygame.transform.scale(pygame.image.load("img/ic_stone.png"),(100,100))
+        self.IC_FINISH_FLAG = pygame.transform.scale(pygame.image.load("img/ic_fisish_line.png"), (200, 200))
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
-        self.GAME_WIDTH = int(self.SCREEN_SIZE[0] / 2)
-        self.GAME_HEIGHT = int(self.SCREEN_SIZE[1] / 2)
-
+        self.GAME_WIDTH = int(self.SCREEN_SIZE[1] )
+        self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
+        self.ROLLBACK_STEP = 3
         self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
 
         super().__init__()
 
-    def draw_map(self):
-        self.SCREEN.fill(0)
+    def draw_map(self, rollback):
+        self.SCREEN.fill(180)
         # 6 - draw the screen elements
-        for x in range(0, 16):
+        for x in range(0, 100):
+            for y in range(-1, 2):
+                self.SCREEN.blit(self.IC_GRASS, (x * 40+rollback, y * 40))
+        """for x in range(0, 16):
             for y in range(0, 1):
                 self.SCREEN.blit(self.IC_CLOUD, (x * 90, y * 90))
-        for x in range(0, 25):
-            for y in range(0, 7):
-                self.SCREEN.blit(self.IC_RACETRACK , (x * 50, y * 50 + 130))
-        for x in range(0, 33):
-            for y in range(0, 1):
-                self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 90))
-        for x in range(0, 33):
+                """
+        for i in range(0, 50):
+            for j in range(0, 7):
+                self.SCREEN.blit(self.IC_RACETRACK , (i * 60+rollback, j * 50 + 100))
+        for i in range(0, 100):
+            self.SCREEN.blit(self.IC_STONE, (i * 100 + rollback, 450))
+        """for x in range(0, 33):
             for y in range(0, 5):
                 self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 500))
-
+        """
+        for i in range(0, 9):
+            self.SCREEN.blit(self.IC_FINISH_FLAG, (50 + rollback, i * 40 + 100))
+            self.SCREEN.blit(self.IC_FINISH_FLAG, (2000 + rollback, i * 40 + 100))
     pass
 
 
@@ -52,14 +61,14 @@ class Racer(pygame.sprite.Sprite):
     def __init__(self, x, y, game, pack ="ic_snail", num="tron"):
         self.pack_sprite = pack
         self.num = num
-        name = "data/"
+        name = "img/"
         ic_name = name + pack + str(num) + ".png"
         self.img = pygame.image.load(ic_name)
         self.x = x
         self.y = y
         self.stun = 0
         self.time = 0
-        self.speed = random.randrange(15, 30)/10
+        self.speed = random.randrange(18, 25)/10
         self.rank = num + 1
         self.game = game
         self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
@@ -68,6 +77,7 @@ class Racer(pygame.sprite.Sprite):
     def update(self, *args):
         self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
         self.x += self.speed
+        self.speed = random.randrange(15, 40)/10
         if self.x > self.game.GAME_WIDTH:
             self.x = 0
 
@@ -100,10 +110,58 @@ class Amulet(pygame.sprite.Sprite):
         self.kind = kind
         self.game = game
         self.img = game.IC_CIRCLE
+        self.IC_FAST = pygame.image.load("img/ic_coin.png")
+        self.speed = "NULL"
+        self.speed_now = self.speed
+
+    def stop_amulet(self):
+        """Bua dung"""
+        if (self.x >= self.appear_Amulet):
+            self.speed = 0
+        t =time.clock()
+        while (time.clock() - t >= 5 ):
+            self.speed += self.speed
+
+    def slow_amulet(self):
+        """Bua giam toc"""
+        lenght = self.x
+        if (self.x >= self.appear_Amulet):
+            self.speed -= 0.5
+        while (self.x - lenght < 15):
+            self.speed += self.speed
+        self.speed = self.speed_now
+
+    def fast_amulet(self):
+        """Bua tang toc"""
+        lenght = self.x
+        if (self.x >= self.appear_Amulet):
+            self.speed += 0.5
+        while (self.x - lenght < 20):
+            self.speed += self.speed
+        self.speed = self.speed_now
+
+    def draw_amulet(self):
+        ride = [170, 220, 270, 320, 370, 420]
+        x = random.randrange(100,1000,50)
+        y = random.choice(ride)
+        self.game.SCREEN.blit(self.IC_FAST, (x, y))
 
     def active(self):
-
-        """ Thuc hien chuc nang cua bua """
+        """ Thuc hien chuc nang cua bua"""
+        #vòng lặp sau 1 khoảng thời gian sẽ xuất hiện 1 bùa khác
+        temp = False
+        while not temp:
+            self.appear_Amulet = random.randrange(self.x, self.x +250, 100)
+            if(self.kind ==  1):
+                Amulet.stop_amulet(self)
+                temp = True
+            elif(self.kind ==  2):
+                Amulet.slow_amulet(self)
+                temp = True
+            elif (self.kind == 3):
+                Amulet.draw_amulet(self)
+                Amulet.fast_amulet(self)
+                temp = True
 
 
 
@@ -155,8 +213,8 @@ class Ranking():
         self.game = game
         self.img = self.game.IC_RANK
         self.size = self.img.get_rect().size
-        self.img = pygame.transform.scale(self.img, (int(self.size[0]*(game.GAME_WIDTH/960)),
-                                                     int(self.size[1]*(game.GAME_HEIGHT/540))))
+        self.img = pygame.transform.scale(self.img, (int(self.size[0]*(game.GAME_WIDTH/1280)),
+                                                     int(self.size[1]*(game.GAME_HEIGHT/720))))
         self.size = self.img.get_rect().size
 
         self.x = game.GAME_WIDTH - self.size[0]
@@ -186,4 +244,11 @@ class Ranking():
 
         self.draw(rs)
         #return self.racers
-
+class User():
+    def __init__(self):
+        self.name = "NULL"
+        self.password = "NULL"
+        self.winrate = 0
+        self.playtime = 0
+        self.coins = 0
+    pass

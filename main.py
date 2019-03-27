@@ -1,5 +1,5 @@
-from libs.gobal_variables import INIT_GAME, Racer, Amulet, GameController, Player, Ranking
-from libs.Widgets import Button, EditText, TextView
+from libs.global_variables import *
+from libs.Widgets import *
 import pygame
 import time
 import time
@@ -8,7 +8,7 @@ import random
 
 gameLancher = INIT_GAME()
 
-gameLancher.draw_map()
+gameLancher.draw_map(0)
 
 def data_manager():
     """Xu li file, du lieu"""
@@ -39,12 +39,17 @@ subScreen = btn.setSurface(gameLancher.SCREEN)
 
 play = False
 isPressed = False
-
+rollback = 0
 list_area_to_be_update_display = []
-gameLancher.draw_map()
+gameLancher.draw_map(0)
+
 pygame.display.flip()
+
 while not finish:
-    gameLancher.draw_map()
+    #gameLancher.SCREEN.fill(180)
+    gameLancher.draw_map(rollback)
+    rollback-=gameLancher.ROLLBACK_STEP
+
     list_area_to_be_update_display = []
 
     btn.show()
