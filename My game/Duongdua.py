@@ -32,7 +32,6 @@ def Ways(x):
     for i in range(0,50):
         for j in range (0,7):
             screen.blit(way , (i*60+x,j*50+100))
-
 def Grass(x):
     for i in range(0,100):
         for j in range (-1,3):
@@ -40,6 +39,8 @@ def Grass(x):
 def Stone(x):
     for i in range(0,100):
         screen.blit(stone, (i*100+x,450))
+def Bua(x,y):
+    screen.blit(stone, (x,y))
 def Tree(x):
     for i in range(0,100):
         screen.blit(tree, (i*100+x, 30))
@@ -58,12 +59,14 @@ def game_loop():
                 gameover = True
         Grass(x)
         Tree(x)
+
         x += -5
         y += +3
         if abs(x) >= 1300:
             gameover = True
         Ways(x-50)
         Stone(x)
+        Bua(300, 300)
         Begin(x)
         End(x)
         #Turtle(y,150)
