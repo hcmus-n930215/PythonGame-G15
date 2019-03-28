@@ -6,6 +6,8 @@ import time
 import math
 import random
 
+
+
 gameLancher = INIT_GAME()
 
 gameLancher.draw_map(0)

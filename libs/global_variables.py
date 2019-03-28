@@ -2,6 +2,7 @@ import pygame
 import math
 import time
 import random
+#from threading import Thread
 
 class INIT_GAME():
     DELAY_TIME = 60
@@ -46,27 +47,41 @@ class INIT_GAME():
         return img
 
     def draw_map(self, rollback):
+
+
+
         self.SCREEN.fill(180)
         # 6 - draw the screen elements
-        for x in range(0, 100):
-            for y in range(-1, 2):
-                self.SCREEN.blit(self.IC_GRASS, (x * 40+rollback, y * 40))
-        """for x in range(0, 16):
-            for y in range(0, 1):
-                self.SCREEN.blit(self.IC_CLOUD, (x * 90, y * 90))
-                """
-        for i in range(0, 50):
-            for j in range(0, 7):
-                self.SCREEN.blit(self.IC_RACETRACK , (i * 60+rollback, j * 50 + 100))
-        for i in range(0, 100):
-            self.SCREEN.blit(self.IC_STONE, (i * 100 + rollback, 450))
         """for x in range(0, 33):
             for y in range(0, 5):
                 self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 500))
         """
+        for x in range(0, 100):
+            for y in range(-1, 2):
+                self.SCREEN.blit(self.IC_GRASS, (x * 40 + rollback, y * 40))
+                print(1)
+        """for x in range(0, 16):
+            for y in range(0, 1):
+                self.SCREEN.blit(self.IC_CLOUD, (x * 90, y * 90))
+                """
+        # print(1)
+
+        for i in range(0, 50):
+            for j in range(0, 7):
+                self.SCREEN.blit(self.IC_RACETRACK, (i * 60 + rollback, j * 50 + 100))
+                print(2)
+        # print(2)
+
+        for k in range(0, 100):
+            self.SCREEN.blit(self.IC_STONE, (k * 100 + rollback, 450))
+        # print(3)
+
         for i in range(0, 9):
             self.SCREEN.blit(self.IC_FINISH_FLAG, (50 + rollback, i * 40 + 100))
             self.SCREEN.blit(self.IC_FINISH_FLAG, (2000 + rollback, i * 40 + 100))
+
+
+
     pass
 
 
