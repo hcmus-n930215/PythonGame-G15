@@ -83,8 +83,16 @@ while not finish:
         tv_cusor_X.setText()
         time.sleep(0.08)
     if play:
+        #i = 0
         for r in racers:
-
+            """if (i < 6):
+                r.Amulet.Amulet_appear()
+                r.Amulet.draw_amulet()
+                i = i + 1
+            if(r.x>r.amulet_x and r.time >0):
+                r.Amulet.active()
+                r.time -= 1
+            else: """
             r.update()
 
             list_area_to_be_update_display.append(r.clear())

@@ -158,7 +158,10 @@ class Amulet(pygame.sprite.Sprite):
         elif (self.kind == 5):
             self.attack_amulet()
 
-
+    def Amulet_appear(self):
+        self.amulet_x = random.randrange(40, 140)
+        self.kind = random.randrange(1,6)
+        self.time = 5
 """def Vebua_Xoabua(rs, l_amulet):
     #Tạo bùa, xóa bùa dựa vào trạng thái racers
     icon = pygame.display.set_mode()
@@ -180,10 +183,7 @@ class Amulet(pygame.sprite.Sprite):
                 if(l_amulet.kind == 3):
                     icon.blit(IC_FAST, (l_amulet.x, l_amulet.y))
 
-
-    
-    
-    """
+"""
 
 
 class GameController():
