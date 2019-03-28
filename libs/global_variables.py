@@ -59,7 +59,6 @@ class INIT_GAME():
         for x in range(0, 100):
             for y in range(-1, 2):
                 self.SCREEN.blit(self.IC_GRASS, (x * 40 + rollback, y * 40))
-                print(1)
         """for x in range(0, 16):
             for y in range(0, 1):
                 self.SCREEN.blit(self.IC_CLOUD, (x * 90, y * 90))
@@ -69,7 +68,6 @@ class INIT_GAME():
         for i in range(0, 50):
             for j in range(0, 7):
                 self.SCREEN.blit(self.IC_RACETRACK, (i * 60 + rollback, j * 50 + 100))
-                print(2)
         # print(2)
 
         for k in range(0, 100):
