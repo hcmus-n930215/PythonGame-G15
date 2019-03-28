@@ -14,22 +14,36 @@ class INIT_GAME():
         pygame.init()
         pygame.display.set_caption("Racing with me!")
 
-        self.IC_CIRCLE = pygame.image.load("img/ic_circle.png")
-        self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
-        self.IC_RACETRACK = pygame.transform.scale(pygame.image.load("img/ic_way.png"), (200,150))
-        self.IC_GRASS = pygame.image.load("img/ic_grass.png")
-        self.IC_GRASS = pygame.transform.scale(self.IC_GRASS, (80, 80))
-        self.IC_RANK = pygame.image.load("img/ic_rank.png")
-        self.IC_STONE = pygame.transform.scale(pygame.image.load("img/ic_stone.png"),(100,100))
-        self.IC_FINISH_FLAG = pygame.transform.scale(pygame.image.load("img/ic_fisish_line.png"), (200, 200))
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
-        self.GAME_WIDTH = int(self.SCREEN_SIZE[1] )
+        self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
         self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
+        self.GAME_WIDTH_DEFAULT = 1080
+        self.GAME_HEIGHT_DEFAULT = 720
+
+        self.IC_CIRCLE = self.load_img("img/ic_circle.png", 1, 1)
+        #self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
+        self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
+        self.IC_GRASS = self.load_img("img/ic_grass.png", 80, 80)
+        self.IC_RANK = self.load_img("img/ic_rank.png", 1, 1)
+        self.IC_STONE = self.load_img("img/ic_stone.png", 100, 100)
+        self.IC_FINISH_FLAG = self.load_img("img/ic_fisish_line.png", 200, 200)
+
+
         self.ROLLBACK_STEP = 3
         self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
 
         super().__init__()
+
+    def load_img(self, link, scale_x, scale_y):
+        img = pygame.image.load(link)
+        if scale_x <= 1 and scale_y <= 1:
+            size = img.get_rect().size
+            scale_x = size[0]*scale_x
+            scale_y = size[1]*scale_y
+        img = pygame.transform.scale(img, (int(scale_x * (self.GAME_WIDTH / self.GAME_WIDTH_DEFAULT)),
+                                           int(scale_y * (self.GAME_HEIGHT / self.GAME_HEIGHT_DEFAULT))))
+        return img
 
     def draw_map(self, rollback):
         self.SCREEN.fill(180)
@@ -63,7 +77,7 @@ class Racer(pygame.sprite.Sprite):
         self.num = num
         name = "img/"
         ic_name = name + pack + str(num) + ".png"
-        self.img = pygame.image.load(ic_name)
+        self.img = game.load_img(ic_name, 0.8, 0.8)
         self.x = x
         self.y = y
         self.stun = 0
@@ -212,9 +226,7 @@ class Ranking():
     def __init__(self, game, rs):
         self.game = game
         self.img = self.game.IC_RANK
-        self.size = self.img.get_rect().size
-        self.img = pygame.transform.scale(self.img, (int(self.size[0]*(game.GAME_WIDTH/1280)),
-                                                     int(self.size[1]*(game.GAME_HEIGHT/720))))
+
         self.size = self.img.get_rect().size
 
         self.x = game.GAME_WIDTH - self.size[0]
