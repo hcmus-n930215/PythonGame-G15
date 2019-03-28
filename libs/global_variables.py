@@ -22,7 +22,7 @@ class INIT_GAME():
         self.GAME_HEIGHT_DEFAULT = 720
 
         self.IC_CIRCLE = self.load_img("img/ic_circle.png", 1, 1)
-        #self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
+
         self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
         self.IC_GRASS = self.load_img("img/ic_grass.png", 80, 80)
         self.IC_RANK = self.load_img("img/ic_rank.png", 1, 1)
