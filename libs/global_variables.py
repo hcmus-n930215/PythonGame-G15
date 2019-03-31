@@ -18,6 +18,7 @@ class INIT_GAME():
         #self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
         self.IC_RANK = pygame.image.load("img/ic_rank.png")
         self.Background = pygame.transform.scale(pygame.image.load("img/Background.png"),(720,480))
+        self.Line = pygame.transform.scale(pygame.image.load("img/Line.png"),(20,240))
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
         self.GAME_WIDTH = int(self.SCREEN_SIZE[1] )
@@ -29,8 +30,16 @@ class INIT_GAME():
         super().__init__()
 
     def draw_map(self, rollback):
+        rb = rollback
+        if 3000 + rb <= 720/2:
+            rb = -3000 + 360;
         for i in range(0,10):
-            self.SCREEN.blit(self.Background , (i*720 + rollback,0))
+            self.SCREEN.blit(self.Background , (i*720 + rb,0))
+        if rollback + 20 < 0:
+            self.SCREEN.blit(self.Line, (20+rollback,170))
+        if 3000 + rb <= 750 :
+            self.SCREEN.blit(self.Line, (3000+rb,170))
+
         # 6 - draw the screen elements
 
     pass
