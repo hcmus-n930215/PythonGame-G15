@@ -38,7 +38,7 @@ endOfData = "\""    #to define where to stop read data
 #playTime = ["789"]
 #winrate =["100"]
 
-user = []
+#user = []
 
 class ReadUsersData:
 
@@ -67,7 +67,7 @@ class ReadUsersData:
                 i = i + 1
             return dest
 
-    def GetUserData(data, startPoss):
+    def GetUserData(data, startPoss, user):
         i = startPoss
 
         # get ID
@@ -134,7 +134,7 @@ class ReadUsersData:
         return i
 
     #ham tra ve -1 neu khong doc duoc
-    def  GetAllUsersData():
+    def  GetAllUsersData(user):
 
         f = open(dataLocation, "rt")
 
@@ -145,7 +145,7 @@ class ReadUsersData:
         dataLength = len(data)
         i = 0
         while(i < dataLength - 20):
-            i = ReadUsersData.GetUserData(data,i)
+            i = ReadUsersData.GetUserData(data, i, user)
             if(i == -1):
                 print("loi")
                 return -1
@@ -154,7 +154,7 @@ class ReadUsersData:
 
 class WriteUsersData:
 
-    def WriteAllUsersData():
+    def WriteAllUsersData(user):
         f = open(dataLocation, "w")
 
         i = 0
@@ -182,9 +182,12 @@ class WriteUsersData:
 
     pass
 
-if(ReadUsersData.GetAllUsersData() != -1):
+'''
+user = []
+if(ReadUsersData.GetAllUsersData(user) != -1):
 
-    WriteUsersData.WriteAllUsersData()
+    WriteUsersData.WriteAllUsersData(user)
+    '''
 
 
 

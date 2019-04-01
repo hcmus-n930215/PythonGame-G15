@@ -24,7 +24,7 @@ class INIT_GAME():
         self.IC_FINISH_FLAG = pygame.transform.scale(pygame.image.load("img/ic_fisish_line.png"), (200, 200))
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
-        self.GAME_WIDTH = int(self.SCREEN_SIZE[1] )
+        self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
         self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
         self.ROLLBACK_STEP = 3
         self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
