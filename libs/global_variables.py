@@ -21,7 +21,9 @@ class INIT_GAME():
         self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
         self.GAME_WIDTH_DEFAULT = 1080
         self.GAME_HEIGHT_DEFAULT = 720
-
+        self.IC_CAMERA = (self.load_img("img/camera0.png", 0.8, 0.8),
+                          self.load_img("img/camera1.png", 0.8, 0.8),
+                          self.load_img("img/camera2.png", 0.8, 0.8))
         self.IC_CIRCLE = self.load_img("img/ic_circle.png", 1, 1)
 
         self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
@@ -56,7 +58,7 @@ class INIT_GAME():
             for y in range(0, 5):
                 self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 500))
         """
-        for x in range(0, 100):
+        for x in range(-10, 100):
             for y in range(-1, 2):
                 self.SCREEN.blit(self.IC_GRASS, (x * 40 + rollback, y * 40))
         """for x in range(0, 16):
@@ -94,17 +96,20 @@ class Racer(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.stun = 0
-        self.time = 0
-        self.speed = random.randrange(18, 25)/10
+        self.time = random.randrange(10, 40)
+        self.speed = random.randrange(18, 55)/10
         self.rank = num + 1
         self.game = game
         self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
         self.bk_nowDraw = self.lastDrawRect
 
-    def update(self, *args):
+    def update(self, camera):
         self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
-        self.x += self.speed
-        self.speed = random.randrange(15, 40)/10
+        self.x += self.speed + camera.delta
+        self.time -= 1
+        if self.time < 0:
+            self.time = random.randrange(10, 40)
+            self.speed = random.randrange(15, 50)/10
         if self.x > self.game.GAME_WIDTH:
             self.x = 0
 
@@ -268,7 +273,8 @@ class Ranking():
                             """
 
         self.draw(rs)
-        #return self.racers
+
+
 class User():
     def __init__(self):
         self.name = "NULL"
@@ -276,4 +282,51 @@ class User():
         self.winrate = 0
         self.playtime = 0
         self.coins = 0
+    pass
+
+
+class Camera():
+    def __init__(self, game):
+        self.game = game
+        self.follow = 3
+        self.x = game.GAME_WIDTH/3
+        self.delta = 0
+        self.anim = 0
+
+    def update(self, rs):
+        delta = self.x - rs.x
+        if int(rs.time % 4) == 0:
+            self.anim = (self.anim + 1) % 3
+
+        self.game.SCREEN.blit(self.game.IC_CAMERA[self.anim], (rs.x, rs.y-20))
+
+        if abs(delta) < rs.speed:
+            self.delta = rs.x - self.x
+        else:
+            self.delta = rs.speed*(delta/abs(delta))
+        if abs(delta) > 60:
+            self.delta = max(delta/4, 10)*(delta/abs(delta))
+
+        # change following
+
+
+        if pygame.key.get_pressed()[pygame.K_1]:
+            self.follow = 0
+            return
+        if pygame.key.get_pressed()[pygame.K_2]:
+            self.follow = 1
+            return
+        if pygame.key.get_pressed()[pygame.K_3]:
+            self.follow = 2
+            return
+        if pygame.key.get_pressed()[pygame.K_4]:
+            self.follow = 3
+            return
+        if pygame.key.get_pressed()[pygame.K_5]:
+            self.follow = 4
+            return
+        if pygame.key.get_pressed()[pygame.K_6]:
+            self.follow = 5
+            return
+
     pass

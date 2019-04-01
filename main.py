@@ -7,8 +7,8 @@ import math
 import random
 
 
-
 gameLancher = INIT_GAME()
+camera = Camera(gameLancher)
 
 gameLancher.draw_map(0)
 
@@ -49,8 +49,8 @@ pygame.display.flip()
 
 while not finish:
     #gameLancher.SCREEN.fill(180)
+
     gameLancher.draw_map(rollback)
-    rollback-=gameLancher.ROLLBACK_STEP
 
     list_area_to_be_update_display = []
 
@@ -79,13 +79,16 @@ while not finish:
         tv_cusor_X.setText()
         time.sleep(0.08)
     if play:
+        rollback += camera.delta  # gameLancher.ROLLBACK_STEP
         for r in racers:
-            r.update()
+            r.update(camera)
 
             list_area_to_be_update_display.append(r.clear())
             list_area_to_be_update_display.append(r.draw())
 
         ranking.update(racers)
+
+    camera.update(racers[camera.follow])
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
