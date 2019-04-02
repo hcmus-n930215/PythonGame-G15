@@ -157,7 +157,7 @@ def main_game():
                 finish = True
 
         pygame.display.flip()
-
+        gameLancher.clock.tick(gameLancher.FPS)
         # pygame.display.update(list_area_to_be_update_display)
         # time.sleep(1) # sleep 1 sec
 
