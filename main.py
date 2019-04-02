@@ -37,8 +37,7 @@ def loginActivity():
         for box in input_boxes:
             box.update()
 
-
-        #gameLancher.SCREEN.fill((30, 30, 30))
+        # gameLancher.SCREEN.fill((30, 30, 30))
         for box in input_boxes:
             box.draw(gameLancher.SCREEN)
 
