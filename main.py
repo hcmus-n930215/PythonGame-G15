@@ -93,7 +93,7 @@ while not finish:
 
     pygame.display.flip()
     #pygame.display.update(list_area_to_be_update_display)
-    # time.sleep(1) # sleep 1 sec
+    #time.sleep(1) # sleep 1 sec
 
 
 pygame.quit()

@@ -75,8 +75,8 @@ class ReadUsersData:
             i = i + len(userIDTitle)
             user.append(User())
             user[len(user) - 1].ID = ReadUsersData.StringCopy(data, i)
-            a = user[0].ID
-            print(user[0].ID)
+            #a = user[0].ID
+            #print(user[0].ID)
         else:
             return -1
 
@@ -85,8 +85,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, nameTitle, i)):
             i = i + len(nameTitle)
             user[len(user) - 1].name = ReadUsersData.StringCopy(data, i)
-            a = user[0].name
-            print(user[0].name)
+            #a = user[0].name
+            #print(user[0].name)
         else:
             return -1
 
@@ -95,8 +95,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, passTitle, i)):
             i = i + len((passTitle))
             user[len(user) - 1].password = ReadUsersData.StringCopy(data, i)
-            a = user[0].password
-            print(user[0].password)
+            #a = user[0].password
+            #print(user[0].password)
         else:
             return -1
 
@@ -105,8 +105,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, coinsTitle, i)):
             i = i + len((coinsTitle))
             user[len(user) - 1].coins = ReadUsersData.StringCopy(data, i)
-            a = user[0].coins
-            print(user[0].coins)
+            #a = user[0].coins
+            #print(user[0].coins)
         else:
             return -1
 
@@ -115,8 +115,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, playTimeTitle, i)):
             i = i + len((playTimeTitle))
             user[len(user) - 1].playTime = ReadUsersData.StringCopy(data, i)
-            a = user[0].playTime
-            print(user[0].playTime)
+            #a = user[0].playTime
+            #print(user[0].playTime)
         else:
             return -1
 
@@ -125,8 +125,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, winrateTitle, i)):
             i = i + len((winrateTitle))
             user[len(user) - 1].winrate = ReadUsersData.StringCopy(data, i)
-            a = user[0].winrate
-            print(user[0].winrate)
+            #a = user[0].winrate
+            #print(user[0].winrate)
         else:
             return -1
 
@@ -182,12 +182,39 @@ class WriteUsersData:
 
     pass
 
+class FindUser:
+    def FindUser(listUser, x):   #return -1 if not exist    -2 if wrong pass    or poss of user in list
+        i = 0
+        exist = False
+        rightPass = False
+        poss = 0
+        while i < len(listUser):
+            if(listUser[i].userName == x.userName):
+                exist = True
+                poss = i
+                break
+
+        if not exist:
+            return -1
+
+        if listUser[poss].password != x.password:
+            return -2
+        return poss
+
 '''
 user = []
 if(ReadUsersData.GetAllUsersData(user) != -1):
 
     WriteUsersData.WriteAllUsersData(user)
-    '''
+
+for a in user:
+    print(a.ID)
+    print(a.name)
+    print(a.password)
+    print(a.coins)
+    print(a.playTime)
+    print(a.winrate)
+'''
 
 
 

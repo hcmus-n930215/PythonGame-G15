@@ -27,7 +27,7 @@ class LoginPage():
         self.passWordInput = TextView(self.GAME_WIDTH / 2.5, self.GAME_HEIGHT / 2.1, 10, 10, "Enter your password")
         self.signinText = TextView(self.GAME_WIDTH / 3, self.GAME_HEIGHT / 1.656, 10, 10, "Sign in")
         self.signupText = TextView(self.GAME_WIDTH / 1.7, self.GAME_HEIGHT / 1.656, 10, 10, "Sign up")
-        self.OKText = Button(self.GAME_WIDTH / 2.05, self.GAME_HEIGHT / 2.43, 10, 10, "OK")
+        self.OKText = Button(self.GAME_WIDTH / 2.05, self.GAME_HEIGHT / 1.8, 10, 10, "OK")
 
         pass
 
@@ -86,4 +86,4 @@ class LoginPage():
         pass
 
 a = LoginPage()
-a.drawAccNotExistPage()
+a.drawWrongPassPage()
