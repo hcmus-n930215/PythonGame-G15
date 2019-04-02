@@ -7,11 +7,6 @@ import time
 import math
 import random
 
-
-
-
-
-
 def loginActivity():
     gameLancher.draw_map(2)
     loginPage = LoginPage(gameLancher)
@@ -52,13 +47,15 @@ def main_game():
 
     # main code
     player = Player()
-
-    racers = (Racer(350, 170 + 0 * 50, gameLancher, "ic_snail", 0),
-              Racer(350, 170 + 1 * 50, gameLancher, "ic_snail", 1),
-              Racer(350, 170 + 2 * 50, gameLancher, "ic_snail", 2),
-              Racer(350, 170 + 3 * 50, gameLancher, "ic_snail", 3),
-              Racer(350, 170 + 4 * 50, gameLancher, "ic_snail", 4),
-              Racer(350, 170 + 5 * 50, gameLancher, "ic_snail", 5))
+    h = 260
+    k = 60
+    s = 250
+    racers = (Racer(s, h + 0 * k, gameLancher, "ic_snail", 0),
+              Racer(s, h + 1 * k, gameLancher, "ic_snail", 1),
+              Racer(s, h + 2 * k, gameLancher, "ic_snail", 2),
+              Racer(s, h + 3 * k, gameLancher, "ic_snail", 3),
+              Racer(s, h + 4 * k, gameLancher, "ic_snail", 4),
+              Racer(s, h + 5 * k, gameLancher, "ic_snail", 5))
 
     ranking = Ranking(gameLancher, racers)
     camera = Camera(gameLancher)
