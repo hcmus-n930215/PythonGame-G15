@@ -7,11 +7,6 @@ import time
 import math
 import random
 
-
-
-
-
-
 def loginActivity():
     gameLancher.draw_map(2)
     loginPage = LoginPage(gameLancher)
