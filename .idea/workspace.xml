@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26d51bbb-f62d-4f90-b9fa-3a29b26baf9d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/usersData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/usersData.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/pg_notExistAccount.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/pg_notExistAccount.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/pg_wrongPass.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/pg_wrongPass.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/LoginPage.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/LoginPage.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/WARUserData.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/WARUserData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,10 +15,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/LoginPage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="811">
+            <state relative-caret-position="665">
               <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -36,7 +30,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/WARPlayHistory.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1258">
+            <state relative-caret-position="17">
               <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -48,7 +42,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/Widgets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-930">
+            <state relative-caret-position="493">
               <caret line="30" column="40" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="40" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -57,15 +51,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libs/WARUserData.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="216" column="3" selection-start-line="216" selection-start-column="3" selection-end-line="216" selection-end-column="3" />
+            <state relative-caret-position="306">
+              <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#4239#4928#0" />
-                <element signature="e#4950#5443#0" />
               </folding>
             </state>
           </provider>
@@ -74,7 +66,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="1496">
               <caret line="94" column="5" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -86,7 +78,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/global_variables.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3966">
+            <state relative-caret-position="51">
               <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -139,9 +131,9 @@
         <option value="$PROJECT_DIR$/libs/WARPlayHistory.py" />
         <option value="$PROJECT_DIR$/libs/global_variables.py" />
         <option value="$PROJECT_DIR$/libs/Widgets.py" />
-        <option value="$PROJECT_DIR$/libs/WARUserData.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/libs/LoginPage.py" />
+        <option value="$PROJECT_DIR$/libs/WARUserData.py" />
       </list>
     </option>
   </component>
@@ -526,42 +518,20 @@
     <entry file="file://$PROJECT_DIR$/libs/test.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/global_variables.py">
+    <entry file="file://$PROJECT_DIR$/libs/LoginPage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3966">
-          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+        <state relative-caret-position="665">
+          <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/Widgets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-930">
+        <state relative-caret-position="493">
           <caret line="30" column="40" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/WARUserData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="216" column="3" selection-start-line="216" selection-start-column="3" selection-end-line="216" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#4239#4928#0" />
-            <element signature="e#4950#5443#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/WARPlayHistory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1258">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -570,7 +540,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="1496">
           <caret line="94" column="5" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
@@ -578,10 +548,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/LoginPage.py">
+    <entry file="file://$PROJECT_DIR$/libs/global_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="811">
-          <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+        <state relative-caret-position="51">
+          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/WARPlayHistory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/WARUserData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>

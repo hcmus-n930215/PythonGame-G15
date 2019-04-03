@@ -28,6 +28,7 @@ while(i < len(direct) - len(currentDirrect)):
     i = i + 1
 
 os.chdir(dataDirect)
+print(dataDirect)
 
 endOfData = "\""    #to define where to stop read data
 
