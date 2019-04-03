@@ -2,6 +2,7 @@ import pygame
 import math
 import time
 import random
+from libs.Widgets import *
 
 class INIT_GAME():
     DELAY_TIME = 60
@@ -13,15 +14,17 @@ class INIT_GAME():
 
         pygame.init()
         pygame.display.set_caption("Racing with me!")
+        self.VERSION_INFO = "2.0"
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
         self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
         self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
+        self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.GAME_WIDTH_DEFAULT = 1080
         self.GAME_HEIGHT_DEFAULT = 720
         #self.IC_CIRCLE = pygame.image.load("img/ic_circle.png")
         #self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
-        self.IC_RACETRACK = self.load_img("img/ic_way.png", 200,150)
+        self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
         self.IC_GRASS = self.load_img("img/ic_grass.png", 80, 80)
         self.IC_RANK = self.load_img("img/ic_rank.png",0.8,0.8)
         self.IC_STONE = self.load_img("img/ic_stone.png",100,100)
@@ -31,20 +34,22 @@ class INIT_GAME():
         self.IC_FINISH_FLAG = self.load_img("img/ic_fisish_line.png",200, 200)
 
         self.ROLLBACK_STEP = 0
-        self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
+        self.BTN_VERSION = Button(10, 5, 100, 100, "Versions: "+self.VERSION_INFO)
         self.TIME_INTERVAL = 1000/self.FPS
         # some boolean
         self.IS_SIGNED_IN = False
         self.IS_GAME_PLAYING = False
+        self.IS_GAME_ENDED = False
 
         # Dieu chinh quang duong dua
         # Length of road
-        self.DISTANCE = 2000
+        self.START_POS = 300
+        self.DISTANCE = 4000
 
         super().__init__()
 
     def load_img(self, link, scale_x, scale_y):
-        img = pygame.image.load(link)
+        img = pygame.image.load(link).convert_alpha()
         if scale_x <= 1 and scale_y <= 1:
             size = img.get_rect().size
             scale_x = size[0] * scale_x
@@ -54,16 +59,18 @@ class INIT_GAME():
         return img
 
     def draw_map(self, rollback):
-        self.SCREEN.fill(180)
+        #self.SCREEN.fill(180)
+        self.START_POS = 300 + rollback
         # 6 - draw the screen elements
-        for x in range(0, 100):
+		
+        for x in range(0, 120):
             for y in range(-1, 2):
                 self.SCREEN.blit(self.IC_GRASS, (x * 40+rollback, y * 40))
         """for x in range(0, 16):
             for y in range(0, 1):
                 self.SCREEN.blit(self.IC_CLOUD, (x * 90, y * 90))
                 """
-        for i in range(0, 50):
+        for i in range(0, 80):
             for j in range(0, 7):
                 self.SCREEN.blit(self.IC_RACETRACK , (i * 60+rollback, j * 50 + 100))
         for i in range(0, 100):
@@ -73,12 +80,106 @@ class INIT_GAME():
                 self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 500))
         """
         for i in range(0, 9):
-            self.SCREEN.blit(self.IC_FINISH_FLAG, (300 + rollback, i * 40 + 100))
+            self.SCREEN.blit(self.IC_FINISH_FLAG, (self.START_POS, i * 40 + 100))
             self.SCREEN.blit(self.IC_FINISH_FLAG, (self.DISTANCE-50, i * 40 + 100))
+        self.BTN_VERSION.show()
     pass
 
 
-class Racer(pygame.sprite.Sprite):
+
+class Amulet(pygame.sprite.Sprite):
+    """ Bua """
+    def __init__(self,game, x, y, kind):
+        self.x = x
+        self.y = y
+        self.kind = kind
+        self.game = game
+        self.exist_ambulet = False
+
+
+
+
+
+
+    def stop_amulet(self):
+        """Bua dung"""
+        self.speed = 0
+        self.x += self.speed
+        self.time-=20
+
+
+
+    def slow_amulet(self):
+        """Bua giam toc"""
+        self.speed=0.5
+        self.x+=self.speed
+        self.time-=1
+
+    def fast_amulet(self):
+        """Bua tang toc"""
+        self.speed = 3.5
+        self.x += self.speed
+        self.time-=2
+
+
+    def turnback_amulet(self):
+        """Bua quay dau"""
+        #self.speed = -100
+        #self.x += self.speed
+        self.x = self.game.START_POS
+        self.time=0
+
+
+
+    def teleport_amulet(self):
+        """Bua lam ngung chuyen dong cua doi phuong"""
+        i=0
+        while (i<25):
+            self.x += random.randrange(3, 6)
+            i += 1
+        self.time = 0
+
+
+    def active(self):
+        if(self.kind ==  1):
+            self.stop_amulet()
+        elif(self.kind ==  2):
+            self.slow_amulet()
+        elif (self.kind == 3):
+            self.fast_amulet()
+        elif (self.kind == 4):
+            self.turnback_amulet()
+        elif (self.kind == 5):
+            self.teleport_amulet()
+        self.exist_ambulet = False
+
+    def Amulet_appear(self):
+        if(self.x<1000):
+            self.amulet_x = random.randrange(450, 1000)
+        elif(self.x<2000):
+            self.amulet_x = random.randrange(1200, 1800)
+        elif(self.x<3000):
+            self.amulet_x = random.randrange(2200, 2800)
+        self.kind = random.randrange(1,6)
+        self.time = 50
+        self.exist_ambulet = True
+
+    def draw_amulet(self,rollback):
+        if self.exist_ambulet:
+
+            if (self.kind == 1):
+                self.game.SCREEN.blit(self.IC_STOP, (self.amulet_x+rollback, self.y))
+            elif (self.kind == 2):
+                self.game.SCREEN.blit(self.IC_SLOW, (self.amulet_x+rollback, self.y))
+            elif (self.kind == 3):
+                self.game.SCREEN.blit(self.IC_FAST, (self.amulet_x+rollback, self.y))
+            elif (self.kind == 4):
+                self.game.SCREEN.blit(self.IC_TURNBACK, (self.amulet_x+rollback, self.y))
+            elif (self.kind == 5):
+                self.game.SCREEN.blit(self.IC_TELEPORT, (self.amulet_x+rollback, self.y))
+            self.amulet_x += +rollback
+            #self.game.SCREEN.blit(img_amulet, (self.amulet_x, self.y))
+class Racer(Amulet):
     """ Doi tuong dua """
     def __init__(self, x, y, game, pack ="ic_snail", num="tron"):
         self.pack_sprite = pack
@@ -90,16 +191,23 @@ class Racer(pygame.sprite.Sprite):
         self.y = y
         self.stun = 0
         self.time = 0
-        self.speed = random.randrange(15, 80) / 10
+        self.speed = random.randrange(15, 30) / 10
+        #self.speed = 2
         self.rank = num + 1
         self.game = game
         self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
         self.bk_nowDraw = self.lastDrawRect
         self.distance = 0
+        self.amulet_x = 0
+        self.IC_STOP = pygame.image.load("img/ic_amulet" + "1" + ".png")
+        self.IC_SLOW = pygame.image.load("img/ic_amulet" + "2" + ".png")
+        self.IC_FAST = pygame.image.load("img/ic_amulet" + "3" + ".png")
+        self.IC_TURNBACK = pygame.image.load("img/ic_amulet" + "4" + ".png")
+        self.IC_TELEPORT = pygame.image.load("img/ic_amulet" + "5" + ".png")
 
     def update(self,camera):
-        if self.distance > self.game.DISTANCE:
-            return False
+        #if self.distance > self.game.DISTANCE:
+        #    return False
         self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
 
         #if self.x > self.game.GAME_WIDTH // 2:
@@ -107,10 +215,11 @@ class Racer(pygame.sprite.Sprite):
         if self.x +self.speed + camera.delta > self.game.DISTANCE:
             self.x = self.game.DISTANCE
             self.speed = 0
+            return False
         else:
             #self.x += self.speed - rollback
             self.x += self.speed + camera.delta
-        self.distance += self.speed + camera.delta
+        #self.distance += self.speed + camera.delta
         #print(self.distance, end=" ")
         #else:
         #    self.x += self.speed
@@ -118,7 +227,8 @@ class Racer(pygame.sprite.Sprite):
         #   self.x = 0
         return True
     def updatespeed(self):
-        self.speed = random.randrange(15, 80) / 10
+        self.speed = random.randrange(15, 30) / 10
+        #self.speed = 2
     def draw(self):
         self.bk_nowDraw = self.backupRect(self.lastDrawRect)
 
@@ -138,68 +248,6 @@ class Racer(pygame.sprite.Sprite):
 
     def lose(self):
         """ Buon """
-
-
-class Amulet(pygame.sprite.Sprite):
-    """ Bua """
-    def __init__(self, x, y, kind, game):
-        self.x = x
-        self.y = y
-        self.kind = kind
-        self.game = game
-        self.img = game.IC_CIRCLE
-        self.IC_FAST = pygame.image.load("img/ic_coin.png")
-        self.speed = "NULL"
-        self.speed_now = self.speed
-
-    def stop_amulet(self):
-        """Bua dung"""
-        if (self.x >= self.appear_Amulet):
-            self.speed = 0
-        t =time.clock()
-        while (time.clock() - t >= 5 ):
-            self.speed += self.speed
-
-    def slow_amulet(self):
-        """Bua giam toc"""
-        lenght = self.x
-        if (self.x >= self.appear_Amulet):
-            self.speed -= 0.5
-        while (self.x - lenght < 15):
-            self.speed += self.speed
-        self.speed = self.speed_now
-
-    def fast_amulet(self):
-        """Bua tang toc"""
-        lenght = self.x
-        if (self.x >= self.appear_Amulet):
-            self.speed += 0.5
-        while (self.x - lenght < 20):
-            self.speed += self.speed
-        self.speed = self.speed_now
-
-    def draw_amulet(self):
-        ride = [170, 220, 270, 320, 370, 420]
-        x = random.randrange(100,1000,50)
-        y = random.choice(ride)
-        self.game.SCREEN.blit(self.IC_FAST, (x, y))
-
-    def active(self):
-        """ Thuc hien chuc nang cua bua"""
-        #vòng lặp sau 1 khoảng thời gian sẽ xuất hiện 1 bùa khác
-        temp = False
-        while not temp:
-            self.appear_Amulet = random.randrange(self.x, self.x +250, 100)
-            if(self.kind ==  1):
-                Amulet.stop_amulet(self)
-                temp = True
-            elif(self.kind ==  2):
-                Amulet.slow_amulet(self)
-                temp = True
-            elif (self.kind == 3):
-                Amulet.draw_amulet(self)
-                Amulet.fast_amulet(self)
-                temp = True
 
 
 
@@ -297,12 +345,14 @@ class Camera():
         self.x = game.GAME_WIDTH/3
         self.delta = 0
         self.anim = 0
+        self.time = 0
 
     def update(self, rs):
         delta = self.x - rs.x
-        if int(rs.time % 4) == 0:
+        if int(self.time % 10) == 0:
             self.anim = (self.anim + 1) % 3
-
+            self.time =0
+        self.time += 1
         self.game.SCREEN.blit(self.game.IC_CAMERA[self.anim], (rs.x, rs.y-20))
 
         if abs(delta) < rs.speed:
@@ -313,7 +363,7 @@ class Camera():
             else:
                 self.delta = rs.speed*(delta/abs(delta))
         if abs(delta) > 80:
-            self.delta = delta #max(delta/4, 10)*(delta/abs(delta))
+            self.delta = max(delta/3, 10)*(delta/abs(delta))
 
         # change following
 

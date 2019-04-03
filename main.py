@@ -1,6 +1,7 @@
 from libs.global_variables import *
 from libs.Widgets import *
-from libs.LoginPage import *
+from libs.Pages import *
+from libs.WARUserData import *
 import pygame
 import time
 import time
@@ -9,7 +10,26 @@ import random
 
 
 
+listUser = []
 
+ReadUsersData.GetAllUsersData(listUser)
+
+user = User()
+"""
+for a in listUser:
+
+    print(a.ID)
+
+    print(a.name)
+
+    print(a.password)
+
+    print(a.coins)
+
+    print(a.playTime)
+
+    print(a.winrate)
+"""
 
 
 def loginActivity():
@@ -18,33 +38,66 @@ def loginActivity():
     loginPage.drawLoginPage()
     btn_signin = loginPage.btn_signin
     btn_signup = loginPage.btn_signup
+    warning = loginPage.warningText
     pygame.display.flip()
     loginPage.passWordInput.isPassword = True
     input_boxes = [loginPage.userNameInput, loginPage.passWordInput]
 
     while True:
+        # sign in
         if btn_signin.is_clicked():
-            btn_signin.setText("XIN CHAO")
-            pygame.display.update(btn_signin.rect)
-            time.sleep(0.08)
-            gameLancher.IS_SIGNED_IN = True
-            print(input_boxes[0].text) # username
-            print(input_boxes[1].hidetext) # password
-            # Tien hanh kiem tra xem nhap dung chua
 
-            #
-            break
+            user.name = loginPage.userNameInput.text
+            if loginPage.passWordInput.isPassword:
+                user.password = loginPage.passWordInput.hidetext
+            else:
+                user.password = loginPage.passWordInput.text
+
+            if ((LoginCore.FindUserName(listUser, user) == -1)):
+                warning.setText("Account is not signed up yet.")
+
+            elif ((LoginCore.FindUserName(listUser, user) == -2)):
+                warning.setText("Password is wrong.")
+
+
+            else:
+                print("Dung")
+                btn_signin.setText("XIN CHAO")
+                pygame.display.update(btn_signin.rect)
+                time.sleep(0.08)
+                gameLancher.IS_SIGNED_IN = True
+                return
+        # sign up
         if btn_signup.is_clicked():
-            btn_signup.setText("XIN CHAO")
-            pygame.display.update(btn_signin.rect)
-            time.sleep(0.08)
-            print(input_boxes[0].text)
-            print(input_boxes[1].hidetext)
-            # tien hnah dang ki neu username khong trung
+            user.name = loginPage.userNameInput.text
+            if loginPage.passWordInput.isPassword:
+                user.password = loginPage.passWordInput.hidetext
+            else:
+                user.password = loginPage.passWordInput.text
+            if ((LoginCore.FindUserName(listUser, user) == -1)):
 
-            #
-            break
+                # set ID if list empty
+                if (len(listUser) == 0):
+                    user.ID = str(100000)
+                else:
+                    user.ID = str(int(listUser[len(listUser) - 1].ID + 1))
+                user.coins = "100000"
+                user.playTime = "0"
+                user.winrate = "0"
 
+                listUser.append(user)
+
+                WriteUsersData.WriteAllUsersData(listUser)
+
+                # gameplay
+                btn_signin.setText("XIN CHAO")
+                pygame.display.update(btn_signin.rect)
+                time.sleep(0.08)
+                gameLancher.IS_SIGNED_IN = True
+                return
+
+            else:
+                warning.setText("Account is already exist.")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -81,16 +134,17 @@ def main_game():
 
     ranking = Ranking(gameLancher, racers)
     camera = Camera(gameLancher)
-
+    mainpage = MainPage(gameLancher)
     finish = False
 
-    btn = Button(400, 200, 100, 100, "START")
 
     tv_cusor_X = TextView(200, 200, 100, 50, "CUSOR X: ")
     tv_cusor_Y = TextView(200, 300, 100, 50, "CUSOR Y: ")
     tv_data = TextView(200, 400, 100, 50)
 
-    subScreen = btn.setSurface(gameLancher.SCREEN)
+    #subScreen = []
+    #for btn in button:
+    #    subScreen.append(btn.setSurface(gameLancher.SCREEN))
 
     play = False
     isPressed = False
@@ -102,9 +156,10 @@ def main_game():
     time_count = 2001
     max_speed = 0
     isScrolling = True
+    COUNT_AMBULET = 0
     while not finish:
         list_area_to_be_update_display = []
-        # gameLancher.SCREEN.fill(180)
+        gameLancher.SCREEN.fill(180)
         ###########################
         timenow = int(round(time.time() * 1000))
 
@@ -124,30 +179,26 @@ def main_game():
             gameLancher.draw_map(rollback)
 
         ###########################
-
-        btn.show()
-        x, y = pygame.mouse.get_pos()
-        tv_cusor_X.setText("CUSOR X: " + str(x))
-        tv_cusor_Y.setText("CUSOR Y: " + str(y))
-        tv_data.setText(str(gameLancher.SCREEN.get_clip()))
-
-        if btn.is_clicked():
-            if not isPressed:
-                if play:
-
-                    btn.setText("RESUME")
-                    play = False
-                else:
-                    btn.setText("STOP")
-                    play = True
-                    btn.stop()
-                isPressed = True
-        else:
-            isPressed = False
-
-        if tv_cusor_X.is_clicked():
-            tv_cusor_X.setText("XIN CHAO")
-            time.sleep(0.08)
+        if not gameLancher.IS_GAME_PLAYING:
+            mainpage.drawMainPage()
+            if mainpage.btn_start.is_clicked():
+                if not isPressed:
+                    if play:
+                        mainpage.btn_start.setText("RESUME")
+                        gameLancher.IS_GAME_PLAYING = False
+                        time.sleep(0.08)
+                        play = False
+                    else:
+                        mainpage.btn_start.setText("STOP")
+                        gameLancher.IS_GAME_PLAYING = True
+                        play = True
+                        time.sleep(0.08)
+                        mainpage.btn_start.stop()
+                    isPressed = True
+            else:
+                isPressed = False
+            
+        ###################E
         max_speed = 0
         max_racer = 0
         if isScrolling:
@@ -157,15 +208,34 @@ def main_game():
                     max_racer = r.x
         for r in racers:
             if play:
+                if (COUNT_AMBULET < 6):
+                    r.Amulet_appear()
+                    COUNT_AMBULET += 1
+                """elif(r.x>1000and  COUNT_AMBULET <12):
+                    r.Amulet_appear()
+                    COUNT_AMBULET += 1
+                elif(r.x>2000and  COUNT_AMBULET <18):
+                    r.Amulet_appear()
+                    COUNT_AMBULET += 1"""
+                #print((r.x))
+                #print(r.amulet_x)
+                if (r.x > r.amulet_x and r.time > 0):
+                    r.active()
+                #else:
+                #    r.update(camera)
+
+                r.draw_amulet(camera.delta)
                 if not r.update(camera):
                     max_speed = 0
                     isScrolling = False
 
+
             # list_area_to_be_update_display.append(r.clear())
-            list_area_to_be_update_display.append(r.draw())
-        print("")
-        ranking.update(racers)
-        camera.update(racers[camera.follow])
+            if gameLancher.IS_GAME_PLAYING:
+                list_area_to_be_update_display.append(r.draw())
+        if gameLancher.IS_GAME_PLAYING:
+            ranking.update(racers)
+            camera.update(racers[camera.follow])
 
         if play:
             gameLancher.DISTANCE += camera.delta
@@ -175,7 +245,7 @@ def main_game():
                 finish = True
 
         pygame.display.flip()
-
+        gameLancher.clock.tick(gameLancher.FPS)
         # pygame.display.update(list_area_to_be_update_display)
         # time.sleep(1) # sleep 1 sec
 
@@ -183,6 +253,9 @@ def main():
     if not gameLancher.IS_SIGNED_IN:
         loginActivity()
         time.sleep(1)
+    #if not gameLancher.IS_PLAYING:
+    #	mainActivity()
+    #	time.sleep(0.5)
     main_game()
 
 

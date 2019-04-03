@@ -3,26 +3,31 @@ direct = os.getcwd()
 #change direction
 
 flag = True
-currentDirrect = "/libs"
+currentDirrect = "\libs"
+print(direct)
 for i in range(1,len(currentDirrect)+1):
-	if direct[-i] != currentDirrect[-i]:
-		flag = False
-if not flag:		
+    a = direct[-i]
+    b = currentDirrect[-i]
+    if direct[-i] != currentDirrect[-i]:
+        flag = False
+if flag:
+    print("dung")
+    dataDirect = ""
+    i = 0
+    while(i < len(direct) - len(currentDirrect)):
+        dataDirect = dataDirect + direct[i]
+        i = i + 1
+    os.chdir(dataDirect)
 
-	dataDirect = ""
-	i = 0
-	while(i < len(direct) - len(currentDirrect)):
-		dataDirect = dataDirect + direct[i]
-		i = i + 1
-	os.chdir(dataDirect)
-
-	from global_variables import *
-	from decryptData import *
-	from encryptdata import *
+    from global_variables import *
+    from decryptData import *
+    from encryptdata import *
 else:
-	from libs.global_variables import *
-	from libs.decryptData import *
-	from libs.encryptdata import *
+    #print("sai")
+    from libs.global_variables import *
+    from libs.decryptData import *
+    from libs.encryptdata import *
+
 
 
 
@@ -86,19 +91,19 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, userIDTitle, i)):
             i = i + len(userIDTitle)
             user.append(User())
-            user[len(user) - 1].ID = ReadUsersData.StringCopy(data, i)
-            a = user[0].ID
-            print(user[0].ID)
+            user[len(user) - 1].ID = int(ReadUsersData.StringCopy(data, i))
+            #a = user[0].ID
+            #print(user[0].ID)
         else:
             return -1
 
         #get name
-        i = i + len(user[len(user) - 1].ID) + 2
+        i = i + 6 + 2
         if (ReadUsersData.StringCompare(data, nameTitle, i)):
             i = i + len(nameTitle)
             user[len(user) - 1].name = ReadUsersData.StringCopy(data, i)
-            a = user[0].name
-            print(user[0].name)
+            #a = user[0].name
+            #print(user[0].name)
         else:
             return -1
 
@@ -107,8 +112,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, passTitle, i)):
             i = i + len((passTitle))
             user[len(user) - 1].password = ReadUsersData.StringCopy(data, i)
-            a = user[0].password
-            print(user[0].password)
+            #a = user[0].password
+            #print(user[0].password)
         else:
             return -1
 
@@ -117,8 +122,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, coinsTitle, i)):
             i = i + len((coinsTitle))
             user[len(user) - 1].coins = ReadUsersData.StringCopy(data, i)
-            a = user[0].coins
-            print(user[0].coins)
+            #a = user[0].coins
+            #print(user[0].coins)
         else:
             return -1
 
@@ -127,8 +132,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, playTimeTitle, i)):
             i = i + len((playTimeTitle))
             user[len(user) - 1].playTime = ReadUsersData.StringCopy(data, i)
-            a = user[0].playTime
-            print(user[0].playTime)
+            #a = user[0].playTime
+            #print(user[0].playTime)
         else:
             return -1
 
@@ -137,8 +142,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, winrateTitle, i)):
             i = i + len((winrateTitle))
             user[len(user) - 1].winrate = ReadUsersData.StringCopy(data, i)
-            a = user[0].winrate
-            print(user[0].winrate)
+            #a = user[0].winrate
+            #print(user[0].winrate)
         else:
             return -1
 
@@ -172,7 +177,7 @@ class WriteUsersData:
         i = 0
         textToWrite = ""
         while(i < len(user)):
-            textToWrite += userIDTitle + user[i].ID + "\" "
+            textToWrite += userIDTitle + str(user[i].ID) + "\" "
 
             textToWrite += nameTitle + user[i].name + "\" "
 
@@ -193,26 +198,48 @@ class WriteUsersData:
         f.write(textToWrite)
 
     pass
+class LoginCore:
 
-class FindUser:
-    def FindUser(listUser, x):   #return -1 if not exist    -2 if wrong pass    or pos of user in list
-        i = 0
-        exist = False
-        rightPass = False
-        pos = 0
-        while i < len(listUser):
-            if(listUser[i].name == x.name):
-                exist = True
-                pos= i
-                break
+    def FindUserName(listUser, x):   #return -1 if not exist    -2 if wrong pass    or poss of user in list
 
-        if not exist:
+        #listUseris empty
+        if(len(listUser) == 0):
             return -1
 
-        if listUser[pos].password != x.password:
-            return -2
-        return pos
+        i = 0
 
+        exist = False
+
+        rightPass = False
+
+        poss = 0
+
+        while i < len(listUser):
+            if((ReadUsersData.StringCompare(listUser[i].name, x.name, 0)) & (len(listUser[i].name) == len(x.name))):
+
+                exist = True
+
+                poss = i
+
+                break
+            i += 1
+
+
+        if not exist:
+
+            return -1
+
+
+
+        if ((ReadUsersData.StringCompare(listUser[i].password, x.password, 0)) & (len(listUser[i].password) == len(x.password))):
+            rightPass = True
+
+        if not rightPass:
+            return -2
+
+        return poss
+
+    pass
 '''
 user = []
 if(ReadUsersData.GetAllUsersData(user) != -1):
