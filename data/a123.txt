@@ -1,1 +1,0 @@
-racerType = "turtle" racerNum = "0" coinResult = "-1000"

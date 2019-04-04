@@ -1,8 +1,35 @@
-from libs.global_variables import *
-from libs.decryptData import *
-from libs.encryptdata import *
-
 import os
+direct = os.getcwd()
+#change direction
+
+flag = True
+currentDirrect = "\libs"
+print(direct)
+for i in range(1,len(currentDirrect)+1):
+    a = direct[-i]
+    b = currentDirrect[-i]
+    if direct[-i] != currentDirrect[-i]:
+        flag = False
+if flag:
+    print("dung")
+    dataDirect = ""
+    i = 0
+    while(i < len(direct) - len(currentDirrect)):
+        dataDirect = dataDirect + direct[i]
+        i = i + 1
+    os.chdir(dataDirect)
+
+    from global_variables import *
+    from decryptData import *
+    from encryptdata import *
+else:
+    #print("sai")
+    from libs.global_variables import *
+    from libs.decryptData import *
+    from libs.encryptdata import *
+
+
+
 
 #key to encript and decrip      from 1 to 127
 key = 125
@@ -17,18 +44,7 @@ playTimeTitle = "playTime = \""
 winrateTitle = "winrate = \""
 
 
-#change direction
-direct = os.getcwd()
-currentDirrect = "/libs"
-dataDirect = direct[0]
 
-i = 1
-while(i < len(direct) - len(currentDirrect)):
-    dataDirect = dataDirect + direct[i]
-    i = i + 1
-
-os.chdir(dataDirect)
-print(dataDirect)
 
 endOfData = "\""    #to define where to stop read data
 
@@ -75,14 +91,14 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, userIDTitle, i)):
             i = i + len(userIDTitle)
             user.append(User())
-            user[len(user) - 1].ID = ReadUsersData.StringCopy(data, i)
+            user[len(user) - 1].ID = int(ReadUsersData.StringCopy(data, i))
             #a = user[0].ID
             #print(user[0].ID)
         else:
             return -1
 
         #get name
-        i = i + len(user[len(user) - 1].name) + 2
+        i = i + 6 + 2
         if (ReadUsersData.StringCompare(data, nameTitle, i)):
             i = i + len(nameTitle)
             user[len(user) - 1].name = ReadUsersData.StringCopy(data, i)
@@ -136,8 +152,10 @@ class ReadUsersData:
 
     #ham tra ve -1 neu khong doc duoc
     def  GetAllUsersData(user):
-
-        f = open(dataLocation, "rt")
+        try:
+            f = open(dataLocation, "rt")
+        except FileNotFoundError:
+            return -1
 
         data = f.read()
 
@@ -149,7 +167,7 @@ class ReadUsersData:
             i = ReadUsersData.GetUserData(data, i, user)
             if(i == -1):
                 print("loi")
-                return -1
+                return -2
 
     pass
 
@@ -161,7 +179,7 @@ class WriteUsersData:
         i = 0
         textToWrite = ""
         while(i < len(user)):
-            textToWrite += userIDTitle + user[i].ID + "\" "
+            textToWrite += userIDTitle + str(user[i].ID) + "\" "
 
             textToWrite += nameTitle + user[i].name + "\" "
 
@@ -183,31 +201,66 @@ class WriteUsersData:
 
     pass
 
-class FindUser:
-    def FindUser(listUser, x):   #return -1 if not exist    -2 if wrong pass    or poss of user in list
-        i = 0
-        exist = False
-        rightPass = False
-        poss = 0
-        while i < len(listUser):
-            if(listUser[i].userName == x.userName):
-                exist = True
-                poss = i
-                break
+class LoginCore:
 
-        if not exist:
+    def FindUserName(listUser, x):   #return -1 if not exist    -2 if wrong pass    or poss of user in list
+
+        #listUseris empty
+        if(len(listUser) == 0):
             return -1
 
-        if listUser[poss].password != x.password:
+        i = 0
+
+        exist = False
+
+        rightPass = False
+
+        poss = 0
+
+        while i < len(listUser):
+            if((ReadUsersData.StringCompare(listUser[i].name, x.name, 0)) & (len(listUser[i].name) == len(x.name))):
+
+                exist = True
+
+                poss = i
+
+                break
+            i += 1
+
+
+        if not exist:
+
+            return -1
+
+
+
+        if ((ReadUsersData.StringCompare(listUser[i].password, x.password, 0)) & (len(listUser[i].password) == len(x.password))):
+            rightPass = True
+
+        if not rightPass:
             return -2
+
         return poss
 
+    def CheckName(user):
+        i = 0
+        while i < len(user.name):
+            if(user.name[i] == endOfData):
+                return False
+            i += 1
+
+        i = 0
+        while i < len(user.password):
+            if(user.password[i] == endOfData):
+                return False
+            i += 1
+
+        return True;
+    pass
 '''
 user = []
 if(ReadUsersData.GetAllUsersData(user) != -1):
-
     WriteUsersData.WriteAllUsersData(user)
-
 for a in user:
     print(a.ID)
     print(a.name)
@@ -216,6 +269,7 @@ for a in user:
     print(a.playTime)
     print(a.winrate)
 '''
+
 
 
 
