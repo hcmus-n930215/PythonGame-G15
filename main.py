@@ -43,15 +43,20 @@ def loginActivity():
     loginPage.passWordInput.isPassword = True
     input_boxes = [loginPage.userNameInput, loginPage.passWordInput]
 
+    NoneClick = True
+
     while True:
-        # sign in
+        
+        #if file is edited
         if(readSuccess == -1):
             warning.setText("You have deleted an important file so all your data is lost")
 
         elif(readSuccess == -2):
             warning.setText("You have edit UsersData file so all your data is deleted")
 
+        # sign in
         if btn_signin.is_clicked():
+
 
             user.name = loginPage.userNameInput.text
             if loginPage.passWordInput.isPassword:
@@ -59,7 +64,10 @@ def loginActivity():
             else:
                 user.password = loginPage.passWordInput.text
 
-            if ((LoginCore.FindUserName(listUser, user) == -1)):
+            if(len(user.name) == 0) | (len(user.password) == 0):
+                warning.setText("Please enter your username and password")
+
+            elif ((LoginCore.FindUserName(listUser, user) == -1)):
                 warning.setText("Account is not signed up yet.")
 
             elif ((LoginCore.FindUserName(listUser, user) == -2)):
@@ -75,6 +83,7 @@ def loginActivity():
                 return
         # sign up
         if btn_signup.is_clicked():
+
             if loginPage.passWordInput.isPassword:
                 user.password = loginPage.passWordInput.hidetext
             else:
@@ -87,7 +96,8 @@ def loginActivity():
             elif len(user.password) < 4:
                 warning.setText("Your password must have at least 4 character")
 
-
+            elif(len(user.name) == 0) | (len(user.password) == 0):
+                warning.setText("Please enter your username and password")
 
             #if account is not exist yet
             elif ((LoginCore.FindUserName(listUser, user) == -1)):
@@ -114,6 +124,7 @@ def loginActivity():
 
             else:
                 warning.setText("Account is already exist.")
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
