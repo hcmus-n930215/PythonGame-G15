@@ -12,7 +12,7 @@ import random
 
 listUser = []
 
-ReadUsersData.GetAllUsersData(listUser)
+readSuccess = ReadUsersData.GetAllUsersData(listUser)
 
 user = User()
 """
@@ -45,6 +45,12 @@ def loginActivity():
 
     while True:
         # sign in
+        if(readSuccess == -1):
+            warning.setText("You have deleted an important file so all your data is lost")
+
+        elif(readSuccess == -2):
+            warning.setText("You have edit UsersData file so all your data is deleted")
+
         if btn_signin.is_clicked():
 
             user.name = loginPage.userNameInput.text
@@ -69,12 +75,22 @@ def loginActivity():
                 return
         # sign up
         if btn_signup.is_clicked():
-            user.name = loginPage.userNameInput.text
             if loginPage.passWordInput.isPassword:
                 user.password = loginPage.passWordInput.hidetext
             else:
                 user.password = loginPage.passWordInput.text
-            if ((LoginCore.FindUserName(listUser, user) == -1)):
+
+            user.name = loginPage.userNameInput.text
+            if not LoginCore.CheckName(user):
+               warning.setText("Your username and password cannot have \" symbol")
+
+            elif len(user.password) < 4:
+                warning.setText("Your password must have at least 4 character")
+
+
+
+            #if account is not exist yet
+            elif ((LoginCore.FindUserName(listUser, user) == -1)):
 
                 # set ID if list empty
                 if (len(listUser) == 0):
