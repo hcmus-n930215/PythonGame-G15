@@ -152,8 +152,10 @@ class ReadUsersData:
 
     #ham tra ve -1 neu khong doc duoc
     def  GetAllUsersData(user):
-
-        f = open(dataLocation, "rt")
+        try:
+            f = open(dataLocation, "rt")
+        except FileNotFoundError:
+            return -1
 
         data = f.read()
 
@@ -165,7 +167,7 @@ class ReadUsersData:
             i = ReadUsersData.GetUserData(data, i, user)
             if(i == -1):
                 print("loi")
-                return -1
+                return -2
 
     pass
 
@@ -198,6 +200,7 @@ class WriteUsersData:
         f.write(textToWrite)
 
     pass
+
 class LoginCore:
 
     def FindUserName(listUser, x):   #return -1 if not exist    -2 if wrong pass    or poss of user in list
@@ -239,6 +242,20 @@ class LoginCore:
 
         return poss
 
+    def CheckName(user):
+        i = 0
+        while i < len(user.name):
+            if(user.name[i] == endOfData):
+                return False
+            i += 1
+
+        i = 0
+        while i < len(user.password):
+            if(user.password[i] == endOfData):
+                return False
+            i += 1
+
+        return True;
     pass
 '''
 user = []
