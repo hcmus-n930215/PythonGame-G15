@@ -54,6 +54,7 @@ def loginActivity():
         # sign in
         if btn_signin.is_clicked():
 
+            showPass = loginPage.passWordInput.text
 
             user.name = loginPage.userNameInput.text
             if loginPage.passWordInput.isPassword:
@@ -64,24 +65,31 @@ def loginActivity():
             if(len(user.name) == 0) | (len(user.password) == 0):
                 warning.setText("Please enter your username and password")
 
+            elif len(user.password) != len(showPass):
+                warning.setText("Please do not user your numpad to enter password")
+
             elif ((LoginCore.FindUserName(listUser, user) == -1)):
                 warning.setText("Account is not signed up yet.")
 
             elif ((LoginCore.FindUserName(listUser, user) == -2)):
                 warning.setText("Password is wrong.")
+                
 
 
             else:
                 print("Dung")
-                warning.setText("welcome")
-                btn_signin.setText("XIN CHAO")
+                #btn_signin.setText("XIN CHAO")
                 #welcome user
-                welcome = "Welcome " + str(user.name) 
-
-                pygame.display.update(btn_signin.rect)
+                welcome = "Welcome back " + str(user.name) 
+                warning.setText(welcome)
+                
+                #pygame.display.update(btn_signin.rect)
                 time.sleep(0.08)
                 
                 gameLancher.IS_SIGNED_IN = True
+                
+                loginPage.drawLoginPage()
+                pygame.display.flip()
                 return
                 
         # sign up
@@ -129,8 +137,12 @@ def loginActivity():
                 WriteUsersData.WriteAllUsersData(listUser)
 
                 # gameplay
-                btn_signin.setText("XIN CHAO")
-                pygame.display.update(btn_signin.rect)
+                #btn_signin.setText("XIN CHAO")
+                
+                loginPage.drawLoginPage()
+                pygame.display.flip()
+
+                #pygame.display.update(btn_signin.rect)
                 time.sleep(0.08)
                 gameLancher.IS_SIGNED_IN = True
                 return
@@ -292,7 +304,8 @@ def main_game():
 def main():
     if not gameLancher.IS_SIGNED_IN:
         loginActivity()
-        time.sleep(1)
+        
+        time.sleep(2)
     #if not gameLancher.IS_PLAYING:
     #	mainActivity()
     #	time.sleep(0.5)

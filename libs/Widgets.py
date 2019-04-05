@@ -146,9 +146,6 @@ class InputBox:
         pygame.draw.rect(screen, self.color, self.rect, 2)
 
 
-
-
-
 def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", color="#FFFFFF", textSize=20, bgrColor=None):
     font = pygame.font.SysFont('Comic Sans MS', textSize)
     if bgrColor!=None:
