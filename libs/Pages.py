@@ -115,4 +115,32 @@ class MainPage():
             btn.show()
         pass
 
+class SelectRacerType():
+    def __init__(self, gameLancher):
+        #load screen from main
+        self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
+
+        self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
+        self.GAME_WIDTH =  gameLancher.GAME_WIDTH
+        self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
+
+        self.SCREEN = pygame.display.get_surface()
+
+
+        #add img
+        self.IC_RACETRACK = gameLancher.IC_RACETRACK
+        self.selectRacerForm = pygame.transform.scale(pygame.image.load("img/pg_selectRacer.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+
+        #add text
+        self.introText = TextView(self.GAME_WIDTH / 2, self.GAME_HEIGHT / 2, 100, 100, "Press W, A, S, D to move and enter to choose type of racer")
+
+    def draw():
+        self.SCREEN.blit(self.selectRacerForm, (self.GAME_WIDTH // 4, self.GAME_HEIGHT // 4))
+        self.introText.show()
+
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    finish = True
+
+        pygame.display.flip()
 
