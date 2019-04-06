@@ -15,7 +15,8 @@ listUser = []
 readSuccess = ReadUsersData.GetAllUsersData(listUser)
 
 user = User()
-'''
+
+
 for a in listUser:
 
     print(a.ID)
@@ -29,7 +30,7 @@ for a in listUser:
     print(a.playTime)
 
     print(a.winrate)
-'''
+
 
 
 def loginActivity():
