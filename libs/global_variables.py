@@ -34,6 +34,10 @@ class INIT_GAME():
         self.IC_FINISH_FLAG = self.load_img("img/line.png", 20, 355)
         self.BG_0 = self.load_img("img/Background0.png", self.GAME_WIDTH, self.GAME_HEIGHT)  # Nhập số để thay đổi
 
+        self.IC_RESULT_BOARD = self.load_img("img/ic_result_board.png", 800, 600)
+        self.IC_WIN = self.load_img("img/ic_win.png", 300, 300)
+        self.IC_LOSE = self.load_img("img/ic_lose.png", 300, 300)
+
         self.ROLLBACK_STEP = 0
         self.BTN_VERSION = Button(10, 5, 100, 100, "Versions: " + self.VERSION_INFO)
         self.TIME_INTERVAL = 1000 / self.FPS
@@ -45,7 +49,7 @@ class INIT_GAME():
         # Dieu chinh quang duong dua
         # Length of road
         self.START_POS = 300
-        self.DISTANCE = 4000
+        self.DISTANCE = 1000
 
         super().__init__()
 
@@ -117,13 +121,13 @@ class Amulet(pygame.sprite.Sprite):
     def slow_amulet(self):
         """Bua giam toc"""
         self.speed=0.5
-        self.x+=self.speed
+        #self.x+=self.speed
         self.time-=1
 
     def fast_amulet(self):
         """Bua tang toc"""
         self.speed = 3.5
-        self.x += self.speed
+        #self.x += self.speed
         self.time-=2
 
 
@@ -186,7 +190,7 @@ class Amulet(pygame.sprite.Sprite):
             #self.game.SCREEN.blit(img_amulet, (self.amulet_x, self.y))
 class Racer(Amulet):
     """ Doi tuong dua """
-    def __init__(self, x, y, game, pack ="ic_snail", num="tron"):
+    def __init__(self, x, y, game, pack ="ic_snail", num=0):
         self.pack_sprite = pack
         self.num = num
         name = "img/"
@@ -210,27 +214,28 @@ class Racer(Amulet):
         self.IC_TURNBACK = pygame.image.load("img/ic_amulet" + "4" + ".png")
         self.IC_TELEPORT = pygame.image.load("img/ic_amulet" + "5" + ".png")
 
-    def update(self,camera):
-        #if self.distance > self.game.DISTANCE:
+    def update(self, camera):
+        # if self.distance > self.game.DISTANCE:
         #    return False
         self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
 
-        #if self.x > self.game.GAME_WIDTH // 2:
+        # if self.x > self.game.GAME_WIDTH // 2:
 
-        if self.x +self.speed + camera.delta > self.game.DISTANCE:
+        if self.x + self.speed + camera.delta > self.game.DISTANCE:
             self.x = self.game.DISTANCE
             self.speed = 0
             return False
         else:
-            #self.x += self.speed - rollback
+            #s elf.x += self.speed - rollback
             self.x += self.speed + camera.delta
-        #self.distance += self.speed + camera.delta
-        #print(self.distance, end=" ")
-        #else:
+        # self.distance += self.speed + camera.delta
+        # print(self.distance, end=" ")
+        # else:
         #    self.x += self.speed
-        #if self.x > self.game.GAME_WIDTH:
+        # if self.x > self.game.GAME_WIDTH:
         #   self.x = 0
         return True
+
     def updatespeed(self):
         self.speed = random.randrange(15, 30) / 10
         #self.speed = 2
@@ -316,7 +321,7 @@ class Ranking():
         n = int(self.size[1] / 7.7)
         self.game.SCREEN.blit(self.img, (self.x, self.y))
         for i in range(0, 6):
-            self.game.SCREEN.blit(rs[i].img, (m, n*(rs[i].rank+0.33)))
+            self.game.SCREEN.blit(rs[i].img, (m, self.y + n*(rs[i].rank+0.33)))
             #print(self.racers[i].rank)
 
     def update(self, rs):

@@ -187,6 +187,7 @@ def main_game():
     max_speed = 0
     isScrolling = True
     COUNT_AMBULET = 0
+
     while not finish:
         list_area_to_be_update_display = []
         gameLancher.SCREEN.fill(180)
@@ -236,6 +237,10 @@ def main_game():
                 if r.x > max_racer:
                     max_speed = r.speed
                     max_racer = r.x
+
+        last_racer = False
+        winner = racers[0]
+
         for r in racers:
             if play:
                 if (COUNT_AMBULET < 6):
@@ -247,12 +252,17 @@ def main_game():
                 elif(r.x>2000and  COUNT_AMBULET <18):
                     r.Amulet_appear()
                     COUNT_AMBULET += 1"""
-                #print((r.x))
-                #print(r.amulet_x)
+                # print((r.x))
+                # print(r.amulet_x)
                 if (r.x > r.amulet_x and r.time > 0):
                     r.active()
-                #else:
+                # else:
                 #    r.update(camera)
+
+                if r.rank == 1:
+                    winner = r
+                if r.rank == 6 and r.x >= gameLancher.DISTANCE:
+                    last_racer = True
 
                 r.draw_amulet(camera.delta)
                 if not r.update(camera):
@@ -263,6 +273,13 @@ def main_game():
             # list_area_to_be_update_display.append(r.clear())
             if gameLancher.IS_GAME_PLAYING:
                 list_area_to_be_update_display.append(r.draw())
+
+        # Check to show result board
+        if last_racer:
+            if ranking.y < gameLancher.GAME_HEIGHT/3.5:
+                ranking.y += 3
+            finish_race(gameLancher, winner, 3)
+
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
             camera.update(racers[camera.follow])
@@ -274,10 +291,25 @@ def main_game():
             if event.type == pygame.QUIT:
                 finish = True
 
+
         pygame.display.flip()
         gameLancher.clock.tick(gameLancher.FPS)
         # pygame.display.update(list_area_to_be_update_display)
         # time.sleep(1) # sleep 1 sec
+
+
+def finish_race(game, racer , player_choose):
+    size = game.IC_RESULT_BOARD.get_rect().size
+    game.SCREEN.blit(game.IC_RESULT_BOARD, (game.GAME_WIDTH/2 - size[0]/2, game.GAME_HEIGHT/2 - size[1]/2))
+    game.SCREEN.blit(racer.img, (game.GAME_WIDTH/2 , game.GAME_HEIGHT/2 + size[1]/6))
+    size_result = game.IC_WIN.get_rect().size
+
+    if racer.num == player_choose:
+        game.SCREEN.blit(game.IC_WIN,
+                         (game.GAME_WIDTH / 2 - size_result[0] / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
+    else:
+        game.SCREEN.blit(game.IC_LOSE,
+                         (game.GAME_WIDTH / 2 - size_result[0] / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
 
 def main():
     if not gameLancher.IS_SIGNED_IN:
