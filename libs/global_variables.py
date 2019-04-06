@@ -34,13 +34,14 @@ class INIT_GAME():
         self.IC_FINISH_FLAG = self.load_img("img/ic_fisish_line.png",200, 200)
 
         self.ROLLBACK_STEP = 0
-        self.BTN_VERSION = Button(10, 5, 100, 100, "Versions: "+self.VERSION_INFO)
+        self.BTN_VERSION = Button(10, self.GAME_HEIGHT- 100, 100, 100, "Versions: "+self.VERSION_INFO)
         self.TIME_INTERVAL = 1000/self.FPS
         # some boolean
         self.IS_SIGNED_IN = False
         self.IS_GAME_PLAYING = False
         self.IS_GAME_ENDED = False
-
+        self.IS_START_OPTIONS = False
+        self.IS_IN_SETTINGS = False
         # Dieu chinh quang duong dua
         # Length of road
         self.START_POS = 300
@@ -155,7 +156,7 @@ class Amulet(pygame.sprite.Sprite):
 
     def Amulet_appear(self):
         if(self.x<1000):
-            self.amulet_x = random.randrange(450, 1000)
+            self.amulet_x = random.randrange(700, 2000)
         elif(self.x<2000):
             self.amulet_x = random.randrange(1200, 1800)
         elif(self.x<3000):
@@ -332,10 +333,11 @@ class Ranking():
         #return self.racers
 class User():
     def __init__(self):
+        self.ID = 0
         self.name = "NULL"
         self.password = "NULL"
         self.winrate = 0
-        self.playtime = 0
+        self.playTime = 0
         self.coins = 0
     pass
 class Camera():

@@ -128,7 +128,8 @@ class InputBox:
 
                     if self.isPassword:
                         self.hidetext += event.unicode
-                        self.text += "*"
+                        if len(self.hidetext) > len(self.text):
+                            self.text += "*"
                     else:
                         self.text += event.unicode
                 # Re-render the text.
@@ -161,7 +162,11 @@ def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", col
     textRect = text.get_rect()
 
     # set the center of the rectangular object.
-    textRect.center = (x+width // 2, y+height // 2)
+    #textRect.center = (x+width // 2, y+height // 2)
+    textRect.left = (x)
+    #textRect.centery = y + height//2
+    #textRect = (x,y)
+    textRect.centery = y + height//2
     screen = pygame.display.get_surface()
 
 

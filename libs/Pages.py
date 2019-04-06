@@ -30,7 +30,7 @@ class LoginPage():
         self.btn_signin = Button(self.GAME_WIDTH / 3.2, self.GAME_HEIGHT / 1.656, 100, 100, "Sign in")
         self.btn_signup = Button(self.GAME_WIDTH / 1.75, self.GAME_HEIGHT / 1.656, 100, 100, "Sign up")
         self.OKText = Button(self.GAME_WIDTH / 2.05, self.GAME_HEIGHT / 2.43, 10, 10, "OK")
-        self.warningText = TextView(self.GAME_WIDTH / 2.2, self.GAME_HEIGHT / 1.9, 100, 100, "")
+        self.warningText = Button(self.GAME_WIDTH / 2.9, self.GAME_HEIGHT / 1.9, 100, 100, "")
         pass
 
     def drawLoginPage(self):
@@ -115,4 +115,83 @@ class MainPage():
             btn.show()
         pass
 
+class SettingPage():
 
+    def __init__(self, gameLancher):
+
+        #load screen from main
+        self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
+
+        self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
+        self.GAME_WIDTH =  gameLancher.GAME_WIDTH
+        self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
+
+        self.SCREEN = pygame.display.get_surface()
+
+
+        #add img
+        self.IC_RACETRACK = gameLancher.IC_RACETRACK
+        #self.loginForm = gameLancher.load_img("img/pg_loginForm.png", 0.5, 0.5)
+        self.loginForm = pygame.transform.scale(pygame.image.load("img/pg_mainpage.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+        #self.wrongPass = pygame.transform.scale(pygame.image.load("img/pg_wrongPass.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+        #self.accNotExist = pygame.transform.scale(pygame.image.load("img/pg_notExistAccount.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+
+        #add text
+        #self.userNameInput = InputBox(self.GAME_WIDTH / 2.5, self.GAME_HEIGHT / 2.6, 100, 50)
+        #self.passWordInput = InputBox(self.GAME_WIDTH / 2.5, self.GAME_HEIGHT / 2.1, 100, 50)
+        #self.SCREEN.setSurface(gameLancher.SCREEN)
+
+        self.btn_setplayer = Button(gameLancher.GAME_WIDTH // 2-100, 250, 100, 100, "Choose set of player")
+        self.btn_setmap = Button(gameLancher.GAME_WIDTH // 2-100, 350, 100, 100, "Choose set of map")
+        self.btn_back = Button(gameLancher.GAME_WIDTH // 2-100, 450, 100, 100, "Back")
+        self.button = (self.btn_setplayer, self.btn_setmap, self.btn_back)
+        #self.OKText = Button(self.GAME_WIDTH / 2.05, self.GAME_HEIGHT / 2.43, 10, 10, "OK")
+        pass
+
+    def drawSettingPage(self):
+        self.SCREEN.blit(self.loginForm, (self.GAME_WIDTH // 4, self.GAME_HEIGHT // 4))
+        for btn in self.button:
+            btn.show()
+        pass
+class InfoZone():
+
+    def __init__(self, gameLancher, user):
+
+        #load screen from main
+        self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
+
+        self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
+        self.GAME_WIDTH =  gameLancher.GAME_WIDTH
+        self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
+        self.USER = user
+        self.SCREEN = pygame.display.get_surface()
+
+
+        #add img
+        self.IC_PLAYER = gameLancher.load_img("img/ic_profile1.png", 40, 40)
+        self.IC_COIN = gameLancher.load_img("img/ic_coin.png", 40, 40)
+        #self.loginForm = gameLancher.load_img("img/pg_loginForm.png", 0.5, 0.5)
+        
+        #self.wrongPass = pygame.transform.scale(pygame.image.load("img/pg_wrongPass.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+        #self.accNotExist = pygame.transform.scale(pygame.image.load("img/pg_notExistAccount.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+
+        #add text
+        #self.userNameInput = InputBox(self.GAME_WIDTH / 2.5, self.GAME_HEIGHT / 2.6, 100, 50)
+        #self.passWordInput = InputBox(self.GAME_WIDTH / 2.5, self.GAME_HEIGHT / 2.1, 100, 50)
+		
+        self.player_icon = Button(10, 5, 40, 40, "START")
+        self.coin_icon = Button(10, 105, 100, 40, "START")
+        #self.btn_start.setSurface(gameLancher.SCREEN)
+        self.player_name = Button(60, 10, 30, 40, user.name)
+        self.coin = Button(50, 60, 30, 40, str(user.coins))
+        #self.button = (self.btn_start, self.btn_setting, self.btn_exit)
+        #self.OKText = Button(self.GAME_WIDTH / 2.05, self.GAME_HEIGHT / 2.43, 10, 10, "OK")
+        pass
+
+    def drawInfoZone(self):
+        self.SCREEN.blit(self.IC_PLAYER, (10, 10))
+        self.SCREEN.blit(self.IC_COIN, (10, 60))
+        self.player_name.show()
+        self.coin.show()
+
+        
