@@ -22,22 +22,23 @@ class INIT_GAME():
         self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.GAME_WIDTH_DEFAULT = 1080
         self.GAME_HEIGHT_DEFAULT = 720
-        #self.IC_CIRCLE = pygame.image.load("img/ic_circle.png")
-        #self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
+        # self.IC_CIRCLE = pygame.image.load("img/ic_circle.png")
+        # self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
         self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
         self.IC_GRASS = self.load_img("img/ic_grass.png", 80, 80)
-        self.IC_RANK = self.load_img("img/ic_rank.png",0.8,0.8)
-        self.IC_STONE = self.load_img("img/ic_stone.png",100,100)
+        self.IC_RANK = self.load_img("img/ic_rank.png", 0.8, 0.8)
+        self.IC_STONE = self.load_img("img/ic_stone.png", 100, 100)
         self.IC_CAMERA = (self.load_img("img/camera0.png", 0.8, 0.8),
                           self.load_img("img/camera1.png", 0.8, 0.8),
                           self.load_img("img/camera2.png", 0.8, 0.8))
-        self.IC_FINISH_FLAG = self.load_img("img/ic_fisish_line.png",200, 200)
+        self.IC_FINISH_FLAG = self.load_img("img/line.png", 20, 355)
+        self.BG_0 = self.load_img("img/Background0.png", self.GAME_WIDTH, self.GAME_HEIGHT)  # Nhập số để thay đổi
 
         self.ROLLBACK_STEP = 0
-        self.BTN_VERSION = Button(10, 5, 100, 100, "Versions: "+self.VERSION_INFO)
-        self.TIME_INTERVAL = 1000/self.FPS
+        self.BTN_VERSION = Button(10, 5, 100, 100, "Versions: " + self.VERSION_INFO)
+        self.TIME_INTERVAL = 1000 / self.FPS
         # some boolean
-        self.IS_SIGNED_IN = False
+        self.IS_SIGNED_IN = True
         self.IS_GAME_PLAYING = False
         self.IS_GAME_ENDED = False
 
@@ -59,30 +60,34 @@ class INIT_GAME():
         return img
 
     def draw_map(self, rollback):
-        #self.SCREEN.fill(180)
+        # self.SCREEN.fill(180)
         self.START_POS = 300 + rollback
         # 6 - draw the screen elements
-		
-        for x in range(0, 120):
-            for y in range(-1, 2):
-                self.SCREEN.blit(self.IC_GRASS, (x * 40+rollback, y * 40))
-        """for x in range(0, 16):
-            for y in range(0, 1):
-                self.SCREEN.blit(self.IC_CLOUD, (x * 90, y * 90))
-                """
-        for i in range(0, 80):
-            for j in range(0, 7):
-                self.SCREEN.blit(self.IC_RACETRACK , (i * 60+rollback, j * 50 + 100))
-        for i in range(0, 100):
-            self.SCREEN.blit(self.IC_STONE, (i * 100 + rollback, 450))
-        """for x in range(0, 33):
-            for y in range(0, 5):
-                self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 500))
-        """
-        for i in range(0, 9):
-            self.SCREEN.blit(self.IC_FINISH_FLAG, (self.START_POS, i * 40 + 100))
-            self.SCREEN.blit(self.IC_FINISH_FLAG, (self.DISTANCE-50, i * 40 + 100))
+
+        """for x in range(0, 100):
+                    for y in range(-1, 2):
+                        self.SCREEN.blit(self.IC_GRASS, (x * 40 + rollback, y * 40))
+                for x in range(0, 16):
+                    for y in range(0, 1):
+                        self.SCREEN.blit(self.IC_CLOUD, (x * 90, y * 90))
+                for i in range(0, 50):
+                    for j in range(0, 7):
+                        self.SCREEN.blit(self.IC_RACETRACK, (i * 60 + rollback, j * 50 + 100))
+                for i in range(0, 100):
+                    self.SCREEN.blit(self.IC_STONE, (i * 100 + rollback, 450))
+                for x in range(0, 33):
+                    for y in range(0, 5):
+                        self.SCREEN.blit(self.IC_GRASS, (x * 40, y * 40 + 500))
+                for i in range(0, 9):
+                    self.SCREEN.blit(self.IC_FINISH_FLAG, (300 + rollback, i * 40 + 100))
+                    self.SCREEN.blit(self.IC_FINISH_FLAG, (self.DISTANCE - 50, i * 40 + 100))"""
+        # for i in range (0,6):
+        for i in range(-1, 6):
+            self.SCREEN.blit(self.BG_0, (self.GAME_WIDTH * i + rollback, 0))
+        self.SCREEN.blit(self.IC_FINISH_FLAG, (290 + rollback, 255))
+        self.SCREEN.blit(self.IC_FINISH_FLAG, (self.DISTANCE - 20, 255))
         self.BTN_VERSION.show()
+
     pass
 
 
