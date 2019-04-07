@@ -276,9 +276,10 @@ def main_game():
 
         # Check to show result board
         if last_racer:
+            ranking.show_top1 = True;
             if ranking.y < gameLancher.GAME_HEIGHT/3.5:
                 ranking.y += 3
-            finish_race(gameLancher, winner, 3)
+            finish = finish_race(gameLancher, winner, racers[3])
 
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
@@ -298,32 +299,53 @@ def main_game():
         # time.sleep(1) # sleep 1 sec
 
 
-def finish_race(game, racer , player_choose):
+def finish_race(game, racer, player_choose):
     size = game.IC_RESULT_BOARD.get_rect().size
     game.SCREEN.blit(game.IC_RESULT_BOARD, (game.GAME_WIDTH/2 - size[0]/2, game.GAME_HEIGHT/2 - size[1]/2))
-    game.SCREEN.blit(racer.img, (game.GAME_WIDTH/2 , game.GAME_HEIGHT/2 + size[1]/6))
+    game.SCREEN.blit(pygame.transform.scale(player_choose.img, (int(size[0]/6), int(size[0]/6))),
+                     (game.GAME_WIDTH/2 - size[0]/2.5, game.GAME_HEIGHT/2 - size[1]/4))
     size_result = game.IC_WIN.get_rect().size
 
-    if racer.num == player_choose:
+    if racer.num == player_choose.num:
         game.SCREEN.blit(game.IC_WIN,
-                         (game.GAME_WIDTH / 2 - size_result[0] / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
+                         (game.GAME_WIDTH / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
     else:
         game.SCREEN.blit(game.IC_LOSE,
-                         (game.GAME_WIDTH / 2 - size_result[0] / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
+                         (game.GAME_WIDTH / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
+
+    gameLancher.btn_end.show()
+    gameLancher.btn_play_again.show()
+
+    if gameLancher.btn_end.is_clicked():
+        return True
+    if gameLancher.btn_play_again.is_clicked():
+        gameLancher.RESTART = True
+        return True
+    return False
+
 
 def main():
     if not gameLancher.IS_SIGNED_IN:
         loginActivity()
         time.sleep(1)
-    #if not gameLancher.IS_PLAYING:
+    # if not gameLancher.IS_PLAYING:
     #	mainActivity()
     #	time.sleep(0.5)
     main_game()
 
 
-
 gameLancher = INIT_GAME()
 main()
+while gameLancher.RESTART:
+    gameLancher.RESTART = False
+
+    gameLancher.IS_GAME_PLAYING = False
+    gameLancher.IS_GAME_ENDED = False
+
+    gameLancher.DISTANCE = 1000
+    main()
+
 pygame.quit()
 del gameLancher
+
 exit()

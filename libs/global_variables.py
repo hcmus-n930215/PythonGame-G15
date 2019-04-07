@@ -17,13 +17,23 @@ class INIT_GAME():
         self.VERSION_INFO = "2.0"
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
+
         self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
         self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
         self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.GAME_WIDTH_DEFAULT = 1080
         self.GAME_HEIGHT_DEFAULT = 720
-        # self.IC_CIRCLE = pygame.image.load("img/ic_circle.png")
-        # self.IC_CLOUD = pygame.image.load("img/ic_cloud.png")
+
+        self.btn_play_again = Button(self.GAME_WIDTH/3 - self.GAME_WIDTH / 20,
+                                     self.GAME_HEIGHT/4*3 + self.GAME_HEIGHT / 20,
+                                     self.GAME_WIDTH / 10, self.GAME_HEIGHT / 10,
+                                     "PLAY AGAIN")
+
+        self.btn_end = Button(self.GAME_WIDTH / 3 * 2 - self.GAME_WIDTH / 20,
+                              self.GAME_HEIGHT / 4*3 + self.GAME_HEIGHT / 20,
+                              self.GAME_WIDTH / 10, self.GAME_HEIGHT / 10,
+                              "QUIT")
+
         self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
         self.IC_GRASS = self.load_img("img/ic_grass.png", 80, 80)
         self.IC_RANK = self.load_img("img/ic_rank.png", 0.8, 0.8)
@@ -37,6 +47,7 @@ class INIT_GAME():
         self.IC_RESULT_BOARD = self.load_img("img/ic_result_board.png", 800, 600)
         self.IC_WIN = self.load_img("img/ic_win.png", 300, 300)
         self.IC_LOSE = self.load_img("img/ic_lose.png", 300, 300)
+        self.IC_TOP1 = self.load_img("img./ic_top1.png", 0.8,0.8)
 
         self.ROLLBACK_STEP = 0
         self.BTN_VERSION = Button(10, 5, 100, 100, "Versions: " + self.VERSION_INFO)
@@ -45,6 +56,7 @@ class INIT_GAME():
         self.IS_SIGNED_IN = True
         self.IS_GAME_PLAYING = False
         self.IS_GAME_ENDED = False
+        self.RESTART = False
 
         # Dieu chinh quang duong dua
         # Length of road
@@ -113,7 +125,7 @@ class Amulet(pygame.sprite.Sprite):
     def stop_amulet(self):
         """Bua dung"""
         self.speed = 0
-        self.x += self.speed
+        #self.x += self.speed
         self.time-=20
 
 
@@ -142,7 +154,7 @@ class Amulet(pygame.sprite.Sprite):
 
     def teleport_amulet(self):
         """Bua lam ngung chuyen dong cua doi phuong"""
-        i=0
+        i = 0
         while (i<25):
             self.x += random.randrange(3, 6)
             i += 1
@@ -313,6 +325,8 @@ class Ranking():
                                                      int(self.size[1]*(game.GAME_HEIGHT/720))))
         self.size = self.img.get_rect().size
 
+        self.show_top1 = False;
+
         self.x = game.GAME_WIDTH - self.size[0]
         self.y = 0
 
@@ -322,7 +336,10 @@ class Ranking():
         self.game.SCREEN.blit(self.img, (self.x, self.y))
         for i in range(0, 6):
             self.game.SCREEN.blit(rs[i].img, (m, self.y + n*(rs[i].rank+0.33)))
-            #print(self.racers[i].rank)
+
+        if self.show_top1:
+            self.game.SCREEN.blit(self.game.IC_TOP1, (m, self.y + n ))
+            # print(self.racers[i].rank)
 
     def update(self, rs):
 
