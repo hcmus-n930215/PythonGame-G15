@@ -14,10 +14,11 @@ class Button(pygame.sprite.Sprite):
         self.rect.normalize()
         self.surface = None
         self.bk_surf = self.surface
+        self.isTransparent = True
 
 
     def show(self):
-        showText(self.startX, self.startY, self.width, self.height, self.text, color="#B33333", bgrColor=self.bgrColor)
+        showText(self.startX, self.startY, self.width, self.height, self.text, color="#B33333",isTransparent=self.isTransparent)
     def hide(self):
         showText(self.startX, self.startY, self.width, self.height, self.text, color="#FFFFFF")
     def setText(self, text):
@@ -81,7 +82,6 @@ class EditText():
         showText(self.startX, self.startY, self.width, self.height, self.text, color="#FFFFFF")
 
     def is_clicked(self):
-
         return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
     pass
 
@@ -128,7 +128,8 @@ class InputBox:
 
                     if self.isPassword:
                         self.hidetext += event.unicode
-                        self.text += "*"
+                        if len(self.hidetext) > len(self.text):
+                            self.text += "*"
                     else:
                         self.text += event.unicode
                 # Re-render the text.
@@ -145,13 +146,44 @@ class InputBox:
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
 
+class ImageView:
+
+    def __init__(self, x, y, w, h, img_link):
+        self.x = x
+        self.y = y
+        self.color = COLOR_INACTIVE
+        self.IMAGE = load_img(img_link, w,h)
+        self.rect = self.IMAGE.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.active = False
+
+
+    def setActive(self,isActive=False):
+        self.active = isActive
+        self.color = COLOR_ACTIVE if self.active else COLOR_INACTIVE
+    def is_clicked(self):
+        return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
+
+    def draw(self, screen):
+        # Blit the image.
+        screen.blit(self.IMAGE, (self.x, self.y))
+        # Blit the rect.
+        pygame.draw.rect(screen, self.color, self.rect, 3)
 
 
 
 
-def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", color="#FFFFFF", textSize=20, bgrColor=None):
+
+
+
+
+def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", color="#FFFFFF", textSize=20, bgrColor=None,isTransparent=True):
     font = pygame.font.SysFont('Comic Sans MS', textSize)
-    if bgrColor!=None:
+    if isTransparent:
+        text = font.render(text, True, hex2rgb(color, normalise=False))
+
+    elif bgrColor!=None:
         text = font.render(text, True, hex2rgb(color, normalise=False), hex2rgb(bgrColor, normalise=False))
     else:
         text = font.render(text, True, hex2rgb(color, normalise=False), bgrColor)
@@ -161,8 +193,22 @@ def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", col
     textRect = text.get_rect()
 
     # set the center of the rectangular object.
-    textRect.center = (x+width // 2, y+height // 2)
+    #textRect.center = (x+width // 2, y+height // 2)
+    textRect.left = (x)
+    #textRect.centery = y + height//2
+    #textRect = (x,y)
+    textRect.centery = y + height//2
     screen = pygame.display.get_surface()
 
 
     screen.blit(text, textRect)
+
+def load_img(link, scale_x, scale_y):
+    img = pygame.image.load(link).convert_alpha()
+    if scale_x <= 2 and scale_y <= 2:
+        size = img.get_rect().size
+        scale_x = int(size[0] * scale_x)
+        scale_y = int(size[1] * scale_y)
+    img = pygame.transform.scale(img, (scale_x, scale_y))
+    return img
+
