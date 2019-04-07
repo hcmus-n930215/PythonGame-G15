@@ -67,10 +67,16 @@ class INIT_GAME():
 
     def load_img(self, link, scale_x, scale_y):
         img = pygame.image.load(link).convert_alpha()
-        if scale_x <= 1 and scale_y <= 1:
-            size = img.get_rect().size
+        size = img.get_rect().size
+        if scale_x == -1:
+            scale_x = size[0]*scale_y/size[1]
+        if scale_y == -1:
+            scale_y = size[1]*scale_x/size[0]
+
+        if scale_x <= 3 and scale_y <= 3:
             scale_x = size[0] * scale_x
             scale_y = size[1] * scale_y
+
         img = pygame.transform.scale(img, (int(scale_x * (self.GAME_WIDTH / self.GAME_WIDTH_DEFAULT)),
                                            int(scale_y * (self.GAME_HEIGHT / self.GAME_HEIGHT_DEFAULT))))
         return img
@@ -200,16 +206,19 @@ class Amulet(pygame.sprite.Sprite):
                 self.game.SCREEN.blit(self.IC_TELEPORT, (self.amulet_x+rollback, self.y))
             self.amulet_x += +rollback
             #self.game.SCREEN.blit(img_amulet, (self.amulet_x, self.y))
+
 class Racer(Amulet):
     """ Doi tuong dua """
-    def __init__(self, x, y, game, pack ="ic_snail", num=0):
+    def __init__(self, x, y, game, pack ="rc_snail", num=0):
         self.pack_sprite = pack
         self.num = num
         name = "img/"
-        ic_name = name + pack + str(num) + ".png"
-        self.img = game.load_img(ic_name, 0.8, 0.8)
+        ic_name = name + pack + str(num+1) + ".png"
+        self.img = game.load_img(ic_name, -1, 50)
         self.x = x
         self.y = y
+        self.y_def = y
+        self.t_jump = 0
         self.stun = 0
         self.time = 0
         self.speed = random.randrange(15, 30) / 10
@@ -233,9 +242,17 @@ class Racer(Amulet):
 
         # if self.x > self.game.GAME_WIDTH // 2:
 
-        if self.x + self.speed + camera.delta > self.game.DISTANCE:
+        if self.x + self.speed + camera.delta >= self.game.DISTANCE:
             self.x = self.game.DISTANCE
             self.speed = 0
+            if self.rank == 1:
+                if self.y <= self.y_def:
+                    self.y = self.y_def - self.t_jump*self.game.GAME_HEIGHT/20 + 9.8*self.t_jump*self.t_jump/2
+                    self.t_jump += 0.25
+                else:
+                    self.t_jump = 0
+                    self.y = self.y_def
+
             return False
         else:
             #s elf.x += self.speed - rollback

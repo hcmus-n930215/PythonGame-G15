@@ -155,12 +155,13 @@ def main_game():
     h = 260
     k = 60
     s = 250
-    racers = (Racer(s, h + 0 * k, gameLancher, "ic_snail", 0),
-              Racer(s, h + 1 * k, gameLancher, "ic_snail", 1),
-              Racer(s, h + 2 * k, gameLancher, "ic_snail", 2),
-              Racer(s, h + 3 * k, gameLancher, "ic_snail", 3),
-              Racer(s, h + 4 * k, gameLancher, "ic_snail", 4),
-              Racer(s, h + 5 * k, gameLancher, "ic_snail", 5))
+    pack = "rc_snail"
+    racers = (Racer(s, h + 0 * k, gameLancher, pack, 0),
+              Racer(s, h + 1 * k, gameLancher, pack, 1),
+              Racer(s, h + 2 * k, gameLancher, pack, 2),
+              Racer(s, h + 3 * k, gameLancher, pack, 3),
+              Racer(s, h + 4 * k, gameLancher, pack, 4),
+              Racer(s, h + 5 * k, gameLancher, pack, 5))
 
     ranking = Ranking(gameLancher, racers)
     camera = Camera(gameLancher)
@@ -302,7 +303,8 @@ def main_game():
 def finish_race(game, racer, player_choose):
     size = game.IC_RESULT_BOARD.get_rect().size
     game.SCREEN.blit(game.IC_RESULT_BOARD, (game.GAME_WIDTH/2 - size[0]/2, game.GAME_HEIGHT/2 - size[1]/2))
-    game.SCREEN.blit(pygame.transform.scale(player_choose.img, (int(size[0]/6), int(size[0]/6))),
+    img_racer = player_choose.img.get_rect().size
+    game.SCREEN.blit(pygame.transform.scale(player_choose.img, (int(img_racer[0]*2), int(img_racer[1]*2))),
                      (game.GAME_WIDTH/2 - size[0]/2.5, game.GAME_HEIGHT/2 - size[1]/4))
     size_result = game.IC_WIN.get_rect().size
 
