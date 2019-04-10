@@ -12,7 +12,7 @@ class LoginPage():
         self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
 
         self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
-        self.GAME_WIDTH =  gameLancher.GAME_WIDTH
+        self.GAME_WIDTH = gameLancher.GAME_WIDTH
         self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
 
         self.SCREEN = pygame.display.get_surface()
@@ -220,7 +220,50 @@ class SettingPage():
             if btn_save.is_clicked():
                 return last_active
             pygame.display.flip()
+class Shoppage():
+    def __init__(self, gameLancher, user):
+        # load screen from main
+        self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
 
+        self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
+        self.GAME_WIDTH = gameLancher.GAME_WIDTH
+        self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
+        self.GAME = gameLancher
+        self.SCREEN = pygame.display.get_surface()
+        self.IMG_SHOP = pygame.transform.scale(pygame.image.load("img/Shop.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 1))
+        self.EXIT = pygame.transform.scale(pygame.image.load("img/ic_exit.png"), (60,60))
+        self.SHELF = pygame.transform.scale(pygame.image.load("img/S_shelf.png"), (150,200))
+        self.LUCKY = pygame.transform.scale(pygame.image.load("img/Lucky.png"), (80,120))
+        self.PRICE = pygame.transform.scale(pygame.image.load("img/S_price.png"), (125,40))
+        self.STAR = pygame.transform.scale(pygame.image.load("img/Star.png"), (100,120))
+        self.pricelucky = user.coins*0.3                              #Giá bùa may mắn
+        self.pricestar = user.coins*0.4                               #Giá bùa ngôi sao hi vọng
+        self.PRICE_LUCKY = Button(390,370,125,40,str(self.pricelucky))
+        self.PRICE_STAR = Button(390+220,370,120,40,str(self.pricestar))
+        self.BTN_LUCKY = Button(365,370,125,40)
+        self.BTN_STAR = Button(365+220,370,125,40)
+        self.use_lucky = False
+        self.use_star = False
+        self.appear_shop = False
+    def BuyAmulet(self,user):
+        '''if self.use_lucky:
+            user.coins = user.coins - self.pricelucky
+        if self.use_star:
+            user.coins = user.coins - self.pricestar'''
+
+        user.coins = user.coins - 1000
+    def DrawShop(self):
+        self.SCREEN.blit(self.IMG_SHOP, (self.GAME_WIDTH // 4, 0))
+        self.SCREEN.blit(self.EXIT, (750,5))
+        self.SCREEN.blit(self.SHELF, (350,200))
+        self.SCREEN.blit(self.LUCKY, (380,220))
+        self.SCREEN.blit(self.PRICE, (365,370))
+        self.SCREEN.blit(self.SHELF, (350+220, 200))
+        self.SCREEN.blit(self.PRICE, (365+220, 370))
+        self.SCREEN.blit(self.STAR, (380 + 220, 220))
+        self.PRICE_LUCKY.show()
+        self.PRICE_STAR.show()
+    pass
 class InfoZone():
 
     def __init__(self, gameLancher, user):
@@ -261,8 +304,18 @@ class InfoZone():
         self.SCREEN.blit(self.IC_COIN, (10, 60))
         self.player_name.show()
         self.coin.show()
+class Icon_shop():
+    def __init__(self, gameLancher):
+        # load screen from main
+        self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
 
-
-
-
-        
+        self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
+        self.GAME_WIDTH = gameLancher.GAME_WIDTH
+        self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
+        self.GAME = gameLancher
+        self.SCREEN = pygame.display.get_surface()
+        self.IC_SHOP = gameLancher.load_img("img/ic_shop.png", 50,50)
+        self.btn_shop = Button(1020,660,50,50)
+        self.btn_exit_shop = Button(750,5,60,60)
+    def drawicshop(self):
+        self.SCREEN.blit(self.IC_SHOP, (1020,660))

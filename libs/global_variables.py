@@ -52,7 +52,7 @@ class INIT_GAME():
         self.BTN_VERSION = Button(10, self.GAME_HEIGHT- 100, 100, 100, "Versions: "+self.VERSION_INFO)
         self.TIME_INTERVAL = 1000/self.FPS
         # some boolean
-        self.IS_SIGNED_IN = False
+        self.IS_SIGNED_IN = True
         self.IS_GAME_PLAYING = False
         self.IS_GAME_ENDED = False
         self.IS_START_OPTIONS = False
@@ -451,7 +451,7 @@ class User():
         self.password = "NULL"
         self.winrate = 0
         self.playTime = 0
-        self.coins = 0
+        self.coins = 10000
     pass
 class Camera():
     def __init__(self, game):

@@ -1,5 +1,5 @@
 # The map are 0 and 1
-default_map=1
+default_map=0
 
 # The racers are: rc_lead, rc_catus, rc_turtle, rc_snail
-default_racer=rc_lead
+default_racer=rc_snail

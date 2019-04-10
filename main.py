@@ -149,7 +149,7 @@ def main_game(user):
     timenow = int(round(time.time() * 1000))
     lasttime = timenow
 
-    gameLancher.draw_map(0)
+    #ameLancher.draw_map(0)
 
     # main code
     #player = Player()
@@ -160,7 +160,9 @@ def main_game(user):
     camera = Camera(gameLancher)
     mainpage = MainPage(gameLancher)
     settingPage = SettingPage(gameLancher)
+    shoppage = Shoppage(gameLancher, user)
     infoZone = InfoZone(gameLancher, user)
+    ic_shop  = Icon_shop(gameLancher)
     finish = False
 
     #subScreen = []
@@ -202,6 +204,19 @@ def main_game(user):
         ###########################
         if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS:
             mainpage.drawMainPage()
+            ic_shop.drawicshop()
+            if ic_shop.btn_shop.is_clicked():
+                shoppage.appear_shop = True
+            if ic_shop.btn_exit_shop.is_clicked():
+                shoppage.appear_shop = False
+            if shoppage.appear_shop:
+                shoppage.DrawShop()
+                if shoppage.BTN_LUCKY.is_clicked():
+                    shoppage.use_lucky = True
+                    shoppage.BuyAmulet(user)
+                if shoppage.BTN_STAR.is_clicked():
+                    shoppage.use_star = True
+                    shoppage.BuyAmulet(user)
             if mainpage.btn_start.is_clicked():
                 if not isPressed:
                     if not play:
@@ -239,6 +254,7 @@ def main_game(user):
                     isPressed = True
             else:
                 isPressed = False
+
         ###################E
         if gameLancher.IS_START_OPTIONS:
             play = True
@@ -246,6 +262,7 @@ def main_game(user):
 
         ###################
         if gameLancher.IS_IN_SETTINGS:
+
             settingPage.drawSettingPage()
             if settingPage.btn_setplayer.is_clicked():
                 if not isPressed:
