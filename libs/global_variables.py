@@ -68,7 +68,7 @@ class INIT_GAME():
         # Dieu chinh quang duong dua
         # Length of road
         self.START_POS = 300
-        self.DISTANCE = 1000
+        self.DISTANCE = 3000
         self.DISTANCE_DEFAULT = self.DISTANCE
 
         super().__init__()

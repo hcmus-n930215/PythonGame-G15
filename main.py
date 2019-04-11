@@ -154,7 +154,7 @@ def main_game():
 
     h = 260
     k = 60
-    s = gameLancher.GAME_WIDTH/3
+    s = gameLancher.GAME_WIDTH/3  # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
     pack = "rc_catus"
     racers = (Racer(s, h + 0 * k, gameLancher, pack, 0),
               Racer(s, h + 1 * k, gameLancher, pack, 1),
@@ -189,8 +189,10 @@ def main_game():
     max_speed = 0
     isScrolling = True
     COUNT_AMBULET = 0
+    sound_result = False    # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 
     while not finish:
+
         list_area_to_be_update_display = []
         gameLancher.SCREEN.fill(180)
         ###########################
@@ -227,6 +229,8 @@ def main_game():
                         play = True
                         time.sleep(0.08)
                         mainpage.btn_start.stop()
+                        pygame.mixer.music.load("sound/fast_lane.mp3")
+                        pygame.mixer.music.play(-1)
                     isPressed = True
             else:
                 isPressed = False
@@ -266,6 +270,8 @@ def main_game():
                 if r.rank == 6 and r.x >= gameLancher.DISTANCE:
                     last_racer = True
 
+
+
                 r.draw_amulet(camera.delta)
                 if not r.update(camera):
                     max_speed = 0
@@ -281,6 +287,14 @@ def main_game():
             ranking.show_top1 = True
             if ranking.y < gameLancher.GAME_HEIGHT/3.5:
                 ranking.y += 3
+            if not sound_result:
+                sound_result = True
+                if winner.num == racers[3].num :
+                    sound = pygame.mixer.Sound('sound/win.wav')
+                    sound.play()
+                else:
+                    sound = pygame.mixer.Sound('sound/lose.wav')
+                    sound.play()
             finish = finish_race(gameLancher, winner, racers[3])
 
         if gameLancher.IS_GAME_PLAYING:
@@ -348,7 +362,7 @@ while gameLancher.RESTART:
     gameLancher.IS_GAME_PLAYING = False
     gameLancher.IS_GAME_ENDED = False
 
-    gameLancher.DISTANCE = 1000
+    gameLancher.DISTANCE = 3000
     main()
 
 pygame.quit()
