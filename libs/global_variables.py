@@ -69,7 +69,7 @@ class INIT_GAME():
         # Length of road
         self.START_POS = 300
         self.DISTANCE = 3000
-        self.DISTANCE_DEFAULT = self.DISTANCE
+        self.DISTANCE_DEFAULT = self.DISTANCE # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 
         super().__init__()
 
@@ -114,7 +114,7 @@ class INIT_GAME():
         # for i in range (0,6):
         for i in range(-1, 6):
             self.SCREEN.blit(self.BG_0, (self.GAME_WIDTH * i + rollback, 0))
-        self.SCREEN.blit(self.IC_FINISH_FLAG, (self.GAME_WIDTH/3 + rollback, 255))
+        self.SCREEN.blit(self.IC_FINISH_FLAG, (self.GAME_WIDTH/3 + rollback, 255)) #newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
         self.SCREEN.blit(self.IC_FINISH_FLAG, (self.DISTANCE - 20, 255))
         self.BTN_VERSION.show()
 
@@ -161,7 +161,7 @@ class Amulet(pygame.sprite.Sprite):
         """Bua quay dau"""
         #self.speed = -100
         #self.x += self.speed
-        self.x = self.game.START_POS
+        self.x = self.game.START_POS    #newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
         self.time=0
 
 
@@ -350,7 +350,7 @@ class Ranking():
                                                      int(self.size[1]*(game.GAME_HEIGHT/720))))
         self.size = self.img.get_rect().size
 
-        self.show_top1 = False;
+        self.show_top1 = False
 
         self.x = game.GAME_WIDTH - self.size[0]
         self.y = 0
@@ -441,8 +441,10 @@ class Camera():
 
     pass
 
+
+# newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 class Minimap():
-    def __init__(self , game):
+    def __init__(self, game):
         self.game = game
         self.img_minimap = game.IC_MINIMAP
         self.size = self.img_minimap.get_rect().size

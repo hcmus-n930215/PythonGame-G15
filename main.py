@@ -164,7 +164,7 @@ def main_game():
               Racer(s, h + 5 * k, gameLancher, pack, 5))
 
     ranking = Ranking(gameLancher, racers)
-    minimap = Minimap(gameLancher)
+    minimap = Minimap(gameLancher) # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
     camera = Camera(gameLancher)
     mainpage = MainPage(gameLancher)
     finish = False
@@ -287,6 +287,8 @@ def main_game():
             ranking.show_top1 = True
             if ranking.y < gameLancher.GAME_HEIGHT/3.5:
                 ranking.y += 3
+
+            # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
             if not sound_result:
                 sound_result = True
                 if winner.num == racers[3].num :
@@ -343,6 +345,7 @@ def finish_race(game, racer, player_choose):
 
 
 def main():
+    # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
     pygame.mixer.music.load("sound/theme_song_cut.mp3")
     pygame.mixer.music.play(-1)
     if not gameLancher.IS_SIGNED_IN:
