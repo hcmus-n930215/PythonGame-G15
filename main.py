@@ -25,15 +25,16 @@ def loginActivity(user):
 
     NoneClick = True
 
-    # if file is edited
-    if (readSuccess == -1):
+    #if file is edited
+    if(readSuccess == -1):
         warning.setText("You have deleted an important file so all your data is lost")
 
-    elif (readSuccess == -2):
+    elif(readSuccess == -2):
         warning.setText("You have edit UsersData file so all your data is deleted")
-
+    
     while True:
-
+        
+        
         # sign in
         if btn_signin.is_clicked():
             showPass = loginPage.passWordInput.text
@@ -96,7 +97,7 @@ def loginActivity(user):
             elif (len(user.name) == 0) | (len(user.password) == 0):
                 warning.setText("Please enter your username and password")
 
-            # if account is not exist yet
+            #if account is not exist yet
             elif ((LoginCore.FindUserName(listUser, user) == -1)):
 
                 # welcome user
@@ -136,7 +137,8 @@ def loginActivity(user):
         for box in input_boxes:
             box.update()
 
-        # gameLancher.SCREEN.fill((30, 30, 30))
+
+        #gameLancher.SCREEN.fill((30, 30, 30))
         for box in input_boxes:
             box.draw(gameLancher.SCREEN)
 
@@ -150,7 +152,7 @@ def main_game(user):
     gameLancher.draw_map(0)
 
     # main code
-    # player = Player()
+    #player = Player()
 
     racers = gameLancher.assign_racers()
 
@@ -161,8 +163,8 @@ def main_game(user):
     infoZone = InfoZone(gameLancher, user)
     finish = False
 
-    # subScreen = []
-    # for btn in button:
+    #subScreen = []
+    #for btn in button:
     #    subScreen.append(btn.setSurface(gameLancher.SCREEN))
 
     play = False
@@ -176,9 +178,9 @@ def main_game(user):
     max_speed = 0
     isScrolling = True
     COUNT_AMULET = 0
-    time_amulet_appear = 3
-    count = 6
-    time_amulet = 0
+    time_amulet_appear=3
+    count=6
+    time_amulet=0
     while not finish:
         list_area_to_be_update_display = []
         gameLancher.SCREEN.fill(180)
@@ -206,13 +208,13 @@ def main_game(user):
             if mainpage.btn_start.is_clicked():
                 if not isPressed:
                     if not play:
-                        # mainpage.btn_start.setText("STOP")
+                        #mainpage.btn_start.setText("STOP")
                         gameLancher.IS_GAME_PLAYING = True
                         gameLancher.IS_START_OPTIONS = True
                         gameLancher.DISTANCE = 4000
                         time.sleep(0.08)
 
-                        # mainpage.btn_start.stop()
+                        #mainpage.btn_start.stop()
                     isPressed = True
             else:
                 isPressed = False
@@ -231,10 +233,11 @@ def main_game(user):
             if mainpage.btn_setting.is_clicked():
                 if not isPressed:
                     if not play:
-                        # gameLancher.IS_SIGNED_IN = False
+                        #gameLancher.IS_SIGNED_IN = False
                         gameLancher.IS_IN_SETTINGS = True
                         time.sleep(0.08)
                         play = False
+
 
                     isPressed = True
             else:
@@ -260,7 +263,7 @@ def main_game(user):
             else:
                 isPressed = False
             if settingPage.btn_setmap.is_clicked():
-                gameLancher.DEFAULT_MAP_CODE = str(settingPage.drawChooseMap())
+                gameLancher.DEFAULT_MAP_CODE=str(settingPage.drawChooseMap())
 
                 gameLancher.update_setting_pref()
                 gameLancher.assign_map()
@@ -277,13 +280,13 @@ def main_game(user):
             else:
                 isPressed = False
         ###########################
-        # max_speed = 0
+        #max_speed = 0
         max_racer = 0
         # doan nay chua lam gi ca
         if isScrolling:
             for r in racers:
                 if r.x > max_racer:
-                    # max_speed = r.speed
+                    #max_speed = r.speed
                     max_racer = r.x
         isScrolling = False
         last_racer = False
@@ -291,22 +294,23 @@ def main_game(user):
         for r in racers:
             if play:
 
-                if (time.clock() > time_amulet_appear and COUNT_AMULET < count):
-                    if (r.exist_amulet):
+
+                if (time.clock()>time_amulet_appear and COUNT_AMULET < count):
+                    if(r.exist_amulet):
                         COUNT_AMULET += 1
                     else:
                         r.Amulet_appear()
                         COUNT_AMULET += 1
-                    if (COUNT_AMULET == count):
-                        time_amulet_appear += 10
-                        count += 6
+                    if(COUNT_AMULET ==count):
+                        time_amulet_appear+=10
+                        count+=6
 
-                if (r.exist_amulet):
-                    if (r.x > r.amulet_x and r.time > 0):
+                if(r.exist_amulet):
+                    if (r.x > r.amulet_x  and r.time>0):
                         r.active()
-                        time_amulet = time.clock() + 2
-                elif (r.time > 0):
-                    if (time.clock() < time_amulet):
+                        time_amulet = time.clock()+2
+                elif(r.time>0):
+                    if(time.clock()< time_amulet ):
                         r.active()
                     else:
                         r.kind = 0
@@ -314,7 +318,7 @@ def main_game(user):
                 else:
                     r.kind = 0
                     r.exist_turn = False
-                # else:
+                #else:
                 #    r.update(camera)
 
                 if r.rank == 1:
@@ -325,11 +329,13 @@ def main_game(user):
                 r.draw_amulet(camera.delta)
                 # Kiem tra ket thuc cuoc dua
 
+
                 isScrolling = r.update(camera) or isScrolling
 
-                # max_speed = 0
+                    #max_speed = 0
 
-                # isScrolling = False
+                    #isScrolling = False
+
 
             # list_area_to_be_update_display.append(r.clear())
             if gameLancher.IS_GAME_PLAYING:
@@ -339,21 +345,21 @@ def main_game(user):
             ranking.show_top1 = True
             if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
                 ranking.y += 3
-            # finish = finish_race(gameLancher, winner, racers[3])
+            #finish = finish_race(gameLancher, winner, racers[3])
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
             camera.update(racers[camera.follow])
             if not isScrolling:
-                # play = isScrolling
+                #play = isScrolling
                 ranking.show_top1 = True
                 if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
                     ranking.y += 3
                 finish = finish_race(gameLancher, winner, racers[3])
                 if finish:
                     gameLancher.IS_GAME_PLAYING = isScrolling
-            # if finish:
-            # return main_game(user)
-        # else:
+               #if finish:
+                    #return main_game(user)
+        #else:
 
         if play:
             gameLancher.DISTANCE += camera.delta
@@ -367,13 +373,12 @@ def main_game(user):
         # pygame.display.update(list_area_to_be_update_display)
         # time.sleep(1) # sleep 1 sec
 
-
 def finish_race(game, racer, player_choose):
     size = game.IC_RESULT_BOARD.get_rect().size
-    game.SCREEN.blit(game.IC_RESULT_BOARD, (game.GAME_WIDTH / 2 - size[0] / 2, game.GAME_HEIGHT / 2 - size[1] / 2))
+    game.SCREEN.blit(game.IC_RESULT_BOARD, (game.GAME_WIDTH/2 - size[0]/2, game.GAME_HEIGHT/2 - size[1]/2))
     img_racer = player_choose.img.get_rect().size
-    game.SCREEN.blit(pygame.transform.scale(player_choose.img, (int(img_racer[0] * 2), int(img_racer[1] * 2))),
-                     (game.GAME_WIDTH / 2 - size[0] / 2.5, game.GAME_HEIGHT / 2 - size[1] / 4))
+    game.SCREEN.blit(pygame.transform.scale(player_choose.img, (int(img_racer[0]*2), int(img_racer[1]*2))),
+                     (game.GAME_WIDTH/2 - size[0]/2.5, game.GAME_HEIGHT/2 - size[1]/4))
     size_result = game.IC_WIN.get_rect().size
 
     if racer.num == player_choose.num:
@@ -393,10 +398,10 @@ def finish_race(game, racer, player_choose):
         return True
     return False
 
-
 def main():
     user = User()
     if not gameLancher.IS_SIGNED_IN:
+
         user = loginActivity(user)
         '''
         print(user.ID)
@@ -412,10 +417,11 @@ def main():
         print(user.winrate)
         '''
         time.sleep(2)
-    # if not gameLancher.IS_PLAYING:
+    #if not gameLancher.IS_PLAYING:
     #	mainActivity()
-    # time.sleep(2)
+    #time.sleep(2)
     main_game(user)
+
 
 
 gameLancher = INIT_GAME()
@@ -424,11 +430,11 @@ main()
 
 while gameLancher.RESTART:
     gameLancher.RESTART = False
-    # gameLancher.IS_SIGNED_IN = False
+    #gameLancher.IS_SIGNED_IN = False
     gameLancher.IS_GAME_PLAYING = False
     gameLancher.IS_GAME_ENDED = False
 
-    # gameLancher.DISTANCE = 3000
+    #gameLancher.DISTANCE = 3000
     main()
 pygame.quit()
 del gameLancher
