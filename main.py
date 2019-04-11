@@ -154,8 +154,8 @@ def main_game():
 
     h = 260
     k = 60
-    s = 250
-    pack = "rc_snail"
+    s = gameLancher.GAME_WIDTH/3
+    pack = "rc_catus"
     racers = (Racer(s, h + 0 * k, gameLancher, pack, 0),
               Racer(s, h + 1 * k, gameLancher, pack, 1),
               Racer(s, h + 2 * k, gameLancher, pack, 2),
@@ -164,6 +164,7 @@ def main_game():
               Racer(s, h + 5 * k, gameLancher, pack, 5))
 
     ranking = Ranking(gameLancher, racers)
+    minimap = Minimap(gameLancher)
     camera = Camera(gameLancher)
     mainpage = MainPage(gameLancher)
     finish = False
@@ -277,13 +278,14 @@ def main_game():
 
         # Check to show result board
         if last_racer:
-            ranking.show_top1 = True;
+            ranking.show_top1 = True
             if ranking.y < gameLancher.GAME_HEIGHT/3.5:
                 ranking.y += 3
             finish = finish_race(gameLancher, winner, racers[3])
 
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
+            minimap.update(racers, 3)
             camera.update(racers[camera.follow])
 
         if play:
@@ -327,6 +329,8 @@ def finish_race(game, racer, player_choose):
 
 
 def main():
+    pygame.mixer.music.load("sound/theme_song_cut.mp3")
+    pygame.mixer.music.play(-1)
     if not gameLancher.IS_SIGNED_IN:
         loginActivity()
         time.sleep(1)
