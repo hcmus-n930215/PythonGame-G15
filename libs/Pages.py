@@ -432,7 +432,9 @@ class HistoryPage():
         self.coinTitle.show()
         self.typeTitle.show()
         self.btn_back.show()
-       # pygame.display.flip()
+        # show scroll bar
+        self.SCREEN.blit(self.scroll, (self.scroll_x, self.scroll_y))
+        # pygame.display.flip()
         pass
 
         
