@@ -1,0 +1,2 @@
+racerType = "rc_catus" racerNum = "0" coinResult = "-1000" 
+racerType = "rc_catus" racerNum = "0" coinResult = "-1" 

@@ -41,6 +41,11 @@ class INIT_GAME():
         #self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
         #self.IC_GRASS = self.load_img("img/ic_grass.png", 80, 80)
         self.IC_RANK = self.load_img("img/ic_rank.png",0.8,0.8)
+        self.IC_MINIMAP = self.load_img("img/minimap.png", 300, 50)
+        self.IC_POINT_B = self.load_img("img/point_blue.png", 11, 11)
+        self.IC_POINT_R = self.load_img("img/point_red.png", 11, 11)
+        self.IC_MINIMAP_CAMERA = self.load_img("img/minimap_camera.png", 38, 21)
+
         #self.IC_STONE = self.load_img("img/ic_stone.png",100,100)
         self.IC_CAMERA = (self.load_img("img/camera0.png", 0.8, 0.8),
                           self.load_img("img/camera1.png", 0.8, 0.8),
@@ -61,7 +66,7 @@ class INIT_GAME():
         # Dieu chinh quang duong dua
         # Length of road
         self.RESTART = False
-        self.START_POS = 300
+        self.START_POS = self.GAME_WIDTH/3
         self.DISTANCE_DEFAULT = 3000
         self.DISTANCE = self.DISTANCE_DEFAULT
 
@@ -89,7 +94,7 @@ class INIT_GAME():
 
     def draw_map(self, rollback):
         #self.SCREEN.fill(180)
-        self.START_POS = 290 + rollback
+        self.START_POS = self.GAME_WIDTH/3 + rollback
         # 6 - draw the screen elements
 
         for i in range(0, 2):
@@ -179,12 +184,12 @@ class INIT_GAME():
     def assign_map(self):
         self.BG_MAP = self.load_img("img/Background"+ str(int(self.DEFAULT_MAP_CODE))+ ".png", self.GAME_WIDTH, self.GAME_HEIGHT)
     def assign_racers(self):
-        racers = (Racer(350, 260 + 0 * 60, self, str(self.DEFAULT_RACERS_CODE), 0),
-                  Racer(350, 260 + 1 * 60, self, str(self.DEFAULT_RACERS_CODE), 1),
-                  Racer(350, 260 + 2 * 60, self, str(self.DEFAULT_RACERS_CODE), 2),
-                  Racer(350, 260 + 3 * 60, self, str(self.DEFAULT_RACERS_CODE), 3),
-                  Racer(350, 260 + 4 * 60, self, str(self.DEFAULT_RACERS_CODE), 4),
-                  Racer(350, 260 + 5 * 60, self, str(self.DEFAULT_RACERS_CODE), 5))
+        racers = (Racer(self.START_POS, 260 + 0 * 60, self, str(self.DEFAULT_RACERS_CODE), 0),
+                  Racer(self.START_POS, 260 + 1 * 60, self, str(self.DEFAULT_RACERS_CODE), 1),
+                  Racer(self.START_POS, 260 + 2 * 60, self, str(self.DEFAULT_RACERS_CODE), 2),
+                  Racer(self.START_POS, 260 + 3 * 60, self, str(self.DEFAULT_RACERS_CODE), 3),
+                  Racer(self.START_POS, 260 + 4 * 60, self, str(self.DEFAULT_RACERS_CODE), 4),
+                  Racer(self.START_POS, 260 + 5 * 60, self, str(self.DEFAULT_RACERS_CODE), 5))
         return racers
     pass
 
@@ -343,7 +348,7 @@ class Amulet(pygame.sprite.Sprite):
             # self.game.SCREEN.blit(img_amulet, (self.amulet_x, self.y))
 class Racer(Amulet):
     """ Doi tuong dua """
-    def __init__(self, x, y, game, pack ="ic_snail", num="0"):
+    def __init__(self, x, y, game, pack="rc_snail", num="0"):
         self.pack_sprite = pack
         self.num = num
         name = "img/"
@@ -645,4 +650,42 @@ class Camera():
             self.follow = 5
             return
 
+    pass
+
+
+class Minimap():
+    def __init__(self, game):
+        self.game = game
+        self.img_minimap = game.IC_MINIMAP
+        self.size = self.img_minimap.get_rect().size
+        self.img_b_point = game.IC_POINT_B
+        self.size_p = self.img_b_point.get_rect().size
+        self.img_r_point = game.IC_POINT_R
+        self.img_camera = game.IC_MINIMAP_CAMERA
+        self.size_c = self.img_camera.get_rect().size
+        self.x = game.GAME_WIDTH/2 - self.size[0]/2
+        self.y = game.GAME_HEIGHT/10*9
+
+    def update(self, racers, play_choose, camera_follow):
+        self.game.SCREEN.blit(self.img_minimap, (self.x, self.y))
+        a = self.game.GAME_WIDTH/3
+
+        for r in racers:
+            if r.num != play_choose:
+                x = self.x + self.size[0] * (1 - (self.game.DISTANCE - r.x) / (self.game.DISTANCE_DEFAULT - a)) - \
+                    self.size_p[0] / 2
+                y = self.y + self.size[1] / 2
+                self.game.SCREEN.blit(self.img_b_point, (x, y))
+        for r in racers:
+            if r.num == play_choose:
+                x = self.x + self.size[0] * (1 - (self.game.DISTANCE - r.x) / (self.game.DISTANCE_DEFAULT - a)) - \
+                    self.size_p[0] / 2
+                y = self.y + self.size[1] / 2
+                self.game.SCREEN.blit(self.img_r_point, (x, y))
+        for r in racers:
+            if r.num == camera_follow:
+                x = self.x + self.size[0] * (1 - (self.game.DISTANCE - r.x) / (self.game.DISTANCE_DEFAULT - a)) - \
+                    self.size_p[0] / 2 - self.size_c[0]/2 + self.size_p[0]/2
+                y = self.y + self.size[1] / 2 - self.size_c[1]/2 + self.size_p[1]/2
+                self.game.SCREEN.blit(self.img_camera, (x, y))
     pass

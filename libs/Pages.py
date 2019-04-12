@@ -149,9 +149,10 @@ class MainPage():
                                   self.GAME_HEIGHT / 4 + self.GAME_HEIGHT / 10 * 3 + 30, 0, 0, ""))
         list_imgRacer = []
         imgArrow = self.GAME.load_img("img/arrow.png", 50, -1)
-        for i in range(0,6):
-            list_imgRacer.append(ImageView(self.GAME, self.pos_form[0]+30,self.pos_form[1]+(racers[i].img.get_rect().h+3)*(i+1)  ,-1,40,
-                                   racers[i].ic_name))
+        for i in range(0, 6):
+            list_imgRacer.append(ImageView(self.GAME, self.pos_form[0]+30,
+                                           self.pos_form[1]+(racers[i].img.get_rect().h+3)*(i+1)  ,-1,40,
+                                           racers[i].ic_name))
 
 
         list_imgRacer[0].setActive(True)

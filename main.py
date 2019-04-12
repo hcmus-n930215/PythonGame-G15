@@ -170,6 +170,7 @@ def main_game(listUser, userIndex):
     racers = gameLancher.assign_racers()
 
     ranking = Ranking(gameLancher, racers)
+    minimap = Minimap(gameLancher)
     camera = Camera(gameLancher)
     mainpage = MainPage(gameLancher)
     settingPage = SettingPage(gameLancher)
@@ -193,6 +194,7 @@ def main_game(listUser, userIndex):
     isScrolling = True
     coin_input = 0
     COUNT_AMULET = 0
+    sound_result = False
     time_amulet_appear = 3
     count = 6
     time_amulet = 0
@@ -225,10 +227,14 @@ def main_game(listUser, userIndex):
                 if not isPressed:
                     if not play:
                         isOK, coin_input, distance, racer_play_pos = mainpage.drawInitStart(user, racers)
+                        camera.follow = racer_play_pos
                         if isOK:
                             gameLancher.IS_GAME_PLAYING = True
                             gameLancher.IS_START_OPTIONS = True
+                            pygame.mixer.music.load("sound/fast_lane.mp3")
+                            pygame.mixer.music.play(-1)
                             gameLancher.DISTANCE = distance
+                            gameLancher.DISTANCE_DEFAULT = distance
 
                         else:
                             coin_input = 0
@@ -385,10 +391,25 @@ def main_game(listUser, userIndex):
             ranking.show_top1 = True
             if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
                 ranking.y += 3
+            if not sound_result:
+                sound_result = True
+                # music
+                pygame.mixer.music.load("sound/theme_song_cut.mp3")
+                pygame.mixer.music.play(-1)
+                # /music
+                if winner.num == racer_play_pos:
+                    sound = pygame.mixer.Sound('sound/win.wav')
+                    sound.play()
+                else:
+                    sound = pygame.mixer.Sound('sound/lose.wav')
+                    sound.play()
             #finish = finish_race(gameLancher, winner, racers[3])
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
+
+            minimap.update(racers, racer_play_pos, camera.follow)
             camera.update(racers[camera.follow])
+
             if not isScrolling:
                 #play = isScrolling
                 ranking.show_top1 = True
@@ -480,8 +501,12 @@ def finish_race(game, racer, player_choose, user, coin_input):
     return change_coin, False, None
 
 def main():
+    # music
+    pygame.mixer.music.load("sound/theme_song_cut.mp3")
+    pygame.mixer.music.play(-1)
+    # /music
     user = User()
-    user.ID="100000"
+    user.ID = "100000"
     listUser = []
     listUser.append(user)
     userIndex = 0
