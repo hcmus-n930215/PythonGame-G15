@@ -10,7 +10,7 @@ import math
 import random
 
 
-history = []
+#history = []
 
 def loginActivity(listUser):
     user = User()
@@ -112,7 +112,7 @@ def loginActivity(listUser):
                     user.ID = str(100000)
                 else:
                     user.ID = str(int(listUser[len(listUser) - 1].ID + 1))
-                user.coins = "100000"
+                user.coins = "1000000"
                 user.playTime = "0"
                 user.winrate = "0"
 
@@ -148,7 +148,7 @@ def loginActivity(listUser):
         pygame.display.flip()
 
 
-def LoadUserHistory(user):
+def LoadUserHistory(user, history):
     ReadHistoryData.GetAllHistoryData(user.ID, history)
     '''
     i = 0
@@ -157,7 +157,7 @@ def LoadUserHistory(user):
         i += 1
     '''
 
-def main_game(listUser, userIndex):
+def main_game(listUser, userIndex, history):
     user = listUser[userIndex]
     timenow = int(round(time.time() * 1000))
     lasttime = timenow
@@ -272,10 +272,11 @@ def main_game(listUser, userIndex):
             if mainpage.btn_history.is_clicked():
                 if not isPressed:
                     if not play:
-                        gameLancher.IS_IN_HISTORY = True
-                        historyPage.setHistory(history)
-                        time.sleep(0.08)
-                        play = False
+                        if(len(history) != 0):
+                            gameLancher.IS_IN_HISTORY = True
+                            historyPage.setHistory(history)
+                            time.sleep(0.08)
+                            play = False
 
                     isPressed = True
             else:
@@ -321,17 +322,27 @@ def main_game(listUser, userIndex):
         ###########################
         ###################
         if gameLancher.IS_IN_HISTORY:
-            if historyPage.btn_back.is_clicked():
-                if not isPressed:
-                    # gameLancher.IS_SIGNED_IN = False
-
-                    gameLancher.IS_IN_HISTORY = False
+            if(len(history) != 0):
+                if pygame.key.get_pressed()[pygame.K_UP]:
+                    historyPage.Up()
                     time.sleep(0.08)
+                    historyPage.setHistory(history)
+                if pygame.key.get_pressed()[pygame.K_DOWN]:
+                    historyPage.Down()
+                    time.sleep(0.08)
+                    historyPage.setHistory(history)
 
-                    isPressed = True
-            else:
-                isPressed = False
-            historyPage.draw()
+                if historyPage.btn_back.is_clicked():
+                    if not isPressed:
+                        # gameLancher.IS_SIGNED_IN = False
+
+                        gameLancher.IS_IN_HISTORY = False
+                        time.sleep(0.08)
+
+                        isPressed = True
+                else:
+                    isPressed = False
+                historyPage.draw(history)
         ###################
         #max_speed = 0
         max_racer = 0
@@ -430,7 +441,7 @@ def main_game(listUser, userIndex):
 
                     history.append(currentPlay)
                     WriteHistoryData.WriteAllHistoryData(user.ID, history)
-                    return main_game(listUser, userIndex)
+                    return main_game(listUser, userIndex, history)
                     return main_game(user)
                     #gameLancher.IS_START_OPTIONS = True
                #if finish:
@@ -506,9 +517,9 @@ def main():
     pygame.mixer.music.play(-1)
     # /music
     user = User()
-    user.ID = "100000"
+    #user.ID = "100000"
     listUser = []
-    listUser.append(user)
+    #listUser.append(user)
     userIndex = 0
     if not gameLancher.IS_SIGNED_IN:
 
@@ -531,8 +542,10 @@ def main():
     #if not gameLancher.IS_PLAYING:
     #	mainActivity()
     #time.sleep(2)
-    LoadUserHistory(user)
-    main_game(listUser, userIndex)
+
+    history = []
+    LoadUserHistory(user, history)
+    main_game(listUser, userIndex, history)
 
 
 

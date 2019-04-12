@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2f9a4d5-ed2c-4211-97a9-d88f6d6d2145" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/PythonGame-G15.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PythonGame-G15.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/100000.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/100001.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/setting_preferences" beforeDir="false" afterPath="$PROJECT_DIR$/data/setting_preferences" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/usersData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/usersData.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/pg_history_board.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/pg_history_board.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/Pages.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/Pages.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/global_variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/global_variables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -21,7 +23,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/WARPlayHistory.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1195">
+            <state relative-caret-position="2295">
               <caret line="135" column="32" selection-start-line="135" selection-start-column="32" selection-end-line="135" selection-end-column="32" />
             </state>
           </provider>
@@ -30,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/global_variables.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="414" column="28" selection-start-line="414" selection-start-column="20" selection-end-line="414" selection-end-column="28" />
+            <state relative-caret-position="8534">
+              <caret line="506" column="28" selection-start-line="506" selection-start-column="28" selection-end-line="506" selection-end-column="28" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -42,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/Pages.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1114">
-              <caret line="197" column="40" selection-start-line="197" selection-start-column="32" selection-end-line="197" selection-end-column="40" />
+            <state relative-caret-position="3706">
+              <caret line="222" column="12" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -54,7 +56,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/WARUserData.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-605">
+            <state relative-caret-position="3332">
               <caret line="196" selection-start-line="196" selection-end-line="196" />
             </state>
           </provider>
@@ -63,8 +65,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/Widgets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3816">
-              <caret line="212" selection-start-line="212" selection-end-line="212" />
+            <state relative-caret-position="3553">
+              <caret line="211" selection-start-line="211" selection-end-line="211" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -75,10 +77,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="399" column="48" lean-forward="true" selection-start-line="399" selection-start-column="48" selection-end-line="399" selection-end-column="48" />
+            <state relative-caret-position="302">
+              <caret line="112" column="21" lean-forward="true" selection-start-line="112" selection-start-column="21" selection-end-line="112" selection-end-column="21" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#1071#2488#0" />
               </folding>
             </state>
           </provider>
@@ -88,8 +91,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>even</find>
-      <find>coin_input</find>
       <find>btn_</find>
       <find>btn_end</find>
       <find>them</find>
@@ -118,6 +119,8 @@
       <find>finish</find>
       <find>racer_play</find>
       <find>DISTANCE</find>
+      <find>btn_pla</find>
+      <find>main_game</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -136,16 +139,15 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="952" />
-    <option name="width" value="977" />
-    <option name="height" value="1088" />
+    <option name="x" value="950" />
+    <option name="width" value="979" />
+    <option name="height" value="1090" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -162,6 +164,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -225,13 +228,13 @@
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14209116" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14200793" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3239625" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3239625" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39892906" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -247,14 +250,29 @@
     </layout>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>249</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self.loginForm.get_rect()" language="Python" />
+        <watch expression="user.password" language="Python" />
       </configuration>
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>user.password</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>self.loginForm.get_rect()</expression-string>
         <language-id>Python</language-id>
@@ -264,56 +282,57 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://C:/Program Files (x86)/Python37-32/Lib/site-packages/pygame/sprite.py" />
-    <entry file="file://$PROJECT_DIR$/libs/WARUserData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-605">
-          <caret line="196" selection-start-line="196" selection-end-line="196" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/Widgets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3816">
-          <caret line="212" selection-start-line="212" selection-end-line="212" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libs/WARPlayHistory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1195">
+        <state relative-caret-position="2295">
           <caret line="135" column="32" selection-start-line="135" selection-start-column="32" selection-end-line="135" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/Pages.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1114">
-          <caret line="197" column="40" selection-start-line="197" selection-start-column="32" selection-end-line="197" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/global_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="414" column="28" selection-start-line="414" selection-start-column="20" selection-end-line="414" selection-end-column="28" />
+        <state relative-caret-position="8534">
+          <caret line="506" column="28" selection-start-line="506" selection-start-column="28" selection-end-line="506" selection-end-column="28" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/libs/Pages.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="399" column="48" lean-forward="true" selection-start-line="399" selection-start-column="48" selection-end-line="399" selection-end-column="48" />
+        <state relative-caret-position="3706">
+          <caret line="222" column="12" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/WARUserData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3332">
+          <caret line="196" selection-start-line="196" selection-end-line="196" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/Widgets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3553">
+          <caret line="211" selection-start-line="211" selection-end-line="211" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="112" column="21" lean-forward="true" selection-start-line="112" selection-start-column="21" selection-end-line="112" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#1071#2488#0" />
           </folding>
         </state>
       </provider>

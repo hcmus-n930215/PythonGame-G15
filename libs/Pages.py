@@ -199,7 +199,6 @@ class MainPage():
                 return True, list_ip[0].text, int(list_ip[1].text), active_pos
             pygame.display.flip()
 
-
 class SettingPage():
 
     def __init__(self, gameLancher):
@@ -359,11 +358,18 @@ class HistoryPage():
         self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
         self.game = gameLancher
         self.SCREEN = pygame.display.get_surface()
-
+        self.i = 0
 
         #add img
 
-        self.historyForm = pygame.transform.scale(pygame.image.load("img/pg_history_board.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+        self.historyForm = pygame.transform.scale(pygame.image.load("img/pg_history_board.png").convert_alpha(),
+                                                  (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+        self.size = self.historyForm.get_rect().size
+        self.scroll = self.game.load_img("img/ic_scroll.png", self.size[0]*7/150, -1)
+        self.scroll_y = self.GAME_HEIGHT // 4
+        self.scroll_y_step = 0
+        self.scroll_x = self.GAME_WIDTH // 4 + self.size[0] * (1 - 7/150)
+        self.size_scroll = self.scroll.get_rect().size
 
         #add text
         self.btn_back = Button(gameLancher.GAME_WIDTH // 2-100, 450, 100, 100, "Back")
@@ -382,17 +388,47 @@ class HistoryPage():
         self.coinTitle = TextView(self.GAME_WIDTH / 1.6, self.GAME_HEIGHT / 2.6, 100, 50,text="Result", color="#FFFFFF")
 
         pass
-    def setHistory(self,history):
-        for i in range(0,3):
-            self.listRacerTypeText[i] = self.game.load_img("img/"+history[len(history) - (i + 1)].racerType+".png", -1, 50)
-            #self.listRacerNumText[i].setText(history[len(history) - i].racerNum)
-            self.listCoinResultText[i].setText(history[len(history) - (i + 1)].coinResult)
 
-    def draw(self):
+    def Up(self):
+        self.i -= 1
+        self.scroll_y -= self.scroll_y_step
+
+    def Down(self):
+        self.i += 1
+        self.scroll_y += self.scroll_y_step
+
+
+    def setHistory(self, history):
+
+        #ensure self.i is valid
+        if(self.i < 0):
+            self.i = 0
+            self.scroll_y += self.scroll_y_step
+        elif self.i >= len(history):
+            self.i = len(history) - 1
+            self.scroll_y -= self.scroll_y_step
+        # set len of scroll
+        len_h = len(history)
+        if len_h <= 0:
+            len_h = 1
+        self.scroll = pygame.transform.scale(self.scroll, (self.size_scroll[0], int(self.size[1]/len_h)))
+
+        self.scroll_y_step = self.size[1]/len_h
+
+
+        for i in range(0, 3):
+            if(i < len(history)):
+                self.listRacerTypeText[i] = self.game.load_img("img/"+history[len(history) - (self.i + i + 1)].racerType + ".png", -1, 50)
+                #self.listRacerNumText[i].setText(history[len(history) - i].racerNum)
+                self.listCoinResultText[i].setText(history[len(history) - (self.i + i + 1)].coinResult)
+
+
+    def draw(self, history):
         self.SCREEN.blit(self.historyForm, (self.GAME_WIDTH // 4, self.GAME_HEIGHT // 4))
         for i in range(0,3):
-            self.SCREEN.blit(self.listRacerTypeText[i],(self.GAME_WIDTH // 3.5, self.GAME_HEIGHT // 2.6 + (i + 1) * 50))
-            self.listCoinResultText[i].show()
+            if (i < len(history)):
+                self.SCREEN.blit(self.listRacerTypeText[i],(self.GAME_WIDTH // 3.5, self.GAME_HEIGHT // 2.6 + (i + 1) * 50))
+                self.listCoinResultText[i].show()
         self.coinTitle.show()
         self.typeTitle.show()
         self.btn_back.show()
