@@ -2,6 +2,7 @@ from libs.global_variables import *
 from libs.Widgets import *
 from libs.Pages import *
 from libs.WARUserData import *
+from libs.WARPlayHistory import *
 import pygame
 import time
 import time
@@ -9,8 +10,10 @@ import math
 import random
 
 
-def loginActivity(user):
-    listUser = []
+history = []
+
+def loginActivity(listUser):
+    user = User()
     readSuccess = ReadUsersData.GetAllUsersData(listUser)
 
     gameLancher.draw_map(2)
@@ -26,10 +29,10 @@ def loginActivity(user):
     NoneClick = True
 
     #if file is edited
-    if(readSuccess == -1):
-        warning.setText("You have deleted an important file so all your data is lost")
+    #if(readSuccess == -1):
+        ##warning.setText("You have deleted an important file so all your data is lost")
 
-    elif(readSuccess == -2):
+    if (readSuccess == -2):
         warning.setText("You have edit UsersData file so all your data is deleted")
     
     while True:
@@ -59,7 +62,7 @@ def loginActivity(user):
                 elif ((exitCode == -2)):
                     warning.setText("Password is wrong.")
                 else:
-                    print("Dung")
+                    #print("Dung")
                     # btn_signin.setText("XIN CHAO")
                     # welcome user
                     welcome = "Welcome back " + str(user.name)
@@ -72,7 +75,7 @@ def loginActivity(user):
 
                     loginPage.drawLoginPage()
                     pygame.display.flip()
-                    return listUser[exitCode]
+                    return exitCode
         # sign up
         if btn_signup.is_clicked():
 
@@ -122,7 +125,7 @@ def loginActivity(user):
 
                 loginPage.drawLoginPage()
                 pygame.display.flip()
-                return user
+                return len(listUser) - 1
 
             else:
                 warning.setText("Account is already exist.")
@@ -145,7 +148,17 @@ def loginActivity(user):
         pygame.display.flip()
 
 
-def main_game(user):
+def LoadUserHistory(user):
+    ReadHistoryData.GetAllHistoryData(user.ID, history)
+    '''
+    i = 0
+    while(i < len(history)):
+        print(history[i].racerType)
+        i += 1
+    '''
+
+def main_game(listUser, userIndex):
+    user = listUser[userIndex]
     timenow = int(round(time.time() * 1000))
     lasttime = timenow
 
@@ -160,6 +173,7 @@ def main_game(user):
     camera = Camera(gameLancher)
     mainpage = MainPage(gameLancher)
     settingPage = SettingPage(gameLancher)
+    historyPage = HistoryPage(gameLancher)
     infoZone = InfoZone(gameLancher, user)
     finish = False
 
@@ -177,8 +191,12 @@ def main_game(user):
     time_count = 2001
     max_speed = 0
     isScrolling = True
-    COUNT_AMBULET = 0
     coin_input = 0
+    COUNT_AMULET = 0
+    time_amulet_appear = 3
+    count = 6
+    time_amulet = 0
+    racer_play_pos = 0
     while not finish:
         list_area_to_be_update_display = []
         gameLancher.SCREEN.fill(180)
@@ -201,15 +219,19 @@ def main_game(user):
             gameLancher.draw_map(rollback)
         infoZone.drawInfoZone()
         ###########################
-        if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS:
+        if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS and not gameLancher.IS_IN_HISTORY:
             mainpage.drawMainPage()
             if mainpage.btn_start.is_clicked():
                 if not isPressed:
                     if not play:
-                        coin_input, distance = mainpage.drawInitStart(user)
-                        gameLancher.IS_GAME_PLAYING = True
-                        gameLancher.IS_START_OPTIONS = True
-                        gameLancher.DISTANCE = distance
+                        isOK, coin_input, distance, racer_play_pos = mainpage.drawInitStart(user, racers)
+                        if isOK:
+                            gameLancher.IS_GAME_PLAYING = True
+                            gameLancher.IS_START_OPTIONS = True
+                            gameLancher.DISTANCE = distance
+
+                        else:
+                            coin_input = 0
                         time.sleep(0.08)
 
                         #mainpage.btn_start.stop()
@@ -240,6 +262,19 @@ def main_game(user):
                     isPressed = True
             else:
                 isPressed = False
+
+            if mainpage.btn_history.is_clicked():
+                if not isPressed:
+                    if not play:
+                        gameLancher.IS_IN_HISTORY = True
+                        historyPage.setHistory(history)
+                        time.sleep(0.08)
+                        play = False
+
+                    isPressed = True
+            else:
+                isPressed = False
+
         ###################E
         if gameLancher.IS_START_OPTIONS:
             play = True
@@ -278,6 +313,20 @@ def main_game(user):
             else:
                 isPressed = False
         ###########################
+        ###################
+        if gameLancher.IS_IN_HISTORY:
+            if historyPage.btn_back.is_clicked():
+                if not isPressed:
+                    # gameLancher.IS_SIGNED_IN = False
+
+                    gameLancher.IS_IN_HISTORY = False
+                    time.sleep(0.08)
+
+                    isPressed = True
+            else:
+                isPressed = False
+            historyPage.draw()
+        ###################
         #max_speed = 0
         max_racer = 0
         # doan nay chua lam gi ca
@@ -291,11 +340,29 @@ def main_game(user):
         winner = racers[0]
         for r in racers:
             if play:
-                if (COUNT_AMBULET < 6):
-                    r.Amulet_appear()
-                    COUNT_AMBULET += 1
-                if (r.x > r.amulet_x and r.time > 0):
-                    r.active()
+                if (time.clock() > time_amulet_appear and COUNT_AMULET < count):
+                    if not r.exist_amulet:
+                        r.Amulet_appear()
+                    COUNT_AMULET += 1
+
+                    if (COUNT_AMULET == count):
+                        time_amulet_appear += 8
+                        count += 6
+
+                if (r.exist_amulet):
+                    if (r.x > r.amulet_x and r.time > 0):
+                        r.active()
+                        time_amulet = time.clock() + 2
+                elif (r.time > 0):
+                    if (time.clock() < time_amulet):
+                        r.active()
+                    else:
+                        r.kind = 0
+                        r.exist_turn = False
+                else:
+                    r.kind = 0
+                    r.exist_turn = False
+                    r.exist_lucky_amulet=False
                 #else:
                 #    r.update(camera)
 
@@ -327,12 +394,22 @@ def main_game(user):
                 ranking.show_top1 = True
                 if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
                     ranking.y += 3
-                finish_r, temp_user = finish_race(gameLancher, winner, racers[3], user, coin_input)
+                coinResult, finish_r, temp_user = finish_race(gameLancher, winner, racers[racer_play_pos], user, coin_input)
                 if finish_r:
                     gameLancher.IS_GAME_PLAYING = isScrolling
                     play = isScrolling
-                    user = temp_user
+                    #user = temp_user
+                    listUser[userIndex] = temp_user
+                    WriteUsersData.WriteAllUsersData(listUser)
                     # THEM DU LIEU VAO FILE CHO NAY
+                    currentPlay = History()
+                    currentPlay.racerType = str(gameLancher.DEFAULT_RACERS_CODE) + str(racer_play_pos)
+
+                    currentPlay.coinResult = coinResult
+
+                    history.append(currentPlay)
+                    WriteHistoryData.WriteAllHistoryData(user.ID, history)
+                    return main_game(listUser, userIndex)
                     return main_game(user)
                     #gameLancher.IS_START_OPTIONS = True
                #if finish:
@@ -391,21 +468,27 @@ def finish_race(game, racer, player_choose, user, coin_input):
         new_user = User()
         user.cloneTo(temp_user=new_user)
         new_user.coins=current_coin
-        return True, new_user
+        return change_coin, True, new_user
     if gameLancher.btn_play_again.is_clicked():
         gameLancher.IS_GAME_PLAYING = False
         gameLancher.IS_IN_SETTINGS = False
+        gameLancher.IS_IN_HISTORY = False
         new_user = User()
         user.cloneTo(temp_user=new_user)
         new_user.coins = current_coin
-        return True, new_user
-    return False, None
+        return change_coin, True, new_user
+    return change_coin, False, None
 
 def main():
     user = User()
+    user.ID="100000"
+    listUser = []
+    listUser.append(user)
+    userIndex = 0
     if not gameLancher.IS_SIGNED_IN:
 
-        user = loginActivity(user)
+        userIndex = loginActivity(listUser)
+        user = listUser[userIndex]
         '''
         print(user.ID)
 
@@ -423,7 +506,8 @@ def main():
     #if not gameLancher.IS_PLAYING:
     #	mainActivity()
     #time.sleep(2)
-    main_game(user)
+    LoadUserHistory(user)
+    main_game(listUser, userIndex)
 
 
 

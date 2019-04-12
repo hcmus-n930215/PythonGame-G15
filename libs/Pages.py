@@ -30,7 +30,7 @@ class LoginPage():
         self.btn_signin = Button(self.GAME_WIDTH / 3.2, self.GAME_HEIGHT / 1.656, 100, 100, "Sign in")
         self.btn_signup = Button(self.GAME_WIDTH / 1.75, self.GAME_HEIGHT / 1.656, 100, 100, "Sign up")
         self.OKText = Button(self.GAME_WIDTH / 2.05, self.GAME_HEIGHT / 2.43, 10, 10, "OK")
-        self.warningText = Button(self.GAME_WIDTH / 2.9, self.GAME_HEIGHT / 1.9, 100, 100, "")
+        self.warningText = Button(self.GAME_WIDTH / 3.1, self.GAME_HEIGHT / 1.9, 100, 100, "")
         pass
 
     def drawLoginPage(self):
@@ -82,72 +82,95 @@ class MainPage():
 
         #load screen from main
         self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
-
+        self.GAME = gameLancher
         self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
         self.GAME_WIDTH =  gameLancher.GAME_WIDTH
         self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
 
         self.SCREEN = pygame.display.get_surface()
+        self.loginForm = gameLancher.load_img("img/pg_mainpage_no_title.png", -1, self.GAME_HEIGHT // 2)
 
-        self.TITLE = Button(400,200,0,0,"MAIN MENU")
+        self.TITLE = Button(self.GAME_WIDTH // 5 + self.loginForm.get_rect().w//3, self.GAME_HEIGHT // 5 + 20, 0, 0, text="MAIN MENU")
         #add img
         #self.IC_RACETRACK = gameLancher.IC_RACETRACK
         #self.loginForm = gameLancher.load_img("img/pg_loginForm.png", 0.5, 0.5)
-        self.loginForm = pygame.transform.scale(pygame.image.load("img/pg_mainpage_no_title.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+
         #self.wrongPass = pygame.transform.scale(pygame.image.load("img/pg_wrongPass.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
         #self.accNotExist = pygame.transform.scale(pygame.image.load("img/pg_notExistAccount.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
 
         #add text
         #self.userNameInput = InputBox(self.GAME_WIDTH / 2.5, self.GAME_HEIGHT / 2.6, 100, 50)
         #self.passWordInput = InputBox(self.GAME_WIDTH / 2.5, self.GAME_HEIGHT / 2.1, 100, 50)
-
-        self.btn_start = Button(gameLancher.GAME_WIDTH // 2, 250, 100, 100, "START")
+        '''
+        self.btn_start = Button(gameLancher.GAME_WIDTH // 2 - 30, 200, 100, 100, "START")
+        self.btn_setting = Button(gameLancher.GAME_WIDTH // 2 - 30, 300, 100, 100, "SETTING")
+        self.btn_exit = Button(gameLancher.GAME_WIDTH // 2 - 30, 400, 100, 100, "LOG OUT")
+        
+        
         self.btn_start.setSurface(gameLancher.SCREEN)
-        self.btn_setting = Button(gameLancher.GAME_WIDTH // 2, 350, 100, 100, "SETTING")
-        self.btn_exit = Button(gameLancher.GAME_WIDTH // 2, 450, 100, 100, "LOG OUT")
         self.button = (self.btn_start, self.btn_setting, self.btn_exit)
+        '''
+        self.btn_start = Button(gameLancher.GAME_WIDTH // 2, 200, 100, 100, "START")
+        self.btn_setting = Button(gameLancher.GAME_WIDTH // 2, 275, 100, 100, "SETTING")
+        self.btn_history = Button(gameLancher.GAME_WIDTH // 2, 350, 100, 100, "HISTORY")
+        self.btn_exit = Button(gameLancher.GAME_WIDTH // 2, 425, 100, 100, "LOG OUT")
+        self.button = (self.btn_start, self.btn_setting, self.btn_exit, self.btn_history)
+        self.pos_form = (self.GAME_WIDTH // 5, self.GAME_HEIGHT // 5)
         #self.OKText = Button(self.GAME_WIDTH / 2.05, self.GAME_HEIGHT / 2.43, 10, 10, "OK")
         pass
 
     def drawMainPage(self):
         self.TITLE.setText("MAIN MENU")
-        self.SCREEN.blit(self.loginForm, (self.GAME_WIDTH // 4, self.GAME_HEIGHT // 4))
+        self.SCREEN.blit(self.loginForm, self.pos_form)
+        self.TITLE.show()
         for btn in self.button:
             btn.show()
         pass
-    def drawInitStart(self, user):
+    def drawInitStart(self, user, racers):
         self.TITLE.setText("CONFIGURING INIT")
 
-        btn_save = Button(500, 450, 100, 100, "LET'S GO!")
+        btn_save = Button(400, 400, 100, 100, "LET'S GO!")
+        btn_back = Button(700, 400, 100, 100, "BACK!")
         list_tv = []
         list_ip = []
 
         for i in range(1,3):
-            list_tv.append(Button(self.GAME_WIDTH / 6 * 2 - self.GAME_WIDTH / 20,
-                                  self.GAME_HEIGHT / 4 + self.GAME_HEIGHT / 10 * i +15, 0, 0, ""))
-            list_ip.append(InputBox(self.GAME_WIDTH / 6 * 3 - self.GAME_WIDTH / 20,
-                                  self.GAME_HEIGHT / 4 + self.GAME_HEIGHT / 10 * i, 200, 50, "", isdigit=True))
+            list_tv.append(Button(self.GAME_WIDTH / 20 * 9 - self.GAME_WIDTH / 20,
+                                  self.GAME_HEIGHT / 4 + self.GAME_HEIGHT / 8 * i + 15, 0, 0, ""))
+            list_ip.append(InputBox(self.GAME_WIDTH / 20 * 12 - self.GAME_WIDTH / 20,
+                                  self.GAME_HEIGHT / 4 + self.GAME_HEIGHT / 8 * i, 200, 50, "", isdigit=True))
+
+
         list_tv[0].setText("Enter coins:")
         list_tv[1].setText("Range of map:")
         # add warning text
+
         list_tv.append(Button(self.GAME_WIDTH / 6 * 2 - self.GAME_WIDTH / 20,
                                   self.GAME_HEIGHT / 4 + self.GAME_HEIGHT / 10 * 3 + 30, 0, 0, ""))
-        '''
-        list_tv = (Button(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20, self.GAME_HEIGHT / 4 * 3 + self.GAME_HEIGHT / 20,
-                          0, 0, "PLAY AGAIN"),
-                   Button(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20, self.GAME_HEIGHT / 4 * 3 + self.GAME_HEIGHT / 20,
-                          0, 0, "PLAY AGAIN"),
-                   Button(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20, self.GAME_HEIGHT / 4 * 3 + self.GAME_HEIGHT / 20,
-                          0, 0, "PLAY AGAIN"))
-        '''
+        list_imgRacer = []
+        imgArrow = self.GAME.load_img("img/arrow.png", 50, -1)
+        for i in range(0,6):
+            list_imgRacer.append(ImageView(self.GAME, self.pos_form[0]+30,self.pos_form[1]+(racers[i].img.get_rect().h+3)*(i+1)  ,-1,40,
+                                   racers[i].ic_name))
 
+
+        list_imgRacer[0].setActive(True)
+
+        active_pos = 0
         while True:
 
-            self.SCREEN.blit(self.loginForm, (self.GAME_WIDTH // 4, self.GAME_HEIGHT // 4))
+            self.SCREEN.blit(self.loginForm, (self.GAME_WIDTH // 5, self.GAME_HEIGHT // 5))
             for tv in list_tv:
                 tv.show()
+            self.SCREEN.blit(imgArrow, (self.pos_form[0]+90,self.pos_form[1]+(racers[active_pos].img.get_rect().h+3)*(active_pos+1)))
             for ip in list_ip:
                 ip.draw(self.SCREEN)
+            for rc in list_imgRacer:
+                rc.draw(self.SCREEN)
+                if rc.is_clicked():
+                    list_imgRacer[active_pos].setActive(False)
+                    active_pos = list_imgRacer.index(rc)
+                    rc.setActive(True)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -158,7 +181,9 @@ class MainPage():
 
             self.TITLE.show()
             btn_save.show()
-
+            btn_back.show()
+            if btn_back.is_clicked():
+                return False, None, None, active_pos
             if btn_save.is_clicked():
                 if len((list_ip[0].text))==0 or len((list_ip[1].text))==0:
                     list_tv[2].setText("Please enter data to the box")
@@ -170,8 +195,9 @@ class MainPage():
                     list_tv[2].setText("Please enter distance between 1000 and 7000")
                     continue
                 # return coin - distance
-                return list_ip[0].text, int(list_ip[1].text)
+                return True, list_ip[0].text, int(list_ip[1].text), active_pos
             pygame.display.flip()
+
 
 class SettingPage():
 
@@ -211,7 +237,7 @@ class SettingPage():
         img_info = []
         for i in range(0, 4):
 
-            self.LIST_RC.append(ImageView(150 * (i % 3) + self.GAME_WIDTH / 3, 100 * (i // 3) + self.GAME_HEIGHT / 3, 60, 60, "img/" + self.listRacer[i] + "1.png"))
+            self.LIST_RC.append(ImageView(self.GAME, 150 * (i % 3) + self.GAME_WIDTH / 3, 100 * (i // 3) + self.GAME_HEIGHT / 3, 60, 60, "img/" + self.listRacer[i] + "1.png"))
             #img_info.append(Button(320 + 230 * i, 400, 0, 0, "btn"))
             if self.listRacer[i] == (self.GAME.DEFAULT_RACERS_CODE):
                 self.LIST_RC[i].setActive(True)
@@ -249,7 +275,7 @@ class SettingPage():
         img_info = []
         for i in range(0,2):
 
-            self.LIST_BG.append(ImageView(320+230*i,250,0.1,0.1, "img/Background"+str(i)+".png"))
+            self.LIST_BG.append(ImageView(self.GAME, 320+230*i,250,0.1,0.1, "img/Background"+str(i)+".png"))
             img_info.append(Button(320+230*i,400,0,0,"btn"))
             if i == int(self.GAME.DEFAULT_MAP_CODE):
                 self.LIST_BG[i].setActive(True)
@@ -321,6 +347,55 @@ class InfoZone():
         self.coin.show()
 
 
+class HistoryPage():
+    def __init__(self, gameLancher):
 
+        #load screen from main
+        self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
+
+        self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
+        self.GAME_WIDTH =  gameLancher.GAME_WIDTH
+        self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
+        self.game = gameLancher
+        self.SCREEN = pygame.display.get_surface()
+
+
+        #add img
+
+        self.historyForm = pygame.transform.scale(pygame.image.load("img/pg_history_board.png"), (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2))
+
+        #add text
+        self.btn_back = Button(gameLancher.GAME_WIDTH // 2-100, 450, 100, 100, "Back")
+
+        self.listRacerTypeText = []
+        #self.listRacerNumText = []
+        self.listCoinResultText = []
+        i = 0
+        while i < 5:
+            self.listRacerTypeText.append(gameLancher.load_img("img/rc_snail1.png", -1, 50))
+            self.listCoinResultText.append(TextView(self.GAME_WIDTH / 1.6, self.GAME_HEIGHT / 2.6 + (i + 1) * 50, 100, 50, color="#FFFFFF"))
+            i += 1
+        # set title
+        self.typeTitle = TextView(self.GAME_WIDTH / 3.5, self.GAME_HEIGHT / 2.6, 100, 50, text="Type", color="#FFFFFF")
+        #self.listRacerNumText[0].setText("Number")
+        self.coinTitle = TextView(self.GAME_WIDTH / 1.6, self.GAME_HEIGHT / 2.6, 100, 50,text="Result", color="#FFFFFF")
+
+        pass
+    def setHistory(self,history):
+        for i in range(0,3):
+            self.listRacerTypeText[i] = self.game.load_img("img/"+history[len(history) - (i + 1)].racerType+".png", -1, 50)
+            #self.listRacerNumText[i].setText(history[len(history) - i].racerNum)
+            self.listCoinResultText[i].setText(history[len(history) - (i + 1)].coinResult)
+
+    def draw(self):
+        self.SCREEN.blit(self.historyForm, (self.GAME_WIDTH // 4, self.GAME_HEIGHT // 4))
+        for i in range(0,3):
+            self.SCREEN.blit(self.listRacerTypeText[i],(self.GAME_WIDTH // 3.5, self.GAME_HEIGHT // 2.6 + (i + 1) * 50))
+            self.listCoinResultText[i].show()
+        self.coinTitle.show()
+        self.typeTitle.show()
+        self.btn_back.show()
+       # pygame.display.flip()
+        pass
 
         

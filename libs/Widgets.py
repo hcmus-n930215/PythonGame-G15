@@ -1,4 +1,5 @@
 from colormap.colors import hex2rgb
+from libs.global_variables import *
 import pygame
 
 class Button(pygame.sprite.Sprite):
@@ -39,18 +40,19 @@ class Button(pygame.sprite.Sprite):
     pass
 
 class TextView():
-    def __init__(self, startX, startY, width, height, text="TextView", inUse = False) -> None:
+    def __init__(self, startX, startY, width, height, text="TextView", inUse = False, color="#B33333") -> None:
         self.startX = startX
         self.startY = startY
         self.width = width
         self.height = height
         self.text = text
+        self.color = color
         self.inUse = inUse
         self.rect = pygame.Rect(self.startX, self.startY, self.width, self.height)
 
         super().__init__()
     def show(self):
-        showText(self.startX, self.startY, self.width, self.height, self.text, color="#B33333", bgrColor="#131313")
+        showText(self.startX, self.startY, self.width, self.height, self.text, color=self.color, bgrColor="#131313")
     def hide(self):
         showText(self.startX, self.startY, self.width, self.height, self.text, color="#FFFFFF")
     def setText(self, text=""):
@@ -148,13 +150,14 @@ class InputBox:
         # Blit the rect.
         pygame.draw.rect(screen, self.color, self.rect, 2)
 
-class ImageView:
+class ImageView():
 
-    def __init__(self, x, y, w, h, img_link):
+    def __init__(self, game, x, y, w, h, img_link):
         self.x = x
         self.y = y
         self.color = COLOR_INACTIVE
-        self.IMAGE = load_img(img_link, w,h)
+        self.game = game
+        self.IMAGE = self.game.load_img(img_link, w,h)
         self.rect = self.IMAGE.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
@@ -171,7 +174,7 @@ class ImageView:
         # Blit the image.
         screen.blit(self.IMAGE, (self.x, self.y))
         # Blit the rect.
-        pygame.draw.rect(screen, self.color, self.rect, 3)
+        pygame.draw.rect(screen, self.color, self.rect, 2)
 
 
 
@@ -205,12 +208,5 @@ def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", col
 
     screen.blit(text, textRect)
 
-def load_img(link, scale_x, scale_y):
-    img = pygame.image.load(link).convert_alpha()
-    if scale_x <= 2 and scale_y <= 2:
-        size = img.get_rect().size
-        scale_x = int(size[0] * scale_x)
-        scale_y = int(size[1] * scale_y)
-    img = pygame.transform.scale(img, (scale_x, scale_y))
-    return img
+
 
