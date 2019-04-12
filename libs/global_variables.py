@@ -37,10 +37,12 @@ class INIT_GAME():
         self.IC_RACETRACK = self.load_img("img/ic_way.png", 200, 150)
         self.IC_GRASS = self.load_img("img/ic_grass.png", 80, 80)
         self.IC_RANK = self.load_img("img/ic_rank.png", 0.8, 0.8)
-
+        # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
         self.IC_MINIMAP = self.load_img("img/minimap.png", 300, 50)
         self.IC_POINT_B = self.load_img("img/point_blue.png", 11, 11)
         self.IC_POINT_R = self.load_img("img/point_red.png", 11, 11)
+        self.IC_MINIMAP_CAMERA = self.load_img("img/minimap_camera.png",38,21)
+
         self.IC_STONE = self.load_img("img/ic_stone.png", 100, 100)
         self.IC_CAMERA = (self.load_img("img/camera0.png", 0.8, 0.8),
                           self.load_img("img/camera1.png", 0.8, 0.8),
@@ -451,12 +453,15 @@ class Minimap():
         self.img_b_point = game.IC_POINT_B
         self.size_p = self.img_b_point.get_rect().size
         self.img_r_point = game.IC_POINT_R
+        self.img_camera = game.IC_MINIMAP_CAMERA
+        self.size_c = self.img_camera.get_rect().size
         self.x = game.GAME_WIDTH/2 - self.size[0]/2
         self.y = game.GAME_HEIGHT/10*9
 
-    def update(self, racers, play_choose):
+    def update(self, racers, play_choose, camera_follow):
         self.game.SCREEN.blit(self.img_minimap, (self.x, self.y))
         a = self.game.GAME_WIDTH/3
+
         for r in racers:
             if r.num != play_choose:
                 x = self.x + self.size[0] * (1 - (self.game.DISTANCE - r.x) / (self.game.DISTANCE_DEFAULT - a)) - \
@@ -469,4 +474,10 @@ class Minimap():
                     self.size_p[0] / 2
                 y = self.y + self.size[1] / 2
                 self.game.SCREEN.blit(self.img_r_point, (x, y))
+        for r in racers:
+            if r.num == camera_follow:
+                x = self.x + self.size[0] * (1 - (self.game.DISTANCE - r.x) / (self.game.DISTANCE_DEFAULT - a)) - \
+                    self.size_p[0] / 2 - self.size_c[0]/2 + self.size_p[0]/2
+                y = self.y + self.size[1] / 2 - self.size_c[1]/2 + self.size_p[1]/2
+                self.game.SCREEN.blit(self.img_camera, (x, y))
     pass

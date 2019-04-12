@@ -301,7 +301,7 @@ def main_game():
 
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
-            minimap.update(racers, 3)
+            minimap.update(racers, 3, camera.follow) # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
             camera.update(racers[camera.follow])
 
         if play:
