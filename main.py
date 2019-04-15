@@ -253,7 +253,7 @@ def main_game(listUser, userIndex, history):
                     shoppage.DrawShop()
                     if shoppage.BTN_BUY.is_clicked() and not shoppage.buy:
                         shoppage.buy = True
-                    if not shoppage.use_lucky:
+                    if not shoppage.buy:
                         for event in pygame.event.get():
                             if event.type == pygame.QUIT:
                                 pygame.quit()
@@ -264,8 +264,10 @@ def main_game(listUser, userIndex, history):
                         pygame.display.flip()
                     else:
                         shoppage.addmoney = shoppage.add_money.text
-                    if not shoppage.add and shoppage.use_lucky:
+                    if not shoppage.add and shoppage.buy:
                         user.coins = str(int(shoppage.addmoney) + int(user.coins))
+                        print(shoppage.addmoney)
+                        print(user.coins)
                         shoppage.add = True
                     if shoppage.BTN_ARROW.is_clicked():
                         shoppage.tag = 1
