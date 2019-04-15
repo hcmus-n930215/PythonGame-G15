@@ -176,7 +176,7 @@ def main_game(listUser, userIndex, history):
     settingPage = SettingPage(gameLancher)
     historyPage = HistoryPage(gameLancher)
     shoppage = Shoppage(gameLancher, user)
-    infoZone = InfoZone(gameLancher, user)
+
     finish = False
 
     #subScreen = []
@@ -220,6 +220,7 @@ def main_game(listUser, userIndex, history):
                 # rollback -= gameLancher.ROLLBACK_STEP
                 rollback += camera.delta
             gameLancher.draw_map(rollback)
+        infoZone = InfoZone(gameLancher, user)
         infoZone.drawInfoZone()
         ###########################
         if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS and not gameLancher.IS_IN_HISTORY:
