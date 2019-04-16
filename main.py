@@ -179,7 +179,7 @@ def main_game(listUser, userIndex, history):
     mainpage = MainPage(gameLancher)
     settingPage = SettingPage(gameLancher)
     historyPage = HistoryPage(gameLancher)
-    infoZone = InfoZone(gameLancher, user)
+    shoppage = Shoppage(gameLancher, user)
     finish = False
 
     #subScreen = []
@@ -203,11 +203,9 @@ def main_game(listUser, userIndex, history):
     count = 6
     time_amulet = 0
     racer_play_pos = 0
-
     use_lucky = False
     use_shield = False
-    used_shield = False
-    used_lucky = False
+
 
     while not finish:
 
@@ -234,23 +232,107 @@ def main_game(listUser, userIndex, history):
 
 
             gameLancher.draw_map(rollback)
-        infoZone.drawInfoZone()
         ###########################
-        if play and use_shield:
-            gameLancher.IC_SHIELD.draw(gameLancher.SCREEN)
-            if gameLancher.IC_SHIELD.is_clicked() and not used_shield:
-                used_shield = True
-                # BAT KHIEN TAI DAY
-                print("SHIELD CLICKED!")
-        if use_shield and used_shield:
-            gameLancher.IC_USED_SHIELD.draw(gameLancher.SCREEN)
+
+        if play and use_shield :
+            rc = racers[racer_play_pos]
+
+            if rc.button_shield_amulet :
+                # Tạo nút shield
+                rc.INFOR_DISPLAY = pygame.display.Info()
+                rc.SCREEN_SIZE = (rc.INFOR_DISPLAY.current_w, rc.INFOR_DISPLAY.current_h)
+                rc.GAME_WIDTH = int(rc.SCREEN_SIZE[1])
+                rc.GAME_HEIGHT = int(rc.GAME_WIDTH / 3 * 2)
+                rc.btn_use_shield_amulet = Button(rc.GAME_WIDTH / 2,
+                                                    rc.GAME_HEIGHT / 5,
+                                                    rc.GAME_WIDTH / 10, rc.GAME_HEIGHT / 10, ' ')
+                rc.btn_use_shield_amulet.show()
+                rc.game.SCREEN.blit(rc.IC_shield, (rc.GAME_WIDTH / 2,
+                                                       rc.GAME_HEIGHT / 5))
+            # Xử lí khi nhấp
+            if rc.btn_use_shield_amulet.is_clicked():
+                rc.button_shield_amulet = False
+                rc.exist_shield_amulet = True
+
+
+
+
+
+
+
+            """"# Tạo nút hope
+            rc.INFOR_DISPLAY = pygame.display.Info()
+            rc.SCREEN_SIZE = (rc.INFOR_DISPLAY.current_w, rc.INFOR_DISPLAY.current_h)
+            rc.GAME_WIDTH = int(rc.SCREEN_SIZE[1])
+            rc.GAME_HEIGHT = int(rc.GAME_WIDTH / 3 * 2)
+            rc.btn_use_hope_amulet = Button(rc.GAME_WIDTH / 2 + 2 * (rc.GAME_WIDTH / 5),
+                                              rc.GAME_HEIGHT / 5,
+                                              rc.GAME_WIDTH / 10, rc.GAME_HEIGHT / 10, ' ')
+            rc.btn_use_hope_amulet.show()
+            rc.game.SCREEN.blit(rc.IC_HOPE, (rc.GAME_WIDTH / 2 + 2 * (rc.GAME_WIDTH / 5),
+                                                 rc.GAME_HEIGHT / 5 - 10))
+            if rc.btn_use_hope_amulet.is_clicked():
+                # Xử lí khi nhấp"""
+
+
+
+
+
+
+
+
+
+        #if use_shield and used_shield:
+            #gameLancher.IC_USED_SHIELD.draw(gameLancher.SCREEN)
 
         if play and use_lucky:
-            gameLancher.IC_LUCKY.draw(gameLancher.SCREEN)
+            rc = racers[racer_play_pos]
+            rc.exist_hope_amulet = True
+            use_hope=False
+            user.use_star = True
+
 
 
         show_cusor(30, 300)
         ###################
+
+        if gameLancher.IS_IN_SHOP:
+            shoppage.DrawShop()
+            if not isPressed:
+                if shoppage.BTN_LUCKY.is_clicked() and not shoppage.use_lucky:
+                    shoppage.use_lucky = True
+                    if shoppage.use_lucky:
+                        user.coins = str(int(user.coins) - shoppage.price_lucky)
+                        user.item_lucky = True
+                if shoppage.BTN_SHIELD.is_clicked() and not shoppage.use_shield:
+                    shoppage.use_shield = True
+                    if shoppage.use_shield:
+                        user.coins = str(int(user.coins) - shoppage.price_shield)
+                        user.item_shield = True
+                if shoppage.BTN_BUY.is_clicked() and not shoppage.buy:
+                    shoppage.buy = True
+                if not shoppage.buy:
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            exit(0)
+                        shoppage.add_money.handle_event(event)
+                    shoppage.add_money.draw(gameLancher.SCREEN)
+                    pygame.display.flip()
+                else:
+                    shoppage.addmoney = shoppage.add_money.text
+                if not shoppage.add and shoppage.buy:
+                    user.coins = str(int(shoppage.addmoney) + int(user.coins))
+                    print(shoppage.addmoney)
+                    print(user.coins)
+                    shoppage.add = True
+                if shoppage.BTN_BACK.is_clicked():
+                    gameLancher.IS_IN_SHOP = False
+                isPressed = True
+            else:
+                isPressed = False
+        infoZone = InfoZone(gameLancher, user)
+        infoZone.drawInfoZone()
         if gameLancher.IS_IN_SETTINGS:
             settingPage.drawSettingPage()
             if settingPage.btn_setplayer.is_clicked():
@@ -339,7 +421,14 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
-
+            if mainpage.btn_store.is_clicked():
+                if not isPressed:
+                    if not play:
+                        gameLancher.IS_IN_SHOP = True
+                        play = False
+                    isPressed = True
+            else:
+                isPressed = False
             if mainpage.btn_history.is_clicked():
                 if not isPressed:
                     if not play:
@@ -416,10 +505,11 @@ def main_game(listUser, userIndex, history):
                     else:
                         r.kind = 0
                         r.exist_turn = False
+
                 else:
                     r.kind = 0
                     r.exist_turn = False
-                    r.exist_lucky_amulet=False
+
                 #else:
                 #    r.update(camera)
 
@@ -515,6 +605,8 @@ def finish_race(game, racer, player_choose, user, coin_input):
         game.SCREEN.blit(game.IC_WIN,
                          (game.GAME_WIDTH / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
         # set win state include VAT 10%
+        if user.use_star:
+            change_coin = change_coin*3
         current_coin = str(last_coin+change_coin-change_coin//10)
         last_coin = str(last_coin)
         change_coin = "+" + str(change_coin-change_coin//10)
@@ -522,6 +614,8 @@ def finish_race(game, racer, player_choose, user, coin_input):
         game.SCREEN.blit(game.IC_LOSE,
                          (game.GAME_WIDTH / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
         # set lose state
+        if user.use_star:
+            change_coin = int(change_coin*(0.5))
         current_coin = str(max(last_coin-change_coin, 0))
         change_coin = "-" + str(last_coin-int(current_coin))
         last_coin = str(last_coin)

@@ -72,6 +72,7 @@ class INIT_GAME():
         self.IS_GAME_ENDED = False
         self.IS_START_OPTIONS = False
         self.IS_IN_HISTORY = False
+        self.IS_IN_SHOP = False
         self.IS_IN_SETTINGS = False
         # Dieu chinh quang duong dua
         # Length of road
@@ -252,14 +253,6 @@ class Amulet(pygame.sprite.Sprite):
 
 
 
-    """def teleport_amulet(self):
-        Bua toc bien
-        i=0
-        while (i<25):
-            self.x += random.randrange(3, 6)
-            i += 1
-        self.time = 0"""
-
     def win_amulet(self):                       #6
         """Bua bay thang den dich"""
         self.x = self.game.DISTANCE
@@ -280,50 +273,62 @@ class Amulet(pygame.sprite.Sprite):
 
     def active(self):
         if(self.kind ==  1):
-            if(self.exist_lucky_amulet != True):
+            if(self.exist_shield_amulet != True):
                 self.stop_amulet()
+                self.exist_IC_SAD=True
             else:
-                self.exist_lucky_amulet = False #Khong con bua may man
-
+                self.kind = 0
+                self.exist_shield_amulet = False
         elif(self.kind ==  2):
-            if (self.exist_lucky_amulet != True):
+            if (self.exist_shield_amulet != True):
                 self.slow_amulet()
+                self.exist_IC_SAD=True
             else:
-                self.exist_lucky_amulet = False  # Khong con bua may man
-
+                self.kind=0
+                self.exist_shield_amulet = False
         elif (self.kind == 3):
             self.fast_amulet()
+            self.exist_IC_HAPPY = True
 
         elif (self.kind == 4):
-            if (self.exist_lucky_amulet != True):
+            if (self.exist_shield_amulet != True):
                 self.return_start_amulet()
+                self.exist_IC_SAD = True
             else:
-                self.exist_lucky_amulet = False  # Khong con bua may man
+                self.kind = 0
+                self.exist_shield_amulet = False
+
 
         elif (self.kind == 5):
             self.teleport_amulet()
+            self.IC_HAPPY = True
 
         elif (self.kind == 6):
             self.win_amulet()
+            self.exist_IC_HAPPY = True
 
         elif (self.kind == 7):
-            if (self.exist_lucky_amulet != True):
+            if (self.exist_shield_amulet != True):
                 self.turnback_amulet()
+                self.exist_IC_SAD = True
             else:
-                self.exist_lucky_amulet = False  # Khong con bua may man
+                self.kind = 0
+                self.exist_shield_amulet = False
 
         self.exist_amulet = False
 
     def Amulet_appear(self):
-        object=[True,False]
+        object=[True]
         list_amulet=[1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3,4,5,5,5,7,7,7,6]
         self.exist_amulet=random.choice(object)
         self.amulet_x = self.x + random.randrange(300, 700)
-        if self.amulet_x > self.game.DISTANCE-100:
+        if self.amulet_x > self.game.DISTANCE-500:
             self.exist_amulet = False
         if  self.exist_amulet == True:
             self.kind = random.choice(list_amulet)
             self.time=100
+        else:
+            self.kind=0
 
 
 
@@ -336,16 +341,6 @@ class Amulet(pygame.sprite.Sprite):
             elif (self.kind == 2):
                 self.game.SCREEN.blit(self.IC_SLOW, (self.amulet_x + rollback, self.y))
             elif (self.kind == 3):
-                """
-                self.INFOR_DISPLAY = pygame.display.Info()
-                self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
-                self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
-                self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
-                self.size_amulet = self.IC_FAST.get_rect().size
-                self.IC_FAST = pygame.transform.scale(self.IC_FAST, (int(self.size_amulet[0] * (self.GAME_WIDTH / 1280)),
-                                                             int(self.size_amulet[1] * (self.GAME_HEIGHT / 720))))
-                self.game.SCREEN.blit(self.IC_FAST, (self.amulet_x + rollback, self.y))
-                """
                 self.game.SCREEN.blit(self.IC_FAST_RESIZE, (self.amulet_x + rollback, self.y))
             elif (self.kind == 4):
                 self.game.SCREEN.blit(self.IC_RETURN_START, (self.amulet_x + rollback, self.y))
@@ -389,10 +384,18 @@ class Racer(Amulet):
         self.IC_TELEPORT = game.load_img("img/ic_amulet" + "5" + ".png", 55, 57)
         self.IC_WIN = game.load_img("img/ic_amulet" + "6" + ".png", 55, 57)
         self.IC_TURNBACK = game.load_img("img/ic_amulet" + "7" + ".png", 55, 57)
-        self.exist_lucky_amulet = False
         self.exist_amulet = False
-        self.exist_turn=False
-        self.exist_hope_start = False
+        self.exist_turn = False
+        self.IC_HOPE = pygame.transform.scale(pygame.image.load("img/ic_hope.png"), (80, 80))
+        self.IC_shield = pygame.transform.scale(pygame.image.load("img/ic_shield.png"), (60, 60))
+        self.item_hope_amulet = 1
+        self.item_shield_amulet = 1
+        self.exist_shield_amulet = False
+        self.exist_hope_amulet = False
+        self.kind=0
+        self.button_shield_amulet = True
+
+
 
 
 
@@ -559,8 +562,11 @@ class User():
         self.winrate = "0"
         self.playTime = "0"
         self.coins = coin
-        self.item_lucky_star=0
-        self.item_hope_star=0
+        self.use_star = False
+        self.item_lucky = False
+        self.item_shield = False
+
+
     def cloneTo(self,temp_user):
         temp_user.ID = self.ID
         temp_user.name = self.name
@@ -575,26 +581,6 @@ class User():
     def addmoney(self, money):
         """ Nap them tien """
 
-    def choose(self, racer_num):
-        """ Chon racer thang """
-        # tạo 1 nút hỏi người chơi có dùng ngôi sao may mắn k
-        # racer_num.exist_lucky_star
-        # if(self.pay == self.money/2):
-        # tạo 1 nút hỏi người chơi có sử dụng ngôi sao hi vọng không
-        # Nếu có thì racer_num.exist_hope_star = True
-        """
-        self.INFOR_DISPLAY = pygame.display.Info()
-            self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
-            self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
-            self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
-            self.btn_use_lucky_amulet = Button(self.GAME_WIDTH / 2 + self.GAME_WIDTH / 12,
-                                           self.GAME_HEIGHT / 5,
-                                           self.GAME_WIDTH / 10, self.GAME_HEIGHT / 10,
-                                           "USE LUCKY AMULET")
-            self.btn_use_lucky_amulet.show()
-            if self.btn_use_lucky_amulet.is_clicked():
-
-        """
 
     def win(self, racer_num):
         """ Thang """
