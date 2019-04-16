@@ -84,7 +84,7 @@ class INIT_GAME():
         self.DEFAULT_RACERS_CODE = 1
         # List of sound: backgr, playing, result
         # 0 is off, 1 is on
-        self.DEFAULT_SOUND_CODE = (1, 1, 1)
+        self.DEFAULT_SOUND_CODE = 1 #(1, 1, 1)
 
         self.load_setting_pref()
         super().__init__()
@@ -214,31 +214,21 @@ class Amulet(pygame.sprite.Sprite):
         self.kind = kind
         self.game = game
 
-
-
-
     def stop_amulet(self):                      #1
         """Bua dung"""
         self.speed = 0
         self.x += self.speed
-
-
-
-
 
     def slow_amulet(self):                      #2
         """Bua giam toc"""
         self.speed=0.75
         self.x+=self.speed
 
-
-
     def fast_amulet(self):                      #3
         """Bua tang toc"""
         self.speed = 2
         self.x += self.speed
         self.time-=2
-
 
     def return_start_amulet(self):              #4
         """Bua quay ve vi tri xuat phat"""
@@ -249,8 +239,6 @@ class Amulet(pygame.sprite.Sprite):
         """Bua toc bien"""
         self.x += 200
         self.time = 0
-
-
 
     """def teleport_amulet(self):
         Bua toc bien
@@ -270,13 +258,7 @@ class Amulet(pygame.sprite.Sprite):
         self.speed = -1
         self.x += self.speed
         self.time-=2
-
-
-
-
         self.exist_turn = True
-
-
 
     def active(self):
         if(self.kind ==  1):

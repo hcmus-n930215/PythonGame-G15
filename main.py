@@ -275,6 +275,12 @@ def main_game(listUser, userIndex, history):
             if settingPage.btn_modsound.is_clicked():
                 gameLancher.DEFAULT_SOUND_CODE = settingPage.drawOptionSound()
                 # save DEFAULT_SOUND_CODE  to setting_pref
+                # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+                if gameLancher.DEFAULT_SOUND_CODE:
+                    pygame.mixer.music.load("sound/theme_song_cut.mp3")
+                    pygame.mixer.music.play(-1)
+                else:
+                    pygame.mixer.music.stop()
                 gameLancher.update_setting_pref()
 
                 # refresh sound option from setting to main_game
@@ -302,8 +308,10 @@ def main_game(listUser, userIndex, history):
                         if isOK:
                             gameLancher.IS_GAME_PLAYING = True
                             gameLancher.IS_START_OPTIONS = True
+                            #newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
                             pygame.mixer.music.load("sound/fast_lane.mp3")
-                            pygame.mixer.music.play(-1)
+                            if gameLancher.DEFAULT_SOUND_CODE:
+                                pygame.mixer.music.play(-1)
                             gameLancher.DISTANCE = distance
                             gameLancher.DISTANCE_DEFAULT = distance
 
@@ -445,15 +453,18 @@ def main_game(listUser, userIndex, history):
             if not sound_result:
                 sound_result = True
                 # music
-                pygame.mixer.music.load("sound/theme_song_cut.mp3")
-                pygame.mixer.music.play(-1)
+                # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+                pygame.mixer.music.load("sound/all_stop_now.mp3")
+                if gameLancher.DEFAULT_SOUND_CODE:
+                    pygame.mixer.music.play(-1)
                 # /music
-                if winner.num == racer_play_pos:
-                    sound = pygame.mixer.Sound('sound/win.wav')
-                    sound.play()
-                else:
-                    sound = pygame.mixer.Sound('sound/lose.wav')
-                    sound.play()
+                if gameLancher.DEFAULT_SOUND_CODE:
+                    if winner.num == racer_play_pos:
+                        sound = pygame.mixer.Sound('sound/win.wav')
+                        sound.play()
+                    else:
+                        sound = pygame.mixer.Sound('sound/lose.wav')
+                        sound.play()
             #finish = finish_race(gameLancher, winner, racers[3])
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
@@ -538,11 +549,19 @@ def finish_race(game, racer, player_choose, user, coin_input):
     gameLancher.btn_play_again.show()
 
     if gameLancher.btn_end.is_clicked():
+        # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+        if gameLancher.DEFAULT_SOUND_CODE:
+            pygame.mixer.music.load("sound/theme_song_cut.mp3")
+            pygame.mixer.music.play(-1)
         new_user = User()
         user.cloneTo(temp_user=new_user)
         new_user.coins=current_coin
         return change_coin, True, new_user
     if gameLancher.btn_play_again.is_clicked():
+        # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+        if gameLancher.DEFAULT_SOUND_CODE:
+            pygame.mixer.music.load("sound/theme_song_cut.mp3")
+            pygame.mixer.music.play(-1)
         gameLancher.IS_GAME_PLAYING = False
         gameLancher.IS_IN_SETTINGS = False
         gameLancher.IS_IN_HISTORY = False
@@ -554,8 +573,10 @@ def finish_race(game, racer, player_choose, user, coin_input):
 
 def main():
     # music
-    pygame.mixer.music.load("sound/theme_song_cut.mp3")
-    pygame.mixer.music.play(-1)
+    # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+    if gameLancher.DEFAULT_SOUND_CODE:
+        pygame.mixer.music.load("sound/theme_song_cut.mp3")
+        pygame.mixer.music.play(-1)
     # /music
     user = User()
     #user.ID = "100000"

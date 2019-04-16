@@ -289,27 +289,40 @@ class SettingPage():
             if btn_save.is_clicked():
                 return last_active
             pygame.display.flip()
+
     def drawOptionSound(self):
         self.TITLE.setText("SOUND OPTIONS")
         btn_save = Button(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h - 20, 70, 70, text="SAVE",
                           gravity="center")
 
+        #newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+        btn_change = Button(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h * (1-0.6), 70, 70, text="SOUND",
+                          gravity="center")
+        if self.GAME.DEFAULT_SOUND_CODE == 1 :
+            btn_change.text += " ON"
+        else:
+            btn_change.text += " OFF"
         while True:
             self.GAME.SCREEN.fill(20)
             show_cusor(20,300)
             self.SCREEN.blit(self.settingForm, self.rect)
-
-
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit(0)
             self.TITLE.show()
+            #newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
             btn_save.show()
+            btn_change.show()
             if btn_save.is_clicked():
-                # return something
-                return
+                return btn_change.text == "SOUND ON"
+            if btn_change.is_clicked():
+                if btn_change.text == "SOUND ON":
+                    btn_change.text = "SOUND OFF"
+                else:
+                    btn_change.text = "SOUND ON"
+                time.sleep(0.2)
             pygame.display.flip()
 
 

@@ -19,6 +19,7 @@ class Button(pygame.sprite.Sprite):
         self.color = color
         self.gravity = "top_left"
         self.setGravity(gravity)
+        self.sound_click = pygame.mixer.Sound("sound/click.wav")
 
     def setGravity(self, gravity):
         list_gravity  = ["top_left", "bottom_left", "center", "center_vertical", "center_horizontal", "top_right", "bottom_right",
