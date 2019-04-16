@@ -1,0 +1,1 @@
+racerType = "rc_turtle2" racerNum = "0" coinResult = "-10000" 

@@ -53,6 +53,7 @@ class INIT_GAME():
         self.IC_LUCKY = ImageView(self, self.GAME_WIDTH -  self.GAME_WIDTH//4 + 100, self.GAME_HEIGHT -120, 80, 80, "img/ic_lucky.png")
         self.IC_SHIELD = ImageView(self, self.GAME_WIDTH -  self.GAME_WIDTH//4 , self.GAME_HEIGHT -120, 80, 80, "img/ic_shield.png")
         self.IC_USED_SHIELD = ImageView(self, self.GAME_WIDTH -  self.GAME_WIDTH//4, self.GAME_HEIGHT - 120, 80, -1, "img/ic_used.png")
+        self.IC_PRICE = self.load_img("img/S_price.png", 100,100)
         self.IC_ARROW = self.load_img("img/arrow.png", 50, -1)
         self.IC_TICK = self.load_img("img/ic_tick.png", 50, -1)
         self.IC_PROFILE = self.load_img("img/ic_profile1.png", 50, -1)
@@ -73,6 +74,7 @@ class INIT_GAME():
         self.IS_START_OPTIONS = False
         self.IS_IN_HISTORY = False
         self.IS_IN_SETTINGS = False
+        self.IS_IN_SHOP = False
         # Dieu chinh quang duong dua
         # Length of road
         self.RESTART = False
@@ -559,8 +561,8 @@ class User():
         self.winrate = "0"
         self.playTime = "0"
         self.coins = coin
-        self.item_lucky_star=0
-        self.item_hope_star=0
+        self.item_lucky = 0
+        self.item_shield = 0
     def cloneTo(self,temp_user):
         temp_user.ID = self.ID
         temp_user.name = self.name

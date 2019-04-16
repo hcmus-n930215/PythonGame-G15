@@ -179,7 +179,8 @@ def main_game(listUser, userIndex, history):
     mainpage = MainPage(gameLancher)
     settingPage = SettingPage(gameLancher)
     historyPage = HistoryPage(gameLancher)
-    infoZone = InfoZone(gameLancher, user)
+    shoppage = Shoppage(gameLancher,user)
+
     finish = False
 
     #subScreen = []
@@ -234,23 +235,54 @@ def main_game(listUser, userIndex, history):
 
 
             gameLancher.draw_map(rollback)
-        infoZone.drawInfoZone()
-        ###########################
-        if play and use_shield:
-            gameLancher.IC_SHIELD.draw(gameLancher.SCREEN)
-            if gameLancher.IC_SHIELD.is_clicked() and not used_shield:
-                used_shield = True
-                # BAT KHIEN TAI DAY
-                print("SHIELD CLICKED!")
-        if use_shield and used_shield:
-            gameLancher.IC_USED_SHIELD.draw(gameLancher.SCREEN)
 
-        if play and use_lucky:
-            gameLancher.IC_LUCKY.draw(gameLancher.SCREEN)
+        ###########################
+        if play:
+            if user.item_shield:
+                gameLancher.IC_SHIELD.draw(gameLancher.SCREEN)
+            if gameLancher.IC_SHIELD.is_clicked():
+                user.item_shield = 0
+            if user.item_lucky:
+                gameLancher.IC_LUCKY.draw(gameLancher.SCREEN)
+            if gameLancher.IC_LUCKY.is_clicked():
+                user.item_lucky = 0
 
 
         show_cusor(30, 300)
         ###################
+        if gameLancher.IS_IN_SHOP:
+            shoppage.DrawShop()
+            if shoppage.BTN_LUCKY.is_clicked() and not shoppage.use_lucky:
+                shoppage.use_lucky = True
+                if shoppage.use_lucky:
+                    user.coins = str(int(user.coins) - shoppage.price_lucky)
+                    user.item_lucky = 1
+            if shoppage.BTN_SHIELD.is_clicked() and not shoppage.use_shield:
+                shoppage.use_shield = True
+                if shoppage.use_shield:
+                    user.coins = str(int(user.coins) - shoppage.price_shield)
+                    user.item_shield = 1
+            if shoppage.BTN_BUY.is_clicked() and not shoppage.buy:
+                shoppage.buy = True
+            if not shoppage.buy:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        exit(0)
+                    shoppage.add_money.handle_event(event)
+                shoppage.add_money.draw(gameLancher.SCREEN)
+                pygame.display.flip()
+            else:
+                shoppage.addmoney = shoppage.add_money.text
+            if not shoppage.add and shoppage.buy:
+                user.coins = str(int(shoppage.addmoney) + int(user.coins))
+                print(shoppage.addmoney)
+                print(user.coins)
+                shoppage.add = True
+            if shoppage.BTN_BACK.is_clicked():
+                gameLancher.IS_IN_SHOP = False
+        infoZone = InfoZone(gameLancher, user)
+        infoZone.drawInfoZone()
         if gameLancher.IS_IN_SETTINGS:
             settingPage.drawSettingPage()
             if settingPage.btn_setplayer.is_clicked():
@@ -291,8 +323,7 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
-        ###########################
-        if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS and not gameLancher.IS_IN_HISTORY:
+        if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS and not gameLancher.IS_IN_HISTORY and not gameLancher.IS_IN_SHOP:
             mainpage.drawMainPage()
             if mainpage.btn_start.is_clicked():
                 if not isPressed:
@@ -312,6 +343,15 @@ def main_game(listUser, userIndex, history):
                         time.sleep(0.08)
 
                         #mainpage.btn_start.stop()
+                    isPressed = True
+            else:
+                isPressed = False
+            if mainpage.btn_store.is_clicked():
+                if not isPressed:
+                    if not play:
+                        gameLancher.IS_IN_SHOP = True
+                        time.sleep(0.2)
+                        play = False
                     isPressed = True
             else:
                 isPressed = False
@@ -348,13 +388,9 @@ def main_game(listUser, userIndex, history):
                             historyPage.setHistory(history)
                             time.sleep(0.08)
                             play = False
-
-
                     isPressed = True
             else:
                 isPressed = False
-
-        ###################E
         if gameLancher.IS_START_OPTIONS:
             play = True
             gameLancher.IS_START_OPTIONS = False

@@ -396,6 +396,72 @@ class HistoryPage():
         # show scroll bar
         self.SCREEN.blit(self.scroll, (self.scroll_x, self.scroll_y))
         pass
+class Shoppage():
+    def __init__(self, gameLancher,user):
+        # load screen from main
+        self.INFOR_DISPLAY = gameLancher.INFOR_DISPLAY
+
+        self.SCREEN_SIZE = gameLancher.SCREEN_SIZE
+        self.GAME_WIDTH = gameLancher.GAME_WIDTH
+        self.GAME_HEIGHT = gameLancher.GAME_HEIGHT
+        self.GAME = gameLancher
+        self.SCREEN = pygame.display.get_surface()
+
+        self.SHOP = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME_WIDTH // 2,self.GAME_HEIGHT // 2)
+        self.LUCKY = self.GAME.load_img("img/ic_lucky.png", self.GAME_WIDTH//10, self.GAME_HEIGHT//7)
+        self.SHIELD = self.GAME.load_img("img/ic_shield.png", self.GAME_WIDTH//10, self.GAME_HEIGHT//7)
+        self.PRICE = self.GAME.load_img("img/S_price.png", 100, 25)
+        self.PRICE1 = self.GAME.load_img("img/S_price1.png", 100, 25)
+        self.ADD = self.GAME.load_img("img/S_price.png", 120, 40)
+        self.ADD1 = self.GAME.load_img("img/S_price1.png", 120, 40)
+        self.rect = self.SHOP.get_rect()
+        self.rect.center = (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2)
+
+        self.TITLE = Button(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.0535, 0, 0, text="SHOP",
+                            gravity="center")
+        self.BTN_BUY = Button(600, 450, 120, 40)
+        self.BTN_SHIELD = Button(600,360,100,25)
+        self.BTN_LUCKY = Button(350,360,100,25)
+        self.BTN_BACK = Button(750,500,100,40, "BACK!")
+        self.TITLE1 = TextView(350, 410, 125, 40, "ADD MONEY")
+        self.add_money = InputBox(360, 450, 200, 40, "0", isdigit=True)
+        self.price_lucky = int(int(user.coins) * 0.2)  # Giá bùa may mắn
+        self.Price_lucky = TextView(360,360,100,25,str(self.price_lucky))
+        self.price_shield = int(int(user.coins) * 0.3)
+        self.Price_shield = TextView(610, 360, 100, 25, str(self.price_shield))
+        self.Buy = TextView(610, 450, 120, 40, "BUY")
+        self.use_lucky = False
+        self.use_shield = False
+        self.add = False
+        self.buy = False
+        self.money = 0
+        self.tag = 1
+        pass
+
+    def DrawShop(self):
+        self.TITLE.setText("SHOP")
+        self.SCREEN.blit(self.SHOP, self.rect)
+        self.SCREEN.blit(self.LUCKY, (350,230))
+        self.SCREEN.blit(self.SHIELD, (350+250,230))
+        if self.use_lucky:
+            self.SCREEN.blit(self.PRICE, (350, 360))
+        else:
+            self.SCREEN.blit(self.PRICE1, (350, 360))
+        if self.use_shield:
+            self.SCREEN.blit(self.PRICE, (350+250, 360))
+        else:
+            self.SCREEN.blit(self.PRICE1, (350+250, 360))
+        self.TITLE.show()
+        self.TITLE1.show()
+        self.add_money.draw(self.SCREEN)
+        if self.buy:
+            self.SCREEN.blit(self.ADD, (600, 450))
+        else:
+            self.SCREEN.blit(self.ADD1, (600, 450))
+        self.Price_lucky.show()
+        self.Price_shield.show()
+        self.BTN_BACK.show()
+        self.Buy.show()
 
 def show_cusor(startx, starty):
     tv_cusor_X = TextView(startx, starty, 0, 0, "CUSOR X: ")
