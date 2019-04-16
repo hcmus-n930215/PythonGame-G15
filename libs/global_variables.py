@@ -14,6 +14,8 @@ class INIT_GAME():
 
         pygame.init()
         pygame.display.set_caption("Racing with me!")
+
+
         self.VERSION_INFO = "2.1"
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
@@ -22,6 +24,8 @@ class INIT_GAME():
         self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.GAME_WIDTH_DEFAULT = 1080
         self.GAME_HEIGHT_DEFAULT = 720
+        self.IC_LOGOTEAM = self.load_img("img/ic_logoTeam.png", 70, -1)
+        pygame.display.set_icon(self.IC_LOGOTEAM)
         self.BG_MAP = None
 
         self.btn_play_again = Button(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20,
@@ -46,7 +50,13 @@ class INIT_GAME():
         self.IC_POINT_R = self.load_img("img/point_red.png", 11, 11)
         self.IC_MINIMAP_CAMERA = self.load_img("img/minimap_camera.png", 38, 21)
 
-        #self.IC_STONE = self.load_img("img/ic_stone.png",100,100)
+        self.IC_LUCKY = ImageView(self, self.GAME_WIDTH -  self.GAME_WIDTH//4 + 100, self.GAME_HEIGHT -120, 80, 80, "img/ic_lucky.png")
+        self.IC_SHIELD = ImageView(self, self.GAME_WIDTH -  self.GAME_WIDTH//4 , self.GAME_HEIGHT -120, 80, 80, "img/ic_shield.png")
+        self.IC_USED_SHIELD = ImageView(self, self.GAME_WIDTH -  self.GAME_WIDTH//4, self.GAME_HEIGHT - 120, 80, -1, "img/ic_used.png")
+        self.IC_ARROW = self.load_img("img/arrow.png", 50, -1)
+        self.IC_TICK = self.load_img("img/ic_tick.png", 50, -1)
+        self.IC_PROFILE = self.load_img("img/ic_profile1.png", 50, -1)
+        self.IC_COIN = self.load_img("img/ic_coin.png", 50, -1)
         self.IC_CAMERA = (self.load_img("img/camera0.png", 0.8, 0.8),
                           self.load_img("img/camera1.png", 0.8, 0.8),
                           self.load_img("img/camera2.png", 0.8, 0.8))
@@ -54,7 +64,7 @@ class INIT_GAME():
 
         self.SETTING_PREF = "data/setting_preferences"
         self.ROLLBACK_STEP = 0
-        self.BTN_VERSION = Button(10, self.GAME_HEIGHT- 100, 100, 100, "Versions: "+self.VERSION_INFO)
+        self.BTN_VERSION = Button(self.GAME_WIDTH - 10, self.GAME_HEIGHT - 10, 0, 0, "Versions: "+self.VERSION_INFO,color="#000000", gravity="bottom_right")
         self.TIME_INTERVAL = 1000/self.FPS
         # some boolean
         self.IS_SIGNED_IN = False
@@ -72,6 +82,9 @@ class INIT_GAME():
 
         self.DEFAULT_MAP_CODE = 1
         self.DEFAULT_RACERS_CODE = 1
+        # List of sound: backgr, playing, result
+        # 0 is off, 1 is on
+        self.DEFAULT_SOUND_CODE = (1, 1, 1)
 
         self.load_setting_pref()
         super().__init__()
@@ -93,17 +106,15 @@ class INIT_GAME():
         return img
 
     def draw_map(self, rollback):
-        #self.SCREEN.fill(180)
         self.START_POS = self.GAME_WIDTH/3 + rollback
-        # 6 - draw the screen elements
-
         for i in range(0, 2):
             self.SCREEN.blit(self.BG_MAP, (self.GAME_WIDTH * ((-rollback//self.GAME_WIDTH)+i) + rollback, 0))
-
         self.SCREEN.blit(self.IC_FINISH_FLAG, (self.START_POS, 255))
         self.SCREEN.blit(self.IC_FINISH_FLAG, (self.DISTANCE-50, 255))
         self.BTN_VERSION.isTransparent=False
         self.BTN_VERSION.show()
+        self.SCREEN.blit(self.IC_LOGOTEAM, (self.GAME_WIDTH - 100, self.GAME_HEIGHT - 100))
+
     def load_setting_pref(self):
         try:
             f = open(self.SETTING_PREF, "rt")
@@ -541,13 +552,13 @@ class Ranking():
         self.draw(rs)
         #return self.racers
 class User():
-    def __init__(self):
+    def __init__(self, coin = "100000"):
         self.ID = 0
         self.name = "NULL"
         self.password = "NULL"
         self.winrate = "0"
         self.playTime = "0"
-        self.coins = "0"
+        self.coins = coin
         self.item_lucky_star=0
         self.item_hope_star=0
     def cloneTo(self,temp_user):

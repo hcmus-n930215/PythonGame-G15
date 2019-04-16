@@ -11,6 +11,14 @@ import random
 
 
 #history = []
+def show_cusor(startx, starty):
+    tv_cusor_X = TextView(startx, starty, 0, 0, "CUSOR X: ")
+    tv_cusor_Y = TextView(startx, starty+60, 0, 0, "CUSOR Y: ")
+    x, y = pygame.mouse.get_pos()
+    tv_cusor_X.setText("CUSOR X: " + str(x))
+    tv_cusor_Y.setText("CUSOR Y: " + str(y))
+    tv_cusor_X.show()
+    tv_cusor_Y.show()
 
 def loginActivity(listUser):
     user = User()
@@ -36,8 +44,8 @@ def loginActivity(listUser):
         warning.setText("You have edit UsersData file so all your data is deleted")
     
     while True:
-        
-        
+        #gameLancher.SCREEN.fill(20)
+        #show_cusor(50,300)
         # sign in
         if btn_signin.is_clicked():
             showPass = loginPage.passWordInput.text
@@ -134,14 +142,9 @@ def loginActivity(listUser):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit(0)
-            for box in input_boxes:
-                box.handle_event(event)
+            loginPage.loginHandle(event)
         loginPage.drawLoginPage()
-        for box in input_boxes:
-            box.update()
 
-
-        #gameLancher.SCREEN.fill((30, 30, 30))
         for box in input_boxes:
             box.draw(gameLancher.SCREEN)
 
@@ -156,6 +159,7 @@ def LoadUserHistory(user, history):
         print(history[i].racerType)
         i += 1
     '''
+
 
 def main_game(listUser, userIndex, history):
     user = listUser[userIndex]
@@ -199,9 +203,18 @@ def main_game(listUser, userIndex, history):
     count = 6
     time_amulet = 0
     racer_play_pos = 0
+
+    use_lucky = False
+    use_shield = False
+    used_shield = False
+    used_lucky = False
+
     while not finish:
+
+
+
         list_area_to_be_update_display = []
-        gameLancher.SCREEN.fill(180)
+
         ###########################
         timenow = int(round(time.time() * 1000))
 
@@ -218,15 +231,73 @@ def main_game(listUser, userIndex, history):
             if play:
                 # rollback -= gameLancher.ROLLBACK_STEP
                 rollback += camera.delta
+
+
             gameLancher.draw_map(rollback)
         infoZone.drawInfoZone()
+        ###########################
+        if play and use_shield:
+            gameLancher.IC_SHIELD.draw(gameLancher.SCREEN)
+            if gameLancher.IC_SHIELD.is_clicked() and not used_shield:
+                used_shield = True
+                # BAT KHIEN TAI DAY
+                print("SHIELD CLICKED!")
+        if use_shield and used_shield:
+            gameLancher.IC_USED_SHIELD.draw(gameLancher.SCREEN)
+
+        if play and use_lucky:
+            gameLancher.IC_LUCKY.draw(gameLancher.SCREEN)
+
+
+        show_cusor(30, 300)
+        ###################
+        if gameLancher.IS_IN_SETTINGS:
+            settingPage.drawSettingPage()
+            if settingPage.btn_setplayer.is_clicked():
+                if not isPressed:
+                    # gameLancher.IS_SIGNED_IN = False
+                    gameLancher.DEFAULT_RACERS_CODE = str(settingPage.drawChooseRacer())
+                    gameLancher.update_setting_pref()
+                    racers = gameLancher.assign_racers()
+                    gameLancher.IS_IN_SETTINGS = True
+                    time.sleep(0.08)
+
+                    isPressed = True
+            else:
+                isPressed = False
+            if settingPage.btn_setmap.is_clicked():
+                gameLancher.DEFAULT_MAP_CODE = str(settingPage.drawChooseMap())
+
+                gameLancher.update_setting_pref()
+                gameLancher.assign_map()
+                gameLancher.IS_IN_SETTINGS = True
+                time.sleep(0.1)
+            if settingPage.btn_modsound.is_clicked():
+                gameLancher.DEFAULT_SOUND_CODE = settingPage.drawOptionSound()
+                # save DEFAULT_SOUND_CODE  to setting_pref
+                gameLancher.update_setting_pref()
+
+                # refresh sound option from setting to main_game
+                # create this funtion: gameLancher.assign_sound()
+                gameLancher.IS_IN_SETTINGS = True
+                time.sleep(0.08)
+            if settingPage.btn_back.is_clicked():
+                if not isPressed:
+                    # gameLancher.IS_SIGNED_IN = False
+
+                    gameLancher.IS_IN_SETTINGS = False
+                    time.sleep(0.08)
+
+                    isPressed = True
+            else:
+                isPressed = False
         ###########################
         if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS and not gameLancher.IS_IN_HISTORY:
             mainpage.drawMainPage()
             if mainpage.btn_start.is_clicked():
                 if not isPressed:
                     if not play:
-                        isOK, coin_input, distance, racer_play_pos = mainpage.drawInitStart(user, racers)
+                        isOK, coin_input, distance, racer_play_pos, use_lucky, use_shield  = mainpage.drawInitStart(user, racers)
                         camera.follow = racer_play_pos
                         if isOK:
                             gameLancher.IS_GAME_PLAYING = True
@@ -244,7 +315,7 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
-            if mainpage.btn_exit.is_clicked():
+            if mainpage.btn_logout.is_clicked():
                 if not isPressed:
                     if not play:
                         gameLancher.IS_SIGNED_IN = False
@@ -261,7 +332,7 @@ def main_game(listUser, userIndex, history):
                     if not play:
                         #gameLancher.IS_SIGNED_IN = False
                         gameLancher.IS_IN_SETTINGS = True
-                        time.sleep(0.08)
+                        time.sleep(0.1)
                         play = False
 
 
@@ -278,6 +349,7 @@ def main_game(listUser, userIndex, history):
                             time.sleep(0.08)
                             play = False
 
+
                     isPressed = True
             else:
                 isPressed = False
@@ -287,39 +359,7 @@ def main_game(listUser, userIndex, history):
             play = True
             gameLancher.IS_START_OPTIONS = False
 
-        ###################
-        if gameLancher.IS_IN_SETTINGS:
-            settingPage.drawSettingPage()
-            if settingPage.btn_setplayer.is_clicked():
-                if not isPressed:
-                    # gameLancher.IS_SIGNED_IN = False
-                    gameLancher.DEFAULT_RACERS_CODE = str(settingPage.drawChooseRacer())
-                    gameLancher.update_setting_pref()
-                    racers = gameLancher.assign_racers()
-                    gameLancher.IS_IN_SETTINGS = True
-                    time.sleep(0.08)
 
-                    isPressed = True
-            else:
-                isPressed = False
-            if settingPage.btn_setmap.is_clicked():
-                gameLancher.DEFAULT_MAP_CODE=str(settingPage.drawChooseMap())
-
-                gameLancher.update_setting_pref()
-                gameLancher.assign_map()
-                gameLancher.IS_IN_SETTINGS = True
-                time.sleep(0.08)
-            if settingPage.btn_back.is_clicked():
-                if not isPressed:
-                    # gameLancher.IS_SIGNED_IN = False
-
-                    gameLancher.IS_IN_SETTINGS = False
-                    time.sleep(0.08)
-
-                    isPressed = True
-            else:
-                isPressed = False
-        ###########################
         ###################
         if gameLancher.IS_IN_HISTORY:
             if(len(history) != 0):
@@ -442,7 +482,7 @@ def main_game(listUser, userIndex, history):
                     history.append(currentPlay)
                     WriteHistoryData.WriteAllHistoryData(user.ID, history)
                     return main_game(listUser, userIndex, history)
-                    return main_game(user)
+
                     #gameLancher.IS_START_OPTIONS = True
                #if finish:
                     #return main_game(user)
@@ -450,6 +490,7 @@ def main_game(listUser, userIndex, history):
 
         if play:
             gameLancher.DISTANCE += camera.delta
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -525,20 +566,11 @@ def main():
 
         userIndex = loginActivity(listUser)
         user = listUser[userIndex]
-        '''
-        print(user.ID)
 
-        print(user.name)
+        time.sleep(1)
 
-        print(user.password)
-
-        print(user.coins)
-
-        print(user.playTime)
-
-        print(user.winrate)
-        '''
-        time.sleep(2)
+    else:
+        listUser.append(user)
     #if not gameLancher.IS_PLAYING:
     #	mainActivity()
     #time.sleep(2)

@@ -3,7 +3,7 @@ from libs.global_variables import *
 import pygame
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, startX, startY, width, height, text="Button",color="#B33333", bgrColor="#FFFFFF") -> None:
+    def __init__(self, startX, startY, width, height, text="Button", color="#B33333", bgrColor="#FFFFFF", gravity="center") -> None:
         super().__init__()
         self.startX = startX
         self.startY = startY
@@ -17,26 +17,23 @@ class Button(pygame.sprite.Sprite):
         self.bk_surf = self.surface
         self.isTransparent = True
         self.color = color
+        self.gravity = "top_left"
+        self.setGravity(gravity)
 
+    def setGravity(self, gravity):
+        list_gravity  = ["top_left", "bottom_left", "center", "center_vertical", "center_horizontal", "top_right", "bottom_right",
+                         "mid_bottom", "mid_left", "mid_right"]
+        if gravity in list_gravity:
+            self.gravity = gravity
 
     def show(self):
-        showText(self.startX, self.startY, self.width, self.height, self.text, color=self.color,isTransparent=self.isTransparent)
+        self.rect = showText(self.startX, self.startY, self.width, self.height, self.text, color=self.color, isTransparent=self.isTransparent, gravity=self.gravity)
     def setText(self, text):
         self.text = text
-        self.show()
+        self.rect = self.show()
     def is_clicked(self):
-
         return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
-    def setSurface(self, parentSurface):
 
-        self.surface = parentSurface.subsurface(self.rect)
-        self.bk_surf = self.surface.copy()
-        return self.surface
-    def stop(self):
-        #pygame.event.post(pygame.event.Event(pygame.USEREVENT, surface=self.bk_surf, pos=mpos))
-        self.surface.blit(self.bk_surf, (0, 0))
-    def getSurface(self):
-        return self.surface
     pass
 
 class TextView():
@@ -125,8 +122,11 @@ class InputBox:
                     self.text = self.text[:-1]
                     if self.isPassword:
                         self.hidetext = self.hidetext[:-1]
+                    self.txt_surface = self.FONT.render(self.text, True, self.color)
+                    return 1
                 else:
-
+                    if len(self.text) >= 10:
+                        return 0
                     buffer = "" + str(event.unicode)
                     if self.isDigit and not buffer.isdigit():
                         buffer = ""
@@ -136,13 +136,15 @@ class InputBox:
                             self.text += "*"
                     else:
                         self.text += buffer
+                        self.txt_surface = self.FONT.render(self.text, True, self.color)
+                        return 1
                 # Re-render the text.
                 self.txt_surface = self.FONT.render(self.text, True, self.color)
+        return -1
 
-    def update(self):
-        # Resize the box if the text is too long.
-        width = max(200, self.txt_surface.get_width()+10)
-        self.rect.w = width
+
+
+
 
     def draw(self, screen):
         # Blit the text.
@@ -183,7 +185,7 @@ class ImageView():
 
 
 
-def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", color="#FFFFFF", textSize=20, bgrColor=None,isTransparent=True):
+def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", color="#FFFFFF", textSize=20, bgrColor=None,isTransparent=True, gravity="top_left"):
     font = pygame.font.SysFont('Comic Sans MS', textSize)
     if isTransparent:
         text = font.render(text, True, hex2rgb(color, normalise=False))
@@ -197,16 +199,49 @@ def showText( x, y, width, height, text="TextView", font="freesansbold.ttf", col
     # text surface object
     textRect = text.get_rect()
 
-    # set the center of the rectangular object.
-    #textRect.center = (x+width // 2, y+height // 2)
-    textRect.left = (x)
-    #textRect.centery = y + height//2
-    #textRect = (x,y)
-    textRect.centery = y + height//2
+    #checkout the gravỉty
+    '''
+    The Rect object has several virtual attributes which can be used to move and align the Rect:
+    x,y
+    top, left, bottom, right
+    topleft, bottomleft, topright, bottomright
+    midtop, midleft, midbottom, midright
+    center, centerx, centery
+    size, width, height
+    w,h
+    '''
+    list_gravity = ["top_left", "bottom_left", "center", "center_vertical", "center_horizontal", "top_right",
+                    "bottom_right", "mid_bottom", "mid_left", "mid_right"]
+    if gravity == "top_left":
+        textRect.topleft = (x, y)
+    elif gravity == "bottom_left":
+        textRect.bottomleft =(x,y)
+    elif gravity =="center":
+        textRect.center = (x,y)
+    elif gravity =="center_vertical":
+        textRect.centerx = x
+        textRect.y = y
+    elif gravity =="center_horizontal":
+        textRect.centery = y
+        textRect.x = x
+    elif gravity =="top_right":
+        textRect.topright = (x,y)
+    elif gravity == "bottom_right":
+        textRect.bottomright = (x, y)
+    elif gravity == "mid_bottom":
+        textRect.midbottom = (x,y)
+    elif gravity == "mid_left":
+        textRect.midleft = (x, y)
+    elif gravity == "mid_right":
+        textRect.midright = (x, y)
+    else:
+        # set default if error
+        textRect.topleft = (x, y)
+
     screen = pygame.display.get_surface()
 
 
     screen.blit(text, textRect)
-
+    return  textRect
 
 
