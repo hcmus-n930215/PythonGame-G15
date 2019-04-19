@@ -287,8 +287,13 @@ class Amulet(pygame.sprite.Sprite):
                 self.kind=0
                 self.exist_shield_amulet = False
         elif (self.kind == 3):
-            self.fast_amulet()
-            self.exist_IC_HAPPY = True
+            if (self.exist_shield_amulet != True):
+                self.fast_amulet()
+                self.exist_IC_HAPPY = True
+            else:
+                self.kind = 0
+                self.exist_shield_amulet = False
+
 
         elif (self.kind == 4):
             if (self.exist_shield_amulet != True):
@@ -300,12 +305,22 @@ class Amulet(pygame.sprite.Sprite):
 
 
         elif (self.kind == 5):
-            self.teleport_amulet()
-            self.IC_HAPPY = True
+            if (self.exist_shield_amulet != True):
+                self.teleport_amulet()
+                self.IC_HAPPY = True
+            else:
+                self.kind = 0
+                self.exist_shield_amulet = False
+
 
         elif (self.kind == 6):
-            self.win_amulet()
-            self.exist_IC_HAPPY = True
+            if (self.exist_shield_amulet != True):
+                self.win_amulet()
+                self.exist_IC_HAPPY = True
+            else:
+                self.kind = 0
+                self.exist_shield_amulet = False
+
 
         elif (self.kind == 7):
             if (self.exist_shield_amulet != True):
@@ -387,13 +402,14 @@ class Racer(Amulet):
         self.exist_amulet = False
         self.exist_turn = False
         self.IC_HOPE = pygame.transform.scale(pygame.image.load("img/ic_hope.png"), (80, 80))
-        self.IC_shield = pygame.transform.scale(pygame.image.load("img/ic_shield.png"), (60, 60))
+        self.IC_SHIELD = pygame.transform.scale(pygame.image.load("img/ic_shield.png"), (60, 60))
         self.item_hope_amulet = 1
         self.item_shield_amulet = 1
         self.exist_shield_amulet = False
         self.exist_hope_amulet = False
         self.kind=0
         self.button_shield_amulet = True
+        self.img_protect= pygame.transform.scale(pygame.image.load("img/ic_protect.png"), (100, 100))
 
 
 
@@ -406,6 +422,11 @@ class Racer(Amulet):
         if self.exist_turn==True :
             self.game.SCREEN.blit(self.img_turn, (self.x, self.y))
             self.lastDrawRect = pygame.Rect((self.x, self.y), self.img_turn.get_size())
+        elif(self.exist_shield_amulet):
+            self.game.SCREEN.blit(self.img, (self.x, self.y))
+            self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())
+            self.game.SCREEN.blit(self.img_protect, (self.x - 23, self.y - 22))
+            self.lastDrawRect = pygame.Rect((self.x, self.y), self.img_protect.get_size())
         else:
             self.game.SCREEN.blit(self.img, (self.x, self.y))
             self.lastDrawRect = pygame.Rect((self.x, self.y), self.img.get_size())

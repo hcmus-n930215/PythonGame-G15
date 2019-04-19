@@ -205,6 +205,7 @@ def main_game(listUser, userIndex, history):
     racer_play_pos = 0
     use_lucky = False
     use_shield = False
+    used_shield = False
 
 
     while not finish:
@@ -235,24 +236,36 @@ def main_game(listUser, userIndex, history):
         ###########################
 
         if play and use_shield :
-            rc = racers[racer_play_pos]
 
-            if rc.button_shield_amulet :
+            if gameLancher.IC_SHIELD.is_clicked() and not used_shield:
+                used_shield = True
+                # BAT KHIEN TAI DAY
+                print("SHIELD CLICKED!")
+
+            """if rc.button_shield_amulet:
                 # Tạo nút shield
                 rc.INFOR_DISPLAY = pygame.display.Info()
                 rc.SCREEN_SIZE = (rc.INFOR_DISPLAY.current_w, rc.INFOR_DISPLAY.current_h)
                 rc.GAME_WIDTH = int(rc.SCREEN_SIZE[1])
                 rc.GAME_HEIGHT = int(rc.GAME_WIDTH / 3 * 2)
-                rc.btn_use_shield_amulet = Button(rc.GAME_WIDTH / 2,
-                                                    rc.GAME_HEIGHT / 5,
-                                                    rc.GAME_WIDTH / 10, rc.GAME_HEIGHT / 10, ' ')
+                rc.btn_use_shield_amulet = Button(rc.GAME_WIDTH / 2 ,
+                                                    rc.GAME_HEIGHT / 5 ,
+                                                    rc.GAME_WIDTH/ 10 , rc.GAME_HEIGHT/ 10 , ' ')
                 rc.btn_use_shield_amulet.show()
-                rc.game.SCREEN.blit(rc.IC_shield, (rc.GAME_WIDTH / 2,
-                                                       rc.GAME_HEIGHT / 5))
+                rc.game.SCREEN.blit(rc.IC_SHIELD, (rc.GAME_WIDTH / 2, rc.GAME_HEIGHT / 5))"""
             # Xử lí khi nhấp
-            if rc.btn_use_shield_amulet.is_clicked():
+
+            """if rc.btn_use_shield_amulet.is_clicked():
                 rc.button_shield_amulet = False
-                rc.exist_shield_amulet = True
+                rc.exist_shield_amulet = True"""
+            gameLancher.IC_SHIELD.draw(gameLancher.SCREEN)
+
+        if (used_shield and use_shield):
+            rc = racers[racer_play_pos]
+            rc.exist_shield_amulet = True
+            use_shield=False
+
+
 
 
 
@@ -525,8 +538,8 @@ def main_game(listUser, userIndex, history):
                 isScrolling = r.update(camera) or isScrolling
 
             # list_area_to_be_update_display.append(r.clear())
-            if gameLancher.IS_GAME_PLAYING:
-                list_area_to_be_update_display.append(r.draw())
+            #if gameLancher.IS_GAME_PLAYING:
+                #list_area_to_be_update_display.append(r.draw())
                 # Check to show result board
         if last_racer:
             ranking.show_top1 = True

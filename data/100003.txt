@@ -1,1 +1,3 @@
 racerType = "rc_snail0" racerNum = "0" coinResult = "+675000" 
+racerType = "rc_turtle0" racerNum = "0" coinResult = "-500000" 
+racerType = "rc_turtle3" racerNum = "0" coinResult = "-150000" 
