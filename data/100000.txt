@@ -1,1 +1,0 @@
-racerType = "rc_snail3" racerNum = "0" coinResult = "-500000" 

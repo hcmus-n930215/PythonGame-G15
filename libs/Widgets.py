@@ -37,30 +37,42 @@ class Button(pygame.sprite.Sprite):
     pass
 
 class TextView():
-    def __init__(self, startX, startY, width, height, text="TextView", inUse = False, color="#B33333") -> None:
+    def __init__(self, startX, startY, width, height, text="Button", color="#B33333", bgrColor="#FFFFFF",
+                 gravity="center") -> None:
+        super().__init__()
         self.startX = startX
         self.startY = startY
         self.width = width
         self.height = height
         self.text = text
-        self.color = color
-        self.inUse = inUse
+        self.bgrColor = bgrColor
         self.rect = pygame.Rect(self.startX, self.startY, self.width, self.height)
+        self.rect.normalize()
+        self.surface = None
+        self.bk_surf = self.surface
+        self.isTransparent = True
+        self.color = color
+        self.gravity = "top_left"
+        self.setGravity(gravity)
 
-        super().__init__()
+    def setGravity(self, gravity):
+        list_gravity = ["top_left", "bottom_left", "center", "center_vertical", "center_horizontal", "top_right",
+                        "bottom_right",
+                        "mid_bottom", "mid_left", "mid_right"]
+        if gravity in list_gravity:
+            self.gravity = gravity
+
     def show(self):
-        showText(self.startX, self.startY, self.width, self.height, self.text, color=self.color, bgrColor="#131313")
-    def hide(self):
-        showText(self.startX, self.startY, self.width, self.height, self.text, color="#FFFFFF")
-    def setText(self, text=""):
-        self.text = text
-        showText(self.startX, self.startY, self.width, self.height, self.text, color="#B33333", bgrColor="#131313")
-    def is_clicked(self):
+        self.rect = showText(self.startX, self.startY, self.width, self.height, self.text, color=self.color,
+                             isTransparent=self.isTransparent, gravity=self.gravity)
 
+    def setText(self, text):
+        self.text = text
+        self.rect = self.show()
+
+    def is_clicked(self):
         return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
-    def setSurface(self, parentSurface):
-        self.surface = parentSurface.subsurface()
-        return self.surface
+
     pass
 
 class EditText():
