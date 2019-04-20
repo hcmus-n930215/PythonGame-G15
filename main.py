@@ -10,17 +10,19 @@ import math
 import random
 
 
-#history = []
+# history = []
 def show_cusor(startx, starty):
     tv_cusor_X = TextView(startx, starty, 0, 0, "CUSOR X: ")
-    tv_cusor_Y = TextView(startx, starty+60, 0, 0, "CUSOR Y: ")
+    tv_cusor_Y = TextView(startx, starty + 60, 0, 0, "CUSOR Y: ")
     x, y = pygame.mouse.get_pos()
     tv_cusor_X.setText("CUSOR X: " + str(x))
     tv_cusor_Y.setText("CUSOR Y: " + str(y))
     tv_cusor_X.show()
     tv_cusor_Y.show()
 
-def loginActivity(listUser):
+
+def loginActivity():
+    listUser = []
     user = User()
     readSuccess = ReadUsersData.GetAllUsersData(listUser)
 
@@ -36,16 +38,18 @@ def loginActivity(listUser):
 
     NoneClick = True
 
-    #if file is edited
-    #if(readSuccess == -1):
-        ##warning.setText("You have deleted an important file so all your data is lost")
+    # if file is edited
+    if (readSuccess == -1):
+        listUser = []
+        # warning.setText("You have deleted an important file so all your data is lost")
 
     if (readSuccess == -2):
         warning.setText("You have edit UsersData file so all your data is deleted")
-    
+        listUser = []
+
     while True:
-        #gameLancher.SCREEN.fill(20)
-        #show_cusor(50,300)
+        # gameLancher.SCREEN.fill(20)
+        # show_cusor(50,300)
         # sign in
         if btn_signin.is_clicked():
             showPass = loginPage.passWordInput.text
@@ -70,7 +74,7 @@ def loginActivity(listUser):
                 elif ((exitCode == -2)):
                     warning.setText("Password is wrong.")
                 else:
-                    #print("Dung")
+                    # print("Dung")
                     # btn_signin.setText("XIN CHAO")
                     # welcome user
                     welcome = "Welcome back " + str(user.name)
@@ -83,7 +87,7 @@ def loginActivity(listUser):
 
                     loginPage.drawLoginPage()
                     pygame.display.flip()
-                    return exitCode
+                    return exitCode, listUser
         # sign up
         if btn_signup.is_clicked():
 
@@ -108,18 +112,16 @@ def loginActivity(listUser):
             elif (len(user.name) == 0) | (len(user.password) == 0):
                 warning.setText("Please enter your username and password")
 
-            #if account is not exist yet
+            # if account is not exist yet
             elif ((LoginCore.FindUserName(listUser, user) == -1)):
 
                 # welcome user
                 welcome = "Welcome " + str(user.name)
                 warning.setText(welcome)
+                user.ID = int(gameLancher.DEFAULT_ACCOUNT_POS)
+                gameLancher.DEFAULT_ACCOUNT_POS = str(user.ID + 1)
+                gameLancher.update_setting_pref()
 
-                # set ID if list empty
-                if (len(listUser) == 0):
-                    user.ID = str(100000)
-                else:
-                    user.ID = str(int(listUser[len(listUser) - 1].ID + 1))
                 user.coins = "1000000"
                 user.playTime = "0"
                 user.winrate = "0"
@@ -133,7 +135,7 @@ def loginActivity(listUser):
 
                 loginPage.drawLoginPage()
                 pygame.display.flip()
-                return len(listUser) - 1
+                return len(listUser) - 1, listUser
 
             else:
                 warning.setText("Account is already exist.")
@@ -153,12 +155,6 @@ def loginActivity(listUser):
 
 def LoadUserHistory(user, history):
     ReadHistoryData.GetAllHistoryData(user.ID, history)
-    '''
-    i = 0
-    while(i < len(history)):
-        print(history[i].racerType)
-        i += 1
-    '''
 
 
 def main_game(listUser, userIndex, history):
@@ -166,36 +162,21 @@ def main_game(listUser, userIndex, history):
     timenow = int(round(time.time() * 1000))
     lasttime = timenow
 
-    gameLancher.draw_map(0)
-
-    # main code
-    #player = Player()
-
     racers = gameLancher.assign_racers()
-
     ranking = Ranking(gameLancher, racers)
     minimap = Minimap(gameLancher)
     camera = Camera(gameLancher)
     mainpage = MainPage(gameLancher)
     settingPage = SettingPage(gameLancher)
     historyPage = HistoryPage(gameLancher)
-    shoppage = Shoppage(gameLancher,user)
+    shoppage = Shoppage(gameLancher, user)
 
     finish = False
-
-    #subScreen = []
-    #for btn in button:
-    #    subScreen.append(btn.setSurface(gameLancher.SCREEN))
-
     play = False
     isPressed = False
-    rollback = 0
-    list_area_to_be_update_display = []
-    gameLancher.draw_map(0)
-
-    pygame.display.flip()
+    rollback = 100
+    gameLancher.draw_map(100) and pygame.display.flip()
     time_count = 2001
-    max_speed = 0
     isScrolling = True
     coin_input = 0
     COUNT_AMULET = 0
@@ -211,11 +192,6 @@ def main_game(listUser, userIndex, history):
     used_lucky = False
 
     while not finish:
-
-
-
-        list_area_to_be_update_display = []
-
         ###########################
         timenow = int(round(time.time() * 1000))
 
@@ -233,56 +209,57 @@ def main_game(listUser, userIndex, history):
                 # rollback -= gameLancher.ROLLBACK_STEP
                 rollback += camera.delta
 
-
             gameLancher.draw_map(rollback)
-
         ###########################
-        if play:
-            if user.item_shield:
-                gameLancher.IC_SHIELD.draw(gameLancher.SCREEN)
-            if gameLancher.IC_SHIELD.is_clicked():
-                user.item_shield = 0
-            if user.item_lucky:
-                gameLancher.IC_LUCKY.draw(gameLancher.SCREEN)
-            if gameLancher.IC_LUCKY.is_clicked():
-                user.item_lucky = 0
-
-
-        show_cusor(30, 300)
-        ###################
         if gameLancher.IS_IN_SHOP:
             shoppage.DrawShop()
-            if shoppage.BTN_LUCKY.is_clicked() and not shoppage.use_lucky:
-                shoppage.use_lucky = True
-                if shoppage.use_lucky:
-                    user.coins = str(int(user.coins) - shoppage.price_lucky)
-                    user.item_lucky = 1
-            if shoppage.BTN_SHIELD.is_clicked() and not shoppage.use_shield:
-                shoppage.use_shield = True
-                if shoppage.use_shield:
+            if shoppage.BTN_SHIELD.is_clicked() and int(
+                    user.coins) >= shoppage.price_shield:
+                if not isPressed:
                     user.coins = str(int(user.coins) - shoppage.price_shield)
-                    user.item_shield = 1
-            if shoppage.BTN_BUY.is_clicked() and not shoppage.buy:
-                shoppage.buy = True
-            if not shoppage.buy:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        exit(0)
-                    shoppage.add_money.handle_event(event)
-                shoppage.add_money.draw(gameLancher.SCREEN)
-                pygame.display.flip()
-            else:
-                shoppage.addmoney = shoppage.add_money.text
-            if not shoppage.add and shoppage.buy:
-                user.coins = str(int(shoppage.addmoney) + int(user.coins))
-                print(shoppage.addmoney)
-                print(user.coins)
-                shoppage.add = True
-            if shoppage.BTN_BACK.is_clicked():
+                    user.item_shield += 1
+                    listUser[userIndex] = user
+                    WriteUsersData.WriteAllUsersData(listUser)
+                    print(user.item_shield)
+                    time.sleep(0.08)
+                    isPressed = True
+                else:
+                    isPressed = False
+            if shoppage.BTN_ADD_MONEY.is_clicked():
+                if int(user.coins) < 10000:
+                    if not isPressed:
+                        user.coins = str(int(user.coins) + 1000)
+                        time.sleep(0.08)
+                        isPressed = True
+                    else:
+                        isPressed = False
+                else:
+                    shoppage.Warning_Text()
+
+            if shoppage.btn_back.is_clicked():
                 gameLancher.IS_IN_SHOP = False
         infoZone = InfoZone(gameLancher, user)
         infoZone.drawInfoZone()
+        if play and use_shield:
+            gameLancher.IC_SHIELD.draw(gameLancher.SCREEN)
+            if gameLancher.IC_SHIELD.is_clicked() and not used_shield:
+                used_shield = True
+                # BAT KHIEN TAI DAY
+                print("SHIELD CLICKED!")
+
+        if use_shield and used_shield:
+            rc = racers[racer_play_pos]
+            rc.exist_shield_amulet = True
+
+            use_shield = False
+        if play and use_lucky:
+            rc = racers[racer_play_pos]
+            rc.exist_hope_amulet = True
+            use_lucky = False
+            user.use_star = True
+
+        show_cusor(30, 300)
+        ###################
         if gameLancher.IS_IN_SETTINGS:
             settingPage.drawSettingPage()
             if settingPage.btn_setplayer.is_clicked():
@@ -323,12 +300,14 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
+        ###########################
         if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS and not gameLancher.IS_IN_HISTORY and not gameLancher.IS_IN_SHOP:
             mainpage.drawMainPage()
             if mainpage.btn_start.is_clicked():
                 if not isPressed:
                     if not play:
-                        isOK, coin_input, distance, racer_play_pos, use_lucky, use_shield  = mainpage.drawInitStart(user, racers)
+                        isOK, coin_input, distance, racer_play_pos, use_lucky, use_shield = mainpage.drawInitStart(user,
+                                                                                                                   racers)
                         camera.follow = racer_play_pos
                         if isOK:
                             gameLancher.IS_GAME_PLAYING = True
@@ -337,21 +316,13 @@ def main_game(listUser, userIndex, history):
                             pygame.mixer.music.play(-1)
                             gameLancher.DISTANCE = distance
                             gameLancher.DISTANCE_DEFAULT = distance
-
+                            if use_shield:
+                                user.item_shield -= 1
                         else:
                             coin_input = 0
                         time.sleep(0.08)
 
-                        #mainpage.btn_start.stop()
-                    isPressed = True
-            else:
-                isPressed = False
-            if mainpage.btn_store.is_clicked():
-                if not isPressed:
-                    if not play:
-                        gameLancher.IS_IN_SHOP = True
-                        time.sleep(0.2)
-                        play = False
+                        # mainpage.btn_start.stop()
                     isPressed = True
             else:
                 isPressed = False
@@ -367,38 +338,41 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
+            if mainpage.btn_store.is_clicked():
+                if not isPressed:
+                    if not play:
+                        gameLancher.IS_IN_SHOP = True
+                        play = False
+                    isPressed = True
+            else:
+                isPressed = False
             if mainpage.btn_setting.is_clicked():
                 if not isPressed:
                     if not play:
-                        #gameLancher.IS_SIGNED_IN = False
+                        # gameLancher.IS_SIGNED_IN = False
                         gameLancher.IS_IN_SETTINGS = True
                         time.sleep(0.1)
                         play = False
-
 
                     isPressed = True
             else:
                 isPressed = False
 
             if mainpage.btn_history.is_clicked():
-                if not isPressed:
-                    if not play:
-                        if(len(history) != 0):
-                            gameLancher.IS_IN_HISTORY = True
-                            historyPage.setHistory(history)
-                            time.sleep(0.08)
-                            play = False
-                    isPressed = True
-            else:
-                isPressed = False
+                if not play:
+                    # if(len(history) != 0):
+                    gameLancher.IS_IN_HISTORY = True
+                    historyPage.setHistory(history)
+                    play = False
+
+        ###################E
         if gameLancher.IS_START_OPTIONS:
             play = True
             gameLancher.IS_START_OPTIONS = False
 
-
         ###################
         if gameLancher.IS_IN_HISTORY:
-            if(len(history) != 0):
+            if (len(history) != 0):
                 if pygame.key.get_pressed()[pygame.K_UP]:
                     historyPage.Up()
                     time.sleep(0.08)
@@ -408,25 +382,24 @@ def main_game(listUser, userIndex, history):
                     time.sleep(0.08)
                     historyPage.setHistory(history)
 
-                if historyPage.btn_back.is_clicked():
-                    if not isPressed:
-                        # gameLancher.IS_SIGNED_IN = False
+            if historyPage.btn_back.is_clicked():
+                if not isPressed:
+                    # gameLancher.IS_SIGNED_IN = False
 
-                        gameLancher.IS_IN_HISTORY = False
-                        time.sleep(0.08)
+                    gameLancher.IS_IN_HISTORY = False
+                    time.sleep(0.08)
 
-                        isPressed = True
-                else:
-                    isPressed = False
-                historyPage.draw(history)
-        ###################
-        #max_speed = 0
+                    isPressed = True
+            else:
+                isPressed = False
+            historyPage.draw(history)
+
         max_racer = 0
         # doan nay chua lam gi ca
         if isScrolling:
             for r in racers:
                 if r.x > max_racer:
-                    #max_speed = r.speed
+                    # max_speed = r.speed
                     max_racer = r.x
         isScrolling = False
         last_racer = False
@@ -439,13 +412,12 @@ def main_game(listUser, userIndex, history):
                     COUNT_AMULET += 1
 
                     if (COUNT_AMULET == count):
-                        time_amulet_appear += 8
+                        time_amulet_appear += 10
                         count += 6
-
                 if (r.exist_amulet):
                     if (r.x > r.amulet_x and r.time > 0):
                         r.active()
-                        time_amulet = time.clock() + 2
+                        time_amulet = time.clock() + 1
                 elif (r.time > 0):
                     if (time.clock() < time_amulet):
                         r.active()
@@ -455,8 +427,9 @@ def main_game(listUser, userIndex, history):
                 else:
                     r.kind = 0
                     r.exist_turn = False
-                    r.exist_lucky_amulet=False
-                #else:
+                    r.exist_lucky_amulet = False
+
+                # else:
                 #    r.update(camera)
 
                 if r.rank == 1:
@@ -466,13 +439,7 @@ def main_game(listUser, userIndex, history):
 
                 r.draw_amulet(camera.delta)
                 # Kiem tra ket thuc cuoc dua
-
-
                 isScrolling = r.update(camera) or isScrolling
-
-            # list_area_to_be_update_display.append(r.clear())
-            if gameLancher.IS_GAME_PLAYING:
-                list_area_to_be_update_display.append(r.draw())
                 # Check to show result board
         if last_racer:
             ranking.show_top1 = True
@@ -490,7 +457,7 @@ def main_game(listUser, userIndex, history):
                 else:
                     sound = pygame.mixer.Sound('sound/lose.wav')
                     sound.play()
-            #finish = finish_race(gameLancher, winner, racers[3])
+            # finish = finish_race(gameLancher, winner, racers[3])
         if gameLancher.IS_GAME_PLAYING:
             ranking.update(racers)
 
@@ -498,15 +465,16 @@ def main_game(listUser, userIndex, history):
             camera.update(racers[camera.follow])
 
             if not isScrolling:
-                #play = isScrolling
+                # play = isScrolling
                 ranking.show_top1 = True
                 if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
                     ranking.y += 3
-                coinResult, finish_r, temp_user = finish_race(gameLancher, winner, racers[racer_play_pos], user, coin_input)
+                coinResult, finish_r, temp_user = finish_race(gameLancher, winner, racers[racer_play_pos], user,
+                                                              coin_input)
                 if finish_r:
                     gameLancher.IS_GAME_PLAYING = isScrolling
                     play = isScrolling
-                    #user = temp_user
+                    # user = temp_user
                     listUser[userIndex] = temp_user
                     WriteUsersData.WriteAllUsersData(listUser)
                     # THEM DU LIEU VAO FILE CHO NAY
@@ -519,14 +487,13 @@ def main_game(listUser, userIndex, history):
                     WriteHistoryData.WriteAllHistoryData(user.ID, history)
                     return main_game(listUser, userIndex, history)
 
-                    #gameLancher.IS_START_OPTIONS = True
-               #if finish:
-                    #return main_game(user)
-        #else:
+                    # gameLancher.IS_START_OPTIONS = True
+            # if finish:
+            # return main_game(user)
+        # else:
 
         if play:
             gameLancher.DISTANCE += camera.delta
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -534,40 +501,45 @@ def main_game(listUser, userIndex, history):
 
         pygame.display.flip()
         gameLancher.clock.tick(gameLancher.FPS)
-        # pygame.display.update(list_area_to_be_update_display)
         # time.sleep(1) # sleep 1 sec
+
 
 def finish_race(game, racer, player_choose, user, coin_input):
     size = game.IC_RESULT_BOARD.get_rect().size
-    game.SCREEN.blit(game.IC_RESULT_BOARD, (game.GAME_WIDTH/2 - size[0]/2, game.GAME_HEIGHT/2 - size[1]/2))
+    game.SCREEN.blit(game.IC_RESULT_BOARD, (game.GAME_WIDTH / 2 - size[0] / 2, game.GAME_HEIGHT / 2 - size[1] / 2))
     img_racer = player_choose.img.get_rect().size
-    game.SCREEN.blit(pygame.transform.scale(player_choose.img, (int(img_racer[0]*2), int(img_racer[1]*2))),
-                     (game.GAME_WIDTH/2 - size[0]/2.5, game.GAME_HEIGHT/2 - size[1]/4))
+    game.SCREEN.blit(pygame.transform.scale(player_choose.img, (int(img_racer[0] * 2), int(img_racer[1] * 2))),
+                     (game.GAME_WIDTH / 2 - size[0] / 2.5, game.GAME_HEIGHT / 2 - size[1] / 4))
     size_result = game.IC_WIN.get_rect().size
     last_coin = int(user.coins)
-    change_coin= int(coin_input)
+    change_coin = int(coin_input)
     current_coin = int(user.coins)
+
     if racer.num == player_choose.num:
         game.SCREEN.blit(game.IC_WIN,
                          (game.GAME_WIDTH / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
         # set win state include VAT 10%
-        current_coin = str(last_coin+change_coin-change_coin//10)
+        if user.use_star:
+            change_coin = change_coin * 2
+        current_coin = str(last_coin + change_coin - change_coin // 10)
         last_coin = str(last_coin)
-        change_coin = "+" + str(change_coin-change_coin//10)
+        change_coin = "+" + str(change_coin - change_coin // 10)
     else:
         game.SCREEN.blit(game.IC_LOSE,
                          (game.GAME_WIDTH / 2, game.GAME_HEIGHT / 2 - size[1] / 2.25))
         # set lose state
-        current_coin = str(max(last_coin-change_coin, 0))
-        change_coin = "-" + str(last_coin-int(current_coin))
+        if user.use_star:
+            change_coin = int(change_coin * (1.5))
+        current_coin = str(max(last_coin - change_coin, 0))
+        change_coin = "-" + str(last_coin - int(current_coin))
         last_coin = str(last_coin)
 
-    list_tv = (Button(game.GAME_WIDTH / 3 - game.GAME_WIDTH / 20, game.GAME_HEIGHT / 2 + game.GAME_HEIGHT / 20*1,
-                      0, 0, "LAST COIN: "+ last_coin, color="#FFFFFF"),
-               Button(game.GAME_WIDTH / 3 - game.GAME_WIDTH / 20, game.GAME_HEIGHT / 2 + game.GAME_HEIGHT / 20*2,
-                      0, 0, "CHANGE: "+ change_coin, color="#FFFFFF"),
-               Button(game.GAME_WIDTH / 3 - game.GAME_WIDTH / 20, game.GAME_HEIGHT / 2 + game.GAME_HEIGHT / 20*3,
-                      0, 0, "CURRENT COINS: "+current_coin, color="#FFFFFF"))
+    list_tv = (Button(game.GAME_WIDTH / 3 - game.GAME_WIDTH / 20, game.GAME_HEIGHT / 2 + game.GAME_HEIGHT / 20 * 1,
+                      0, 0, "LAST COIN: " + last_coin, color="#FFFFFF"),
+               Button(game.GAME_WIDTH / 3 - game.GAME_WIDTH / 20, game.GAME_HEIGHT / 2 + game.GAME_HEIGHT / 20 * 2,
+                      0, 0, "CHANGE: " + change_coin, color="#FFFFFF"),
+               Button(game.GAME_WIDTH / 3 - game.GAME_WIDTH / 20, game.GAME_HEIGHT / 2 + game.GAME_HEIGHT / 20 * 3,
+                      0, 0, "CURRENT COINS: " + current_coin, color="#FFFFFF"))
     for tv in list_tv:
         tv.show()
     gameLancher.btn_end.show()
@@ -576,7 +548,7 @@ def finish_race(game, racer, player_choose, user, coin_input):
     if gameLancher.btn_end.is_clicked():
         new_user = User()
         user.cloneTo(temp_user=new_user)
-        new_user.coins=current_coin
+        new_user.coins = current_coin
         return change_coin, True, new_user
     if gameLancher.btn_play_again.is_clicked():
         gameLancher.IS_GAME_PLAYING = False
@@ -588,33 +560,34 @@ def finish_race(game, racer, player_choose, user, coin_input):
         return change_coin, True, new_user
     return change_coin, False, None
 
+
 def main():
     # music
     pygame.mixer.music.load("sound/theme_song_cut.mp3")
     pygame.mixer.music.play(-1)
     # /music
     user = User()
-    #user.ID = "100000"
+    # user.ID = "100000"
     listUser = []
-    #listUser.append(user)
+    # listUser.append(user)
     userIndex = 0
     if not gameLancher.IS_SIGNED_IN:
 
-        userIndex = loginActivity(listUser)
+        userIndex, listUser = loginActivity()
+
         user = listUser[userIndex]
 
         time.sleep(1)
 
     else:
         listUser.append(user)
-    #if not gameLancher.IS_PLAYING:
+    # if not gameLancher.IS_PLAYING:
     #	mainActivity()
-    #time.sleep(2)
+    # time.sleep(2)
 
     history = []
     LoadUserHistory(user, history)
     main_game(listUser, userIndex, history)
-
 
 
 gameLancher = INIT_GAME()

@@ -98,7 +98,7 @@ class MainPage():
         imgArrow = self.GAME.IC_ARROW
         imgTick = self.GAME.IC_TICK
 
-        imgLucky = ImageView(self.GAME, self.rect.x + self.rect.w * 0.428, self.rect.y + self.rect.h * 0.522, 100, 100, "img/ic_lucky.png")
+        imgLucky = ImageView(self.GAME, self.rect.x + self.rect.w * 0.428, self.rect.y + self.rect.h * 0.522, 100, 100, "img/ic_hope.png")
         imgShiled = ImageView(self.GAME, self.rect.x + self.rect.w * 0.721, self.rect.y + self.rect.h * 0.522, 100, 100, "img/ic_shield.png")
         list_imgExtend = [imgLucky, imgShiled]
         use_lucky = False
@@ -138,9 +138,14 @@ class MainPage():
                     imgLucky.setActive(use_lucky)
                     self.warrningText2.setText("")
                 time.sleep(0.1)
+
+
             if imgShiled.is_clicked():
-                use_shield = not use_shield
-                imgShiled.setActive(use_shield)
+                if user.item_shield > 0:
+                    use_shield = not use_shield
+                    imgShiled.setActive(use_shield)
+                else:
+                    self.warrningText2.setText("You need buy shield in shop")
                 time.sleep(0.1)
             if use_lucky and len(str(ip_coin.text)) > 0 and int(ip_coin.text) < int(user.coins) / 2:
                 self.warrningText2.setText("Can't chosse while your bets half less than your coins")
@@ -206,7 +211,7 @@ class SettingPage():
     def drawChooseRacer(self):
         self.TITLE.setText("RACER CHOOSER")
         self.LIST_RC = []
-        self.listRacer = ["rc_turtle", "rc_lead", "rc_snail"]
+        self.listRacer = ["rc_turtle", "rc_lead", "rc_snail", "rc_parrot"]
         last_active = 0
         btn_save = Button(self.rect.x + self.rect.w //2, self.rect.y + self.rect.h - 20, 70, 70, text="SAVE", gravity="center")
         img_info = []
@@ -320,12 +325,16 @@ class InfoZone():
         self.SCREEN = pygame.display.get_surface()
         self.player_name = Button(60, 35, 0, 0, text=user.name, gravity="center_horizontal")
         self.coin = Button(60, 80, 0, 0, text=str(user.coins), gravity="center_horizontal")
+        self.shield = Button(60, 125, 0 , 0, text=str(user.item_shield), gravity="center_horizontal")
+
         pass
     def drawInfoZone(self):
         self.SCREEN.blit(self.GAME.IC_PROFILE, (10, 10))
         self.SCREEN.blit(self.GAME.IC_COIN, (10, 60))
+        self.SCREEN.blit(self.GAME.IC_SHIELD_MINI, (10, 110))
         self.player_name.show()
         self.coin.show()
+        self.shield.show()
 
 class HistoryPage():
     def __init__(self, gameLancher):
@@ -354,6 +363,8 @@ class HistoryPage():
         self.typeTitle = TextView(self.GAME.GAME_WIDTH / 3.5, self.GAME.GAME_HEIGHT / 2.6, 100, 50, text="Type", color="#FFFFFF")
         #self.listRacerNumText[0].setText("Number")
         self.coinTitle = TextView(self.GAME.GAME_WIDTH / 1.6, self.GAME.GAME_HEIGHT / 2.6, 100, 50,text="Result", color="#FFFFFF")
+
+        self.warning = TextView(self.GAME.GAME_WIDTH / 3, self.GAME.GAME_HEIGHT / 2.6, 100, 50,text="You have not played yet", color="#FFFFFF")
         pass
 
     def Up(self):
@@ -366,14 +377,14 @@ class HistoryPage():
 
     def setHistory(self, history):
         #ensure self.i is valid
-        if(self.i < 0):
+        if (self.i < 0):
             self.i = 0
             self.scroll_y += self.scroll_y_step
-        elif self.i >= len(history):
-            self.i = len(history) - 1
+        elif self.i + 2 > len(history):
+            self.i = len(history) - 3
             self.scroll_y -= self.scroll_y_step
-        # set len of scroll
-        len_h = len(history)
+            # set len of scroll
+        len_h = len(history) - 2
         if len_h <= 0:
             len_h = 1
         self.scroll = pygame.transform.scale(self.scroll, (self.size_scroll[0], int(self.size[1]/len_h)))
@@ -386,15 +397,20 @@ class HistoryPage():
 
     def draw(self, history):
         self.SCREEN.blit(self.historyForm, (self.GAME.GAME_WIDTH // 4, self.GAME.GAME_HEIGHT // 4))
-        for i in range(0,3):
-            if (i < len(history)):
-                self.SCREEN.blit(self.listRacerTypeText[i],(self.GAME.GAME_WIDTH // 3.5, self.GAME.GAME_HEIGHT // 2.6 + (i + 1) * 50))
-                self.listCoinResultText[i].show()
-        self.coinTitle.show()
-        self.typeTitle.show()
-        self.btn_back.show()
-        # show scroll bar
-        self.SCREEN.blit(self.scroll, (self.scroll_x, self.scroll_y))
+
+        if (len(history) == 0):
+            self.warning.show()
+            self.btn_back.show()
+        else:
+            for i in range(0,3):
+                if (i < len(history)):
+                    self.SCREEN.blit(self.listRacerTypeText[i],(self.GAME.GAME_WIDTH // 3.5, self.GAME.GAME_HEIGHT // 2.6 + (i + 1) * 50))
+                    self.listCoinResultText[i].show()
+            self.coinTitle.show()
+            self.typeTitle.show()
+            self.btn_back.show()
+            # show scroll bar
+            self.SCREEN.blit(self.scroll, (self.scroll_x, self.scroll_y))
         pass
 class Shoppage():
     def __init__(self, gameLancher,user):
@@ -408,61 +424,42 @@ class Shoppage():
         self.SCREEN = pygame.display.get_surface()
 
         self.SHOP = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME_WIDTH // 2,self.GAME_HEIGHT // 2)
-        self.LUCKY = self.GAME.load_img("img/ic_lucky.png", self.GAME_WIDTH//10, self.GAME_HEIGHT//7)
+        self.LUCKY = self.GAME.load_img("img/ic_hope.png", self.GAME_WIDTH//10, self.GAME_HEIGHT//7)
         self.SHIELD = self.GAME.load_img("img/ic_shield.png", self.GAME_WIDTH//10, self.GAME_HEIGHT//7)
-        self.PRICE = self.GAME.load_img("img/S_price.png", 100, 25)
-        self.PRICE1 = self.GAME.load_img("img/S_price1.png", 100, 25)
-        self.ADD = self.GAME.load_img("img/S_price.png", 120, 40)
-        self.ADD1 = self.GAME.load_img("img/S_price1.png", 120, 40)
+        self.PRICE = self.GAME.load_img("img/S_price.png", self.GAME_WIDTH*(5/54), self.GAME_WIDTH*(5/144))
+        self.PRICE1 = self.GAME.load_img("img/S_price1.png", self.GAME_WIDTH*(5/54), self.GAME_WIDTH*(5/144))
+        self.ADD = self.GAME.load_img("img/S_price.png", self.GAME_WIDTH*(1/9), self.GAME_HEIGHT*(1/18))
+        self.ADD1 = self.GAME.load_img("img/S_price1.png", self.GAME_WIDTH*(1/9), self.GAME_HEIGHT*(1/18))
         self.rect = self.SHOP.get_rect()
+        self.size_shield = self.SHIELD.get_rect()
+        self.size_price = self.PRICE1.get_rect()
         self.rect.center = (self.GAME_WIDTH // 2, self.GAME_HEIGHT // 2)
 
         self.TITLE = Button(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.0535, 0, 0, text="SHOP",
                             gravity="center")
-        self.BTN_BUY = Button(600, 450, 120, 40)
-        self.BTN_SHIELD = Button(600,360,100,25)
-        self.BTN_LUCKY = Button(350,360,100,25)
-        self.BTN_BACK = Button(750,500,100,40, "BACK!")
-        self.TITLE1 = TextView(350, 410, 125, 40, "ADD MONEY")
-        self.add_money = InputBox(360, 450, 200, 40, "0", isdigit=True)
-        self.price_lucky = int(int(user.coins) * 0.2)  # Giá bùa may mắn
-        self.Price_lucky = TextView(360,360,100,25,str(self.price_lucky))
-        self.price_shield = int(int(user.coins) * 0.3)
-        self.Price_shield = TextView(610, 360, 100, 25, str(self.price_shield))
-        self.Buy = TextView(610, 450, 120, 40, "BUY")
-        self.use_lucky = False
-        self.use_shield = False
-        self.add = False
-        self.buy = False
-        self.money = 0
-        self.tag = 1
+        self.btn_back = Button(self.rect.x +self.rect.w*0.9, self.rect.y + self.rect.h*0.9, 100, 100, text="Back!", gravity="center")
+        self.ADD_MONEY = TextView(self.rect.x +self.rect.w*0.5, self.rect.y + self.rect.h*0.65, 0 , 0 ,"ADD MONEY")
+        self.BTN_SHIELD = Button(self.rect.x + self.rect.w * 0.5 - self.size_price.w * 0.5,self.rect.y + self.rect.h * 0.45, self.size_price.w, self.size_price.h)
+        self.BTN_ADD_MONEY = Button(self.rect.x + self.rect.w * 0.5 - self.size_price.w * 0.5,self.rect.y + self.rect.h * 0.7, self.size_price.w, self.size_price.h)
+        self.price_shield = 1000
+        self.Price_shield = TextView(self.rect.x + self.rect.w * 0.5 ,self.rect.y + self.rect.h * 0.5, self.size_price.w, self.size_price.h, str(self.price_shield))
+        self.MONEY = TextView(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.75, self.size_price.w, self.size_price.h, "+1000")
         pass
 
     def DrawShop(self):
         self.TITLE.setText("SHOP")
         self.SCREEN.blit(self.SHOP, self.rect)
-        self.SCREEN.blit(self.LUCKY, (350,230))
-        self.SCREEN.blit(self.SHIELD, (350+250,230))
-        if self.use_lucky:
-            self.SCREEN.blit(self.PRICE, (350, 360))
-        else:
-            self.SCREEN.blit(self.PRICE1, (350, 360))
-        if self.use_shield:
-            self.SCREEN.blit(self.PRICE, (350+250, 360))
-        else:
-            self.SCREEN.blit(self.PRICE1, (350+250, 360))
+        self.SCREEN.blit(self.SHIELD, (self.rect.x + self.rect.w * 0.5-self.size_shield.w*0.5, self.rect.y + self.rect.h * 0.15))
+        self.SCREEN.blit(self.PRICE1, (self.rect.x + self.rect.w * 0.5-self.size_price.w*0.5, self.rect.y + self.rect.h * 0.45))
+        self.SCREEN.blit(self.PRICE1, (self.rect.x + self.rect.w * 0.5 - self.size_price.w * 0.5, self.rect.y + self.rect.h * 0.7))
         self.TITLE.show()
-        self.TITLE1.show()
-        self.add_money.draw(self.SCREEN)
-        if self.buy:
-            self.SCREEN.blit(self.ADD, (600, 450))
-        else:
-            self.SCREEN.blit(self.ADD1, (600, 450))
-        self.Price_lucky.show()
+        self.ADD_MONEY.show()
         self.Price_shield.show()
-        self.BTN_BACK.show()
-        self.Buy.show()
-
+        self.MONEY.show()
+        self.btn_back.show()
+    def Warning_Text(self):
+        self.WARNING = TextView(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.9, 0, 0, "If your money is less than $1,000")
+        self.WARNING.show()
 def show_cusor(startx, starty):
     tv_cusor_X = TextView(startx, starty, 0, 0, "CUSOR X: ")
     tv_cusor_Y = TextView(startx, starty+60, 0, 0, "CUSOR Y: ")
