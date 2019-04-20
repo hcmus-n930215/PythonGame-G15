@@ -11,7 +11,6 @@ for i in range(1,len(currentDirrect)+1):
     if direct[-i] != currentDirrect[-i]:
         flag = False
 if flag:
-    print("dung")
     dataDirect = ""
     i = 0
     while(i < len(direct) - len(currentDirrect)):
@@ -42,8 +41,7 @@ passTitle = "password = \""
 coinsTitle = "coins = \""
 playTimeTitle = "playTime = \""
 winrateTitle = "winrate = \""
-
-
+shieldTitle = "shield = \""
 
 
 endOfData = "\""    #to define where to stop read data
@@ -66,9 +64,6 @@ class ReadUsersData:
         y= len(b)
         while((i < len(a)) & (j < len(b))):
             if(a[i] != b[j]):
-                #c = a[i]
-                #d = a[i+1]
-                #u = a[i-1]
                 return False
             i = i + 1
             j = j + 1
@@ -79,9 +74,11 @@ class ReadUsersData:
             dest = src[startPoss]
 
             i = startPoss + 1
-            while(src[i] != endOfData):
+            while((src[i] != endOfData)):
                 dest = dest + src[i]
                 i = i + 1
+                if(i == len(src)):
+                    break;
             return dest
 
     def GetUserData(data, startPoss, user):
@@ -91,17 +88,22 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, userIDTitle, i)):
             i = i + len(userIDTitle)
             user.append(User())
-            user[len(user) - 1].ID = int(ReadUsersData.StringCopy(data, i))
-            #a = user[0].ID
-            #print(user[0].ID)
+            ID = ReadUsersData.StringCopy(data, i)
+            if (ID == ""):
+                return -1
+            user[len(user) - 1].ID = int(ID)
+            # a = user[0].ID
+            # print(user[0].ID)
         else:
             return -1
 
         #get name
-        i = i + 6 + 2
+        i = i + len(ID) + 2
         if (ReadUsersData.StringCompare(data, nameTitle, i)):
             i = i + len(nameTitle)
             user[len(user) - 1].name = ReadUsersData.StringCopy(data, i)
+            if(user[len(user) - 1].name == ""):
+                return -1
             #a = user[0].name
             #print(user[0].name)
         else:
@@ -112,6 +114,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, passTitle, i)):
             i = i + len((passTitle))
             user[len(user) - 1].password = ReadUsersData.StringCopy(data, i)
+            if (user[len(user) - 1].password == ""):
+                return -1
             #a = user[0].password
             #print(user[0].password)
         else:
@@ -122,6 +126,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, coinsTitle, i)):
             i = i + len((coinsTitle))
             user[len(user) - 1].coins = ReadUsersData.StringCopy(data, i)
+            if (user[len(user) - 1].coins == ""):
+                return -1
             #a = user[0].coins
             #print(user[0].coins)
         else:
@@ -132,8 +138,8 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, playTimeTitle, i)):
             i = i + len((playTimeTitle))
             user[len(user) - 1].playTime = ReadUsersData.StringCopy(data, i)
-            #a = user[0].playTime
-            #print(user[0].playTime)
+            if (user[len(user) - 1].playTime == ""):
+                return -1
         else:
             return -1
 
@@ -142,12 +148,24 @@ class ReadUsersData:
         if (ReadUsersData.StringCompare(data, winrateTitle, i)):
             i = i + len((winrateTitle))
             user[len(user) - 1].winrate = ReadUsersData.StringCopy(data, i)
-            #a = user[0].winrate
-            #print(user[0].winrate)
+            if (user[len(user) - 1].winrate == ""):
+                return -1
         else:
             return -1
 
-        i = i + len(str(user[len(user) - 1].winrate)) + 2    #change poss to end of user
+        # get shell number
+        i = i + len(str(user[len(user) - 1].playTime)) + 2  # change poss to shell....
+        if (ReadUsersData.StringCompare(data, shieldTitle, i)):
+            i = i + len((shieldTitle))
+            shield = ReadUsersData.StringCopy(data, i)
+            if(shield == None):
+                return -1
+            print(shield)
+            user[len(user) - 1].item_shield = int(shield)
+        else:
+            return -1
+
+        i = i + len(shield) + 2    #change poss to end of user
         return i
 
     #ham tra ve -1 neu khong doc duoc
@@ -159,7 +177,7 @@ class ReadUsersData:
 
         data = f.read()
 
-        data = decrypt.DecyptData(data, key)
+        #data = decrypt.DecyptData(data, key)
 
         dataLength = len(data)
         i = 0
@@ -191,11 +209,13 @@ class WriteUsersData:
 
             textToWrite += winrateTitle + user[i].winrate + "\" "
 
+            textToWrite += shieldTitle + str(user[i].item_shield) + "\" "
+
             #textToWrite = textToWrite + '\n'
 
             i = i + 1
 
-        textToWrite = encypt.EncryptData(textToWrite, key)
+        #textToWrite = encypt.EncryptData(textToWrite, key)
 
         f.write(textToWrite)
 

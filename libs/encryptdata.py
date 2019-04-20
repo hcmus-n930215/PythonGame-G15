@@ -47,9 +47,7 @@ class encypt:
         lengthNeed = encypt.FindNeedLength(8, 8 - numBitsRanded)     #8 is bits per byte
         while(len(data) % lengthNeed != 0):
             data += ' '
-
         xoredData = ""
-
         #convert data to bit and xor with key
         i = 0
         while(i < len(data)):
@@ -67,15 +65,9 @@ class encypt:
             if((i % (8 - numBitsRanded) == 0) & (i != 0)):
                 encryptedData += encypt.RandBits(currentBits)
                 currentBits = []
-
             currentBits.append(int(xoredData[i]))
             i += 1
-
         encryptedData += encypt.RandBits(currentBits)
-
-        #print(encryptedData)
         return encryptedData
-
-    #EncryptData("BUI", 123)
-
     pass
+
