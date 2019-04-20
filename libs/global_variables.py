@@ -29,12 +29,18 @@ class INIT_GAME():
         self.btn_play_again = View(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20,
                                      self.GAME_HEIGHT / 4 * 3 + self.GAME_HEIGHT / 20,
                                      self.GAME_WIDTH / 10, self.GAME_HEIGHT / 10,
-                                     "PLAY AGAIN", color="#FFFFFF")
+                                     "PLAY AGAIN", color="#eafd00")
 
         self.btn_end = View(self.GAME_WIDTH / 3 * 2 - self.GAME_WIDTH / 20,
                               self.GAME_HEIGHT / 4 * 3 + self.GAME_HEIGHT / 20,
                               self.GAME_WIDTH / 10, self.GAME_HEIGHT / 10,
-                              "QUIT", color="#FFFFFF")
+                              "QUIT", color="#eafd00")
+        self.list_tv = (View(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20, self.GAME_HEIGHT / 2 + self.GAME_HEIGHT / 20 * 1,
+                        0, 0, color="#65d06f"),
+                   View(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20, self.GAME_HEIGHT / 2 + self.GAME_HEIGHT / 20 * 2,
+                        0, 0, color="#65d06f"),
+                   View(self.GAME_WIDTH / 3 - self.GAME_WIDTH / 20, self.GAME_HEIGHT / 2 + self.GAME_HEIGHT / 20 * 3,
+                        0, 0, color="#65d06f"))
         self.IC_RESULT_BOARD = self.load_img("img/ic_result_board.png", 800, 600)
         self.IC_WIN = self.load_img("img/ic_win.png", 300, 300)
         self.IC_LOSE = self.load_img("img/ic_lose.png", 300, 300)
@@ -386,6 +392,7 @@ class Racer(Amulet):
         name = "img/"
         self.ic_name = name + pack + str(num) + ".png"
         self.img = game.load_img(self.ic_name, -1, 48)
+        self.imgbig = game.load_img(self.ic_name, -1, 48*2)
         ic_name_turn = name + pack + str(num) + str(num) + ".png"
         self.img_turn = game.load_img(ic_name_turn, -1, 48)
         self.x = x

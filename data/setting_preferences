@@ -2,7 +2,7 @@
 default_map=2
 
 # The racers are: rc_lead, rc_catus, rc_turtle, rc_snail
-default_racer=rc_parrot
+default_racer=rc_turtle
 
 
-count_account=100022
+count_account=100023

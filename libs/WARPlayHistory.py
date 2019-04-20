@@ -113,7 +113,7 @@ class ReadHistoryData:
 
         data = f.read()
 
-        data = decrypt.DecyptData(data, key)
+        #data = decrypt.DecyptData(data, key)
 
         dataLength = len(data)
         i = 0
@@ -144,7 +144,7 @@ class WriteHistoryData:
 
             i = i + 1
 
-        textToWrite = encypt.EncryptData(textToWrite, key)
+        #textToWrite = encypt.EncryptData(textToWrite, key)
 
         f.write(textToWrite)
 

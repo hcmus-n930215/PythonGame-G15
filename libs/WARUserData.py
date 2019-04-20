@@ -154,7 +154,7 @@ class ReadUsersData:
             return -1
 
         # get shell number
-        i = i + len(str(user[len(user) - 1].playTime)) + 2  # change poss to shell....
+        i = i + len(str(user[len(user) - 1].winrate)) + 2  # change poss to shell....
         if (ReadUsersData.StringCompare(data, shieldTitle, i)):
             i = i + len((shieldTitle))
             shield = ReadUsersData.StringCopy(data, i)
