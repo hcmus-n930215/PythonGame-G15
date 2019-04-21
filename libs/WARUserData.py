@@ -4,7 +4,6 @@ direct = os.getcwd()
 
 flag = True
 currentDirrect = "\libs"
-print(direct)
 for i in range(1,len(currentDirrect)+1):
     a = direct[-i]
     b = currentDirrect[-i]
@@ -22,7 +21,6 @@ if flag:
     from decryptData import *
     from encryptdata import *
 else:
-    #print("sai")
     from libs.global_variables import *
     from libs.decryptData import *
     from libs.encryptdata import *
@@ -92,8 +90,6 @@ class ReadUsersData:
             if (ID == ""):
                 return -1
             user[len(user) - 1].ID = int(ID)
-            # a = user[0].ID
-            # print(user[0].ID)
         else:
             return -1
 
@@ -104,8 +100,6 @@ class ReadUsersData:
             user[len(user) - 1].name = ReadUsersData.StringCopy(data, i)
             if(user[len(user) - 1].name == ""):
                 return -1
-            #a = user[0].name
-            #print(user[0].name)
         else:
             return -1
 
@@ -116,8 +110,6 @@ class ReadUsersData:
             user[len(user) - 1].password = ReadUsersData.StringCopy(data, i)
             if (user[len(user) - 1].password == ""):
                 return -1
-            #a = user[0].password
-            #print(user[0].password)
         else:
             return -1
 
@@ -128,8 +120,6 @@ class ReadUsersData:
             user[len(user) - 1].coins = ReadUsersData.StringCopy(data, i)
             if (user[len(user) - 1].coins == ""):
                 return -1
-            #a = user[0].coins
-            #print(user[0].coins)
         else:
             return -1
 
@@ -160,7 +150,6 @@ class ReadUsersData:
             shield = ReadUsersData.StringCopy(data, i)
             if(shield == None):
                 return -1
-            print(shield)
             user[len(user) - 1].item_shield = int(shield)
         else:
             return -1
@@ -184,7 +173,7 @@ class ReadUsersData:
         while(i < dataLength - 20):
             i = ReadUsersData.GetUserData(data, i, user)
             if(i == -1):
-                print("loi")
+                # ERROR
                 return -2
 
     pass

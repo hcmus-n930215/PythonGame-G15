@@ -3,15 +3,13 @@ from libs.global_variables import *
 import pygame
 
 class View(pygame.sprite.Sprite):
-    def __init__(self, startX, startY, width, height, text="View", color="#B33333", bgrColor="#FFFFFF", gravity="center") -> None:
+    def __init__(self, startX, startY, text="View", color="#B33333", bgrColor="#FFFFFF", gravity="center") -> None:
         super().__init__()
         self.startX = startX
         self.startY = startY
-        self.width = width
-        self.height = height
         self.text = text
         self.bgrColor = bgrColor
-        self.rect = pygame.Rect(self.startX, self.startY, self.width, self.height)
+        self.rect = pygame.Rect(self.startX, self.startY, 0, 0)
         self.rect.normalize()
         self.surface = None
         self.bk_surf = self.surface
@@ -28,18 +26,22 @@ class View(pygame.sprite.Sprite):
             self.gravity = gravity
     def show(self):
         if self.bgrImg != None:
-            self.SCREEN.blit(self.bgrImg, self.rect)
-        self.rect = showText(self.startX, self.startY, self.width, self.height, self.text, color=self.color, isTransparent=self.isTransparent, gravity=self.gravity)
+            self.SCREEN.blit(self.bgrImg, (self.rect.x - 10, self.rect.y - 5))
+        self.rect = showText(self.startX, self.startY, self.text, color=self.color, isTransparent=self.isTransparent, gravity=self.gravity)
     def setText(self, text):
         self.text = text
         self.show()
     def setBackground(self, gameLancher, img_link=None):
         if img_link != None:
-            self.bgrImg = gameLancher.load_img(img_link, self.rect.w, self.rect.h)
+            self.bgrImg = gameLancher.load_img(img_link, self.rect.w + 20, self.rect.h + 10)
         else:
             self.bgrImg = None
         self.show()
-    def is_clicked(self):
+    def is_clicked(self, gameLancher):
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
+            self.setBackground(gameLancher,"img/bg_button_isclicked.png")
+        else:
+            self.setBackground(gameLancher=gameLancher)
         return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
 
     pass
@@ -111,7 +113,7 @@ class ImageView():
         pygame.draw.rect(screen, self.color, self.rect, 2)
     pass
 
-def showText( x, y, width, height, text="View", font="freesansbold.ttf", color="#FFFFFF", textSize=20, bgrColor=None,isTransparent=True, gravity="top_left"):
+def showText( x, y, text="View", font="freesansbold.ttf", color="#FFFFFF", textSize=20, bgrColor=None,isTransparent=True, gravity="top_left"):
     font = pygame.font.SysFont('Comic Sans MS', textSize)
     if isTransparent:
         text = font.render(text, True, hex2rgb(color, normalise=False))

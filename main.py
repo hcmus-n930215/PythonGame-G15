@@ -7,8 +7,8 @@ import pygame
 import time
 
 def show_cusor(startx, starty):
-    tv_cusor_X = View(startx, starty, 0, 0, "CUSOR X: ")
-    tv_cusor_Y = View(startx, starty + 60, 0, 0, "CUSOR Y: ")
+    tv_cusor_X = View(startx, starty, "CUSOR X: ")
+    tv_cusor_Y = View(startx, starty + 60, "CUSOR Y: ")
     x, y = pygame.mouse.get_pos()
     tv_cusor_X.setText("CUSOR X: " + str(x))
     tv_cusor_Y.setText("CUSOR Y: " + str(y))
@@ -34,10 +34,7 @@ def loginActivity():
         warning.setText("You have edit UsersData file so all your data is deleted")
         listUser = []
     while True:
-        # gameLancher.SCREEN.fill(20)
-        # show_cusor(50,300)
-        # sign in
-        if btn_signin.is_clicked():
+        if btn_signin.is_clicked(gameLancher):
             showPass = loginPage.passWordInput.text
             exitCode = -3
             user.name = loginPage.userNameInput.text
@@ -60,9 +57,6 @@ def loginActivity():
                 elif ((exitCode == -2)):
                     warning.setText("Password is wrong.")
                 else:
-                    # print("Dung")
-                    # btn_signin.setText("XIN CHAO")
-                    # welcome user
                     welcome = "Welcome back " + str(user.name)
                     warning.setText(welcome)
 
@@ -74,7 +68,7 @@ def loginActivity():
                     loginPage.drawLoginPage()
                     pygame.display.flip()
                     return exitCode, listUser
-        if btn_signup.is_clicked():
+        if btn_signup.is_clicked(gameLancher):
 
             if loginPage.passWordInput.isPassword:
                 user.password = loginPage.passWordInput.hidetext
@@ -195,7 +189,7 @@ def main_game(listUser, userIndex, history):
         ###########################
         if gameLancher.IS_IN_SHOP:
             shoppage.DrawShop(user)
-            if shoppage.price_shield.is_clicked() and int(user.coins) >= shoppage.val_price_shield:
+            if shoppage.price_shield.is_clicked(gameLancher) and int(user.coins) >= shoppage.val_price_shield:
                 if not isPressed:
                     user.coins = str(int(user.coins) - shoppage.val_price_shield)
                     user.item_shield += 1
@@ -205,7 +199,7 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
                 else:
                     isPressed = False
-            if shoppage.buy_coin.is_clicked():
+            if shoppage.buy_coin.is_clicked(gameLancher):
                 if not isPressed:
                     user.coins = str(int(user.coins) + 10000)
                     listUser[userIndex] = user
@@ -214,7 +208,7 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
                 else:
                     isPressed = False
-            if shoppage.btn_back.is_clicked():
+            if shoppage.btn_back.is_clicked(gameLancher):
                 gameLancher.IS_IN_SHOP = False
         infoZone = InfoZone(gameLancher, listUser[userIndex])
         infoZone.drawInfoZoneExpand() if infoZone.is_clicked() else infoZone.drawInfoZone()
@@ -233,12 +227,10 @@ def main_game(listUser, userIndex, history):
             racers[racer_play_pos].exist_star_amulet = True
             use_star = False
             user.use_star = True
-
-        show_cusor(30, 300)
         ###################
         if gameLancher.IS_IN_SETTINGS:
             settingPage.drawSettingPage()
-            if settingPage.btn_setplayer.is_clicked():
+            if settingPage.btn_setplayer.is_clicked(gameLancher):
                 if not isPressed:
                     gameLancher.DEFAULT_RACERS_CODE = str(settingPage.drawChooseRacer())
                     gameLancher.update_setting_pref()
@@ -248,14 +240,14 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
-            if settingPage.btn_setmap.is_clicked():
+            if settingPage.btn_setmap.is_clicked(gameLancher):
                 gameLancher.DEFAULT_MAP_CODE = str(settingPage.drawChooseMap())
 
                 gameLancher.update_setting_pref()
                 gameLancher.assign_map()
                 gameLancher.IS_IN_SETTINGS = True
                 time.sleep(0.1)
-            if settingPage.btn_modsound.is_clicked():
+            if settingPage.btn_modsound.is_clicked(gameLancher):
                 gameLancher.DEFAULT_SOUND_CODE = settingPage.drawOptionSound()
                 if gameLancher.DEFAULT_SOUND_CODE[0]:
                     pygame.mixer.music.load("sound/theme_song_cut.mp3")
@@ -268,7 +260,7 @@ def main_game(listUser, userIndex, history):
                 # create this funtion: gameLancher.assign_sound()
                 gameLancher.IS_IN_SETTINGS = True
                 time.sleep(0.08)
-            if settingPage.btn_back.is_clicked():
+            if settingPage.btn_back.is_clicked(gameLancher):
                 if not isPressed:
                     # gameLancher.IS_SIGNED_IN = False
 
@@ -281,7 +273,7 @@ def main_game(listUser, userIndex, history):
         ###########################
         if not gameLancher.IS_GAME_PLAYING and not gameLancher.IS_IN_SETTINGS and not gameLancher.IS_IN_HISTORY and not gameLancher.IS_IN_SHOP:
             mainpage.drawMainPage()
-            if mainpage.btn_start.is_clicked():
+            if mainpage.btn_start.is_clicked(gameLancher):
                 if not isPressed:
                     if not play:
                         isOK, coin_input, distance, racer_play_pos, use_star, use_shield = mainpage.drawInitStart(user,
@@ -293,8 +285,8 @@ def main_game(listUser, userIndex, history):
                             pygame.mixer.music.load("sound/fast_lane.mp3")
                             if gameLancher.DEFAULT_SOUND_CODE[1]:
                                 pygame.mixer.music.play(-1)
-                            gameLancher.DISTANCE = distance
-                            gameLancher.DISTANCE_DEFAULT = distance
+                            gameLancher.DISTANCE = distance*gameLancher.SCALE_X
+                            gameLancher.DISTANCE_DEFAULT = distance*gameLancher.SCALE_X
 
                             if use_shield:
                                 user.item_shield -= 1
@@ -304,7 +296,7 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
-            if mainpage.btn_logout.is_clicked():
+            if mainpage.btn_logout.is_clicked(gameLancher):
                 if not isPressed:
                     if not play:
                         listUser[userIndex] = user
@@ -317,7 +309,7 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
-            if mainpage.btn_store.is_clicked():
+            if mainpage.btn_store.is_clicked(gameLancher):
                 if not isPressed:
                     if not play:
                         gameLancher.IS_IN_SHOP = True
@@ -325,7 +317,7 @@ def main_game(listUser, userIndex, history):
                     isPressed = True
             else:
                 isPressed = False
-            if mainpage.btn_setting.is_clicked():
+            if mainpage.btn_setting.is_clicked(gameLancher):
                 if not isPressed:
                     if not play:
                         # gameLancher.IS_SIGNED_IN = False
@@ -337,7 +329,7 @@ def main_game(listUser, userIndex, history):
             else:
                 isPressed = False
 
-            if mainpage.btn_history.is_clicked():
+            if mainpage.btn_history.is_clicked(gameLancher):
                 if not play:
                     # if(len(history) != 0):
                     gameLancher.IS_IN_HISTORY = True
@@ -354,7 +346,7 @@ def main_game(listUser, userIndex, history):
                     historyPage.Down()
                     time.sleep(0.08)
                     historyPage.setHistory(history)
-            if historyPage.btn_back.is_clicked():
+            if historyPage.btn_back.is_clicked(gameLancher):
                 if not isPressed:
                     gameLancher.IS_IN_HISTORY = False
                     time.sleep(0.08)
@@ -406,10 +398,8 @@ def main_game(listUser, userIndex, history):
                 #ranking.show_top1 = True
                 #if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
                 #    ranking.y += 3
-                coinResult, finish_r, temp_user = finish_race(gameLancher, winner, racers[racer_play_pos], user,
+                coinResult, finish_r, temp_user, want_play = finish_race(gameLancher, winner, racers[racer_play_pos], user,
                                                               coin_input)
-
-
                 if finish_r:
                     gameLancher.IS_GAME_PLAYING = isScrolling
                     play = isScrolling
@@ -434,7 +424,12 @@ def main_game(listUser, userIndex, history):
                     currentPlay.coinResult = coinResult
                     history.append(currentPlay)
                     WriteHistoryData.WriteAllHistoryData(user.ID, history)
-                    return main_game(listUser, userIndex, history)
+                    if want_play:
+                        return main_game(listUser, userIndex, history)
+                    else:
+                        listUser = []
+                        gameLancher.IS_SIGNED_IN = False
+                        return main()
         if last_racer:
             ranking.show_top1 = True
             if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
@@ -511,16 +506,17 @@ def finish_race(game, racer, player_choose, user, coin_input):
         tv.show()
     gameLancher.btn_end.show()
     gameLancher.btn_play_again.show()
-
-    if gameLancher.btn_end.is_clicked():
+    if gameLancher.btn_end.is_clicked(gameLancher):
         if gameLancher.DEFAULT_SOUND_CODE[0]:
             pygame.mixer.music.load("sound/theme_song_cut.mp3")
             pygame.mixer.music.play(-1)
-        new_user = User()
-        user.cloneTo(temp_user=new_user)
-        new_user.coins = current_coin
-        return change_coin, True, new_user
-    if gameLancher.btn_play_again.is_clicked():
+            new_user = User()
+            user.cloneTo(temp_user=new_user)
+            new_user.coins = current_coin
+            new_user.playTime = str(int(new_user.playTime) + 1)
+            return change_coin, True, new_user, False
+
+    if gameLancher.btn_play_again.is_clicked(gameLancher):
         if gameLancher.DEFAULT_SOUND_CODE[0]:
             pygame.mixer.music.load("sound/theme_song_cut.mp3")
             pygame.mixer.music.play(-1)
@@ -532,8 +528,8 @@ def finish_race(game, racer, player_choose, user, coin_input):
         new_user.coins = current_coin
         new_user.playTime = str(int(new_user.playTime)+1)
 
-        return change_coin, True, new_user
-    return change_coin, False, None
+        return change_coin, True, new_user, True
+    return change_coin, False, None, False
 
 gameLancher = INIT_GAME()
 resultRect = gameLancher.IC_RESULT_BOARD.get_rect()

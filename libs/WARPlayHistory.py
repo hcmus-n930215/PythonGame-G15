@@ -4,14 +4,12 @@ direct = os.getcwd()
 
 flag = True
 currentDirrect = "\libs"
-print(direct)
 for i in range(1,len(currentDirrect)+1):
     a = direct[-i]
     b = currentDirrect[-i]
     if direct[-i] != currentDirrect[-i]:
         flag = False
-if flag:
-    print("dung")
+if flag: # correct
     dataDirect = ""
     i = 0
     while(i < len(direct) - len(currentDirrect)):
@@ -23,7 +21,6 @@ if flag:
     from decryptData import *
     from encryptdata import *
 else:
-    #print("sai")
     from libs.global_variables import *
     from libs.decryptData import *
     from libs.encryptdata import *
@@ -75,8 +72,6 @@ class ReadHistoryData:
             i = i + len(racerTypeTitle)
             history.append(History())
             history[len(history) - 1].racerType = ReadHistoryData.StringCopy(data, i)
-            #a = history[0].racerType
-            #print(history[0].racerType)
         else:
             return -1
 
@@ -85,8 +80,6 @@ class ReadHistoryData:
         if (ReadHistoryData.StringCompare(data, racerNumTitle, i)):
             i = i + len(racerNumTitle)
             history[len(history) - 1].racerNum = ReadHistoryData.StringCopy(data, i)
-            #a = history[0].racerNum
-            #print(history[0].racerNum)
         else:
             return -1
 
@@ -95,8 +88,6 @@ class ReadHistoryData:
         if (ReadHistoryData.StringCompare(data, coinResulTitle, i)):
             i = i + len((coinResulTitle))
             history[len(history) - 1].coinResult = ReadHistoryData.StringCopy(data, i)
-           # a = history[0].coinResult
-            #print(history[0].coinResult)
         else:
             return -1
         i = i + len(str(history[len(history) - 1].coinResult)) + 2    #change poss to end of history
@@ -108,7 +99,7 @@ class ReadHistoryData:
         try:
             f = open(dataLocation, "rt")
         except FileNotFoundError:
-            print ("loi tim file")
+            # ERROR ACCESS FILE
             return
 
         data = f.read()
@@ -119,8 +110,7 @@ class ReadHistoryData:
         i = 0
         while(i < dataLength - 20):
             i = ReadHistoryData.GetData(data, i, history) + 1
-            if(i == -1):
-                print("loi history")
+            if(i == -1): # HISTORY ERROR
                 return -1
         return history
     pass

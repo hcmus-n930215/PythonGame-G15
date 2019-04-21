@@ -52,7 +52,6 @@ class encypt:
         i = 0
         while(i < len(data)):
             xoredData = encypt.ConvertAndXor(data[i], key, xoredData)
-            #print(xoredData)
             i += 1
 
         encryptedData = ""
