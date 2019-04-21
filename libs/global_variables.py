@@ -238,16 +238,11 @@ class Amulet(pygame.sprite.Sprite):
     def stop_amulet(self):                      #1
         """Bua dung"""
         self.speed = 0
-        self.x += self.speed
-
-
-
-
 
     def slow_amulet(self):                      #2
         """Bua giam toc"""
         self.speed=0.75
-        self.x+=self.speed
+        #self.x+=self.speed
 
 
 
@@ -268,8 +263,6 @@ class Amulet(pygame.sprite.Sprite):
         self.x += 200
         self.time = 0
 
-
-
     def win_amulet(self):                       #6
         """Bua bay thang den dich"""
         self.x = self.game.DISTANCE
@@ -277,16 +270,9 @@ class Amulet(pygame.sprite.Sprite):
 
     def turnback_amulet(self):                  #7
         """Bua quay dau"""
-        self.speed = -1
-        self.x += self.speed
-        self.time-=2
-
-
-
-
+        self.speed = -abs(self.speed)
+        self.time -= 2
         self.exist_turn = True
-
-
 
     def active(self):
         if(self.kind ==  1):
@@ -424,7 +410,7 @@ class Racer(Amulet):
         self.exist_amulet = False
         self.exist_turn = False
         self.button_shield_amulet = True
-
+        self.pos_rank = self.rank
 
 
 
@@ -440,6 +426,10 @@ class Racer(Amulet):
             self.game.SCREEN.blit(self.img_protect, (self.x - 23, self.y - 22))
         else:
             self.game.SCREEN.blit(self.img, (self.x, self.y))
+        if self.pos_rank < self.rank:
+            self.pos_rank += 0.2
+        if self.pos_rank > self.rank:
+            self.pos_rank -= 0.2
         if self.x +self.speed + camera.delta >= self.game.DISTANCE:
             self.x = self.game.DISTANCE
             self.speed = 0
@@ -483,7 +473,7 @@ class Ranking():
         n = int(self.size[1] / 7.7)
         self.game.SCREEN.blit(self.img, (self.x, self.y))
         for i in range(0, 6):
-            self.game.SCREEN.blit(rs[i].img, (m,self.y + n*(rs[i].rank+0.33)))
+            self.game.SCREEN.blit(rs[i].img, (m,self.y + n*(rs[i].pos_rank+0.33)))
 
         if self.show_top1:
             self.game.SCREEN.blit(self.game.IC_TOP1, (m, self.y + n))
@@ -541,7 +531,7 @@ class Camera():
         self.time += 1
         self.game.SCREEN.blit(self.game.IC_CAMERA[self.anim], (rs.x, rs.y-20))
 
-        if abs(delta) < rs.speed:
+        if abs(delta) < 2*abs(rs.speed):
             self.delta = rs.x - self.x
         else:
             if delta == 0:
@@ -549,7 +539,7 @@ class Camera():
             else:
                 self.delta = rs.speed*(delta/abs(delta))
         if abs(delta) > 80:
-            self.delta = max(delta/3, 10)*(delta/abs(delta))
+            self.delta = max(abs(delta)/3, 25)*(delta/abs(delta))
 
         # change following
 

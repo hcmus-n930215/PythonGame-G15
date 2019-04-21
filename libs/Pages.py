@@ -274,6 +274,29 @@ class SettingPage():
         self.TITLE.setText("SOUND OPTIONS")
         btn_save = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h - 20, 70, 70, text="SAVE",
                           gravity="center")
+        btn_theme = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h * (1 - 0.6), 70, 70,
+                           text="THEME SONG:",
+                           gravity="center")
+        btn_racing = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h * (1 - 0.5), 70, 70,
+                            text="RACING SONG:",
+                            gravity="center")
+        btn_effect = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h * (1 - 0.4), 70, 70,
+                            text="EFFECT SOUND:",
+                            gravity="center")
+
+        if self.GAME.DEFAULT_SOUND_CODE[0] == 1:
+            btn_theme.text += " ON"
+        else:
+            btn_theme.text += " OFF"
+        if self.GAME.DEFAULT_SOUND_CODE[1] == 1:
+            btn_racing.text += " ON"
+        else:
+            btn_racing.text += " OFF"
+        if self.GAME.DEFAULT_SOUND_CODE[2] == 1:
+            btn_effect.text += " ON"
+        else:
+            btn_effect.text += " OFF"
+
         while True:
             self.GAME.SCREEN.fill(20)
             show_cusor(20,300)
@@ -287,9 +310,31 @@ class SettingPage():
                     exit(0)
             self.TITLE.show()
             btn_save.show()
+            btn_theme.show()
+            btn_effect.show()
+            btn_racing.show()
             if btn_save.is_clicked():
-                # return something
-                return
+                return (btn_theme.text == "THEME SONG: ON",
+                        btn_racing.text == "RACING SONG: ON",
+                        btn_effect.text == "EFFECT SOUND: ON")
+            if btn_theme.is_clicked():
+                if btn_theme.text == "THEME SONG: ON":
+                    btn_theme.text = "THEME SONG: OFF"
+                else:
+                    btn_theme.text = "THEME SONG: ON"
+                time.sleep(0.2)
+            if btn_racing.is_clicked():
+                if btn_racing.text == "RACING SONG: ON":
+                    btn_racing.text = "RACING SONG: OFF"
+                else:
+                    btn_racing.text = "RACING SONG: ON"
+                time.sleep(0.2)
+            if btn_effect.is_clicked():
+                if btn_effect.text == "EFFECT SOUND: ON":
+                    btn_effect.text = "EFFECT SOUND: OFF"
+                else:
+                    btn_effect.text = "EFFECT SOUND: ON"
+                time.sleep(0.2)
             pygame.display.flip()
 
 class InfoZone():
