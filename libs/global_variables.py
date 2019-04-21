@@ -9,19 +9,15 @@ class INIT_GAME():
     FPS = 60
     clock = pygame.time.Clock()
     def __init__(self) -> None:
-
         pygame.init()
         pygame.display.set_caption("Racing with me!")
-
-
         self.VERSION_INFO = "2.3Beta-2"
         self.INFOR_DISPLAY = pygame.display.Info()
         self.SCREEN_SIZE = (self.INFOR_DISPLAY.current_w, self.INFOR_DISPLAY.current_h)
-        #self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
-        #self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
-
-        self.GAME_WIDTH = 1200
-        self.GAME_HEIGHT = 800
+        self.GAME_WIDTH = int(self.SCREEN_SIZE[1])
+        self.GAME_HEIGHT = int(self.GAME_WIDTH / 3 * 2)
+        #self.GAME_WIDTH = 900
+        #self.GAME_HEIGHT = 600
         self.SCREEN = pygame.display.set_mode((self.GAME_WIDTH, self.GAME_HEIGHT))
         self.GAME_WIDTH_DEFAULT = 1080
         self.GAME_HEIGHT_DEFAULT = 720
@@ -46,6 +42,7 @@ class INIT_GAME():
         self.IC_APP_NAME = self.load_img("img/ic_app_name.png", self.GAME_WIDTH//2, -1)
         self.IC_RANK = self.load_img("img/ic_rank.png",0.8,0.8)
         self.IC_MINIMAP = self.load_img("img/minimap.png", 300, 50)
+        self.IC_MINIMAP_BG = self.load_img("img/minimap_backgound.png", 400, 50)
         self.IC_POINT_B = self.load_img("img/point_blue.png", 11, 11)
         self.IC_POINT_R = self.load_img("img/point_red.png", 11, 11)
         self.IC_MINIMAP_CAMERA = self.load_img("img/minimap_camera.png", 38, 21)
@@ -537,6 +534,7 @@ class Minimap():
     def __init__(self, game):
         self.GAME = game
         self.img_minimap = game.IC_MINIMAP
+        self.img_minimap_bg = game.IC_MINIMAP_BG
         self.size = self.img_minimap.get_rect().size
         self.img_b_point = game.IC_POINT_B
         self.size_p = self.img_b_point.get_rect().size
@@ -544,9 +542,11 @@ class Minimap():
         self.img_camera = game.IC_MINIMAP_CAMERA
         self.size_c = self.img_camera.get_rect().size
         self.x = game.GAME_WIDTH/2 - self.size[0]/2
+        self.xbg = game.GAME_WIDTH/2 - self.size[0]/3*2
         self.y = game.GAME_HEIGHT/10*9
 
     def update(self, racers, play_choose, camera_follow):
+        self.GAME.SCREEN.blit(self.img_minimap_bg, (self.xbg, self.y))
         self.GAME.SCREEN.blit(self.img_minimap, (self.x, self.y))
         a = self.GAME.GAME_WIDTH/3
 
