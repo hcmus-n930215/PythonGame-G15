@@ -525,9 +525,7 @@ def finish_race(game, racer, player_choose, user, coin_input):
 gameLancher = INIT_GAME()
 resultRect = gameLancher.IC_RESULT_BOARD.get_rect()
 resultRect.center = (gameLancher.GAME_WIDTH // 2, gameLancher.GAME_HEIGHT//2)
-
 main()
-
 pygame.quit()
 del gameLancher
 exit()
