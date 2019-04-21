@@ -43,7 +43,6 @@ class View(pygame.sprite.Sprite):
         else:
             self.setBackground(gameLancher=gameLancher)
         return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
-
     pass
 COLOR_INACTIVE = pygame.Color('lightskyblue3')
 COLOR_ACTIVE = pygame.Color('dodgerblue2')

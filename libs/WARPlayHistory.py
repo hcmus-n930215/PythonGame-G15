@@ -1,7 +1,6 @@
 import os
 direct = os.getcwd()
 #change direction
-
 flag = True
 currentDirrect = "\libs"
 for i in range(1,len(currentDirrect)+1):
@@ -25,30 +24,18 @@ else:
     from libs.decryptData import *
     from libs.encryptdata import *
 
-
 endOfData = "\""    #to define where to stop read data
-
-#define Title
 racerTypeTitle = "racerType = \""
 racerNumTitle = "racerNum = \""
 coinResulTitle = "coinResult = \""
-
-#history = []
-
 key = 123
 
 class ReadHistoryData:
-
     def StringCompare(a, b, startPossOfA):
         i = startPossOfA
         j = 0
-        x= len(a)
-        y= len(b)
         while((i < len(a)) & (j < len(b))):
             if(a[i] != b[j]):
-                #c = a[i]
-               # d = a[i+1]
-                #u = a[i-1]
                 return False
             i = i + 1
             j = j + 1
@@ -57,7 +44,6 @@ class ReadHistoryData:
     def StringCopy(src, startPoss):
         if(startPoss < len(src) - 1):
             dest = src[startPoss]
-
             i = startPoss + 1
             while(src[i] != endOfData):
                 dest = dest + src[i]
@@ -66,7 +52,6 @@ class ReadHistoryData:
 
     def GetData(data, startPoss, history):
         i = startPoss
-       
         # get type
         if (ReadHistoryData.StringCompare(data, racerTypeTitle, i)):
             i = i + len(racerTypeTitle)
@@ -74,7 +59,6 @@ class ReadHistoryData:
             history[len(history) - 1].racerType = ReadHistoryData.StringCopy(data, i)
         else:
             return -1
-
         #get number
         i = i + len(history[len(history) - 1].racerType) + 2
         if (ReadHistoryData.StringCompare(data, racerNumTitle, i)):
@@ -82,7 +66,6 @@ class ReadHistoryData:
             history[len(history) - 1].racerNum = ReadHistoryData.StringCopy(data, i)
         else:
             return -1
-
         #get result
         i = i + len(history[len(history) - 1].racerNum) + 2    #change poss to pass....
         if (ReadHistoryData.StringCompare(data, coinResulTitle, i)):
@@ -92,7 +75,6 @@ class ReadHistoryData:
             return -1
         i = i + len(str(history[len(history) - 1].coinResult)) + 2    #change poss to end of history
         return i
-
     #ham tra ve -1 neu khong doc duoc
     def  GetAllHistoryData(userID, history):
         dataLocation = "data/" + str(userID) + ".txt"
@@ -103,9 +85,6 @@ class ReadHistoryData:
             return
 
         data = f.read()
-
-        #data = decrypt.DecyptData(data, key)
-
         dataLength = len(data)
         i = 0
         while(i < dataLength - 20):
@@ -116,28 +95,18 @@ class ReadHistoryData:
     pass
 
 class WriteHistoryData:
-
     def WriteAllHistoryData(userID, history):
         dataLocation = "data/" + str(userID) + ".txt"
         f = open(dataLocation, "w")
-
         i = 0
         textToWrite = ""
         while(i < len(history)):
             textToWrite += racerTypeTitle + history[i].racerType + "\" "
-
             textToWrite += racerNumTitle + history[i].racerNum + "\" "
-
             textToWrite += coinResulTitle + history[i].coinResult + "\" "
-
             textToWrite = textToWrite + '\n'
-
             i = i + 1
-
-        #textToWrite = encypt.EncryptData(textToWrite, key)
-
         f.write(textToWrite)
-
     pass
 '''
 history = []

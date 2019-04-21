@@ -25,14 +25,9 @@ else:
     from libs.decryptData import *
     from libs.encryptdata import *
 
-
-
-
 #key to encript and decrip      from 1 to 127
 key = 125
-
 dataLocation = "data/usersData.txt"
-
 userIDTitle = "ID = \""
 nameTitle = "username = \""
 passTitle = "password = \""
@@ -40,26 +35,13 @@ coinsTitle = "coins = \""
 playTimeTitle = "playTime = \""
 winrateTitle = "winrate = \""
 shieldTitle = "shield = \""
-
-
 endOfData = "\""    #to define where to stop read data
-
-#create líst
-#user = ["buiHuu Duc"]
-#password = ["456"]
-#coins = ["123"]
-#playTime = ["789"]
-#winrate =["100"]
-
-#user = []
 
 class ReadUsersData:
 
     def StringCompare(a, b, startPossOfA):
         i = startPossOfA
         j = 0
-        x= len(a)
-        y= len(b)
         while((i < len(a)) & (j < len(b))):
             if(a[i] != b[j]):
                 return False
@@ -70,7 +52,6 @@ class ReadUsersData:
     def StringCopy(src, startPoss):
         if(startPoss < len(src) - 1):
             dest = src[startPoss]
-
             i = startPoss + 1
             while((src[i] != endOfData)):
                 dest = dest + src[i]
@@ -81,7 +62,6 @@ class ReadUsersData:
 
     def GetUserData(data, startPoss, user):
         i = startPoss
-
         # get ID
         if (ReadUsersData.StringCompare(data, userIDTitle, i)):
             i = i + len(userIDTitle)
@@ -92,7 +72,6 @@ class ReadUsersData:
             user[len(user) - 1].ID = int(ID)
         else:
             return -1
-
         #get name
         i = i + len(ID) + 2
         if (ReadUsersData.StringCompare(data, nameTitle, i)):
@@ -102,7 +81,6 @@ class ReadUsersData:
                 return -1
         else:
             return -1
-
         #get pass
         i = i + len(user[len(user) - 1].name) + 2    #change poss to pass....
         if (ReadUsersData.StringCompare(data, passTitle, i)):
@@ -112,7 +90,6 @@ class ReadUsersData:
                 return -1
         else:
             return -1
-
         #get coins
         i = i + len(user[len(user) - 1].password) + 2    #change poss to coins....
         if (ReadUsersData.StringCompare(data, coinsTitle, i)):
@@ -122,7 +99,6 @@ class ReadUsersData:
                 return -1
         else:
             return -1
-
         #get playtime
         i = i + len(str(user[len(user) - 1].coins)) + 2    #change poss to playtime....
         if (ReadUsersData.StringCompare(data, playTimeTitle, i)):
@@ -132,7 +108,6 @@ class ReadUsersData:
                 return -1
         else:
             return -1
-
         # get winrate
         i = i + len(str(user[len(user) - 1].playTime)) + 2 # change poss to winrate....
         if (ReadUsersData.StringCompare(data, winrateTitle, i)):
@@ -142,7 +117,6 @@ class ReadUsersData:
                 return -1
         else:
             return -1
-
         # get shell number
         i = i + len(str(user[len(user) - 1].winrate)) + 2  # change poss to shell....
         if (ReadUsersData.StringCompare(data, shieldTitle, i)):
@@ -153,7 +127,6 @@ class ReadUsersData:
             user[len(user) - 1].item_shield = int(shield)
         else:
             return -1
-
         i = i + len(shield) + 2    #change poss to end of user
         return i
 
@@ -163,11 +136,8 @@ class ReadUsersData:
             f = open(dataLocation, "rt")
         except FileNotFoundError:
             return -1
-
         data = f.read()
-
-        #data = decrypt.DecyptData(data, key)
-
+        data = decrypt.DecyptData(data, key)
         dataLength = len(data)
         i = 0
         while(i < dataLength - 20):
@@ -175,80 +145,48 @@ class ReadUsersData:
             if(i == -1):
                 # ERROR
                 return -2
-
     pass
 
 class WriteUsersData:
 
     def WriteAllUsersData(user):
         f = open(dataLocation, "w")
-
         i = 0
         textToWrite = ""
         while(i < len(user)):
             textToWrite += userIDTitle + str(user[i].ID) + "\" "
-
             textToWrite += nameTitle + user[i].name + "\" "
-
             textToWrite += passTitle + user[i].password + "\" "
-
             textToWrite += coinsTitle + user[i].coins + "\" "
-
             textToWrite += playTimeTitle + user[i].playTime + "\" "
-
             textToWrite += winrateTitle + user[i].winrate + "\" "
-
             textToWrite += shieldTitle + str(user[i].item_shield) + "\" "
-
-            #textToWrite = textToWrite + '\n'
-
             i = i + 1
-
-        #textToWrite = encypt.EncryptData(textToWrite, key)
-
+        textToWrite = encypt.EncryptData(textToWrite, key)
         f.write(textToWrite)
-
     pass
 
 class LoginCore:
-
     def FindUserName(listUser, x):   #return -1 if not exist    -2 if wrong pass    or poss of user in list
-
-        #listUseris empty
         if(len(listUser) == 0):
             return -1
-
         i = 0
-
         exist = False
-
         rightPass = False
-
         poss = 0
-
         while i < len(listUser):
             if((ReadUsersData.StringCompare(listUser[i].name, x.name, 0)) & (len(listUser[i].name) == len(x.name))):
-
                 exist = True
-
                 poss = i
-
                 break
             i += 1
-
-
         if not exist:
-
             return -1
-
-
 
         if ((ReadUsersData.StringCompare(listUser[i].password, x.password, 0)) & (len(listUser[i].password) == len(x.password))):
             rightPass = True
-
         if not rightPass:
             return -2
-
         return poss
 
     def CheckName(user):
@@ -257,28 +195,10 @@ class LoginCore:
             if(user.name[i] == endOfData):
                 return False
             i += 1
-
         i = 0
         while i < len(user.password):
             if(user.password[i] == endOfData):
                 return False
             i += 1
-
-        return True;
+        return True
     pass
-'''
-user = []
-if(ReadUsersData.GetAllUsersData(user) != -1):
-    WriteUsersData.WriteAllUsersData(user)
-for a in user:
-    print(a.ID)
-    print(a.name)
-    print(a.password)
-    print(a.coins)
-    print(a.playTime)
-    print(a.winrate)
-'''
-
-
-
-

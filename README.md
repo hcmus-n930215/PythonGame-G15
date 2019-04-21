@@ -5,7 +5,7 @@ _This project is game assigned in university_
 
 **HCMUS - NMCNTT2**
 
-`version 2.3 Beta 2`
+`version 3.0 Release`
 
 _HOW TO PLAY_
     

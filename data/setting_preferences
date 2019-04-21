@@ -1,8 +1,7 @@
 # The map are 0 and 1
-default_map=1
+default_map=3
 
 # The racers are: rc_lead, rc_catus, rc_turtle, rc_snail
-default_racer=rc_lead
-
-
-count_account=100023
+default_racer=rc_turtle
+count_account=100028
+default_sound=7

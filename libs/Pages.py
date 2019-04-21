@@ -10,9 +10,9 @@ class LoginPage():
         self.SCREEN = pygame.display.get_surface()
         self.loginForm = self.GAME.load_img("img/pg_mainpage_no_title.png", -1, self.GAME.GAME_HEIGHT_DEFAULT//2)
         self.rect = self.loginForm.get_rect()
-        self.rect.center = (self.GAME.GAME_WIDTH //2, self.GAME.GAME_HEIGHT//2)
+        self.rect.center = (self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT//2)
         #add text and input
-        self.TITLE = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.067, text="LOG IN/SIGN UP", gravity="center")
+        self.TITLE = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.067, text="LOG IN/SIGN UP", gravity="center")
         self.userNameInput = InputBox(self.rect.x +self.rect.w*0.4, self.rect.y + self.rect.h*0.274, 250*self.GAME.SCALE_X, 50*self.GAME.SCALE_Y)
         self.passWordInput = InputBox(self.rect.x +self.rect.w*0.4, self.rect.y + self.rect.h*0.467, 250*self.GAME.SCALE_X, 50*self.GAME.SCALE_Y)
         self.userNameText = View(self.rect.x +self.rect.w*0.2, self.rect.y + self.rect.h*0.274, text="Username: ", gravity="center_left")
@@ -47,24 +47,19 @@ class MainPage():
         #load screen from main
         self.GAME = gameLancher
         self.SCREEN = pygame.display.get_surface()
-        self.mainForm = gameLancher.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT // 4, self.GAME.GAME_HEIGHT_DEFAULT // 2)
+        self.mainForm = gameLancher.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT//4, self.GAME.GAME_HEIGHT_DEFAULT//2)
         self.rect = self.mainForm.get_rect()
-        self.rect.center = (self.GAME.GAME_WIDTH // 2, self.GAME.GAME_HEIGHT // 2)
+        self.rect.center = (self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT//2)
         self.reloadBtn()
         pass
 
     def reloadBtn(self):
-        self.TITLE = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.067, text="MAIN MENU",
-                            gravity="center")
-        self.btn_start = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.252, "START",
-                                gravity="center")
-        self.btn_setting = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.412, "SETTING", gravity="center")
-        self.btn_history = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.57,
-                                  "HISTORY", gravity="center")
-        self.btn_store = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.73,
-                                  "SHOP", gravity="center")
-        self.btn_logout = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.9,
-                                 "LOG OUT", gravity="center")
+        self.TITLE = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.067, text="MAIN MENU", gravity="center")
+        self.btn_start = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.252, "START", gravity="center")
+        self.btn_setting = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.412, "SETTING", gravity="center")
+        self.btn_history = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.57, "HISTORY", gravity="center")
+        self.btn_store = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.73, "SHOP", gravity="center")
+        self.btn_logout = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.9, "LOG OUT", gravity="center")
         self.button = (self.btn_start, self.btn_setting,self.btn_store, self.btn_logout, self.btn_history)
 
     def drawMainPage(self):
@@ -75,21 +70,23 @@ class MainPage():
         pass
 
     def drawInitStart(self, user, racers):
-        self.mainForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT // 3 * 2, self.GAME.GAME_WIDTH_DEFAULT // 2)
+        self.mainForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT//3*2, self.GAME.GAME_WIDTH_DEFAULT//2)
         self.rect = self.mainForm.get_rect()
-        self.rect.center = (self.GAME.GAME_WIDTH // 2, self.GAME.GAME_HEIGHT // 2)
+        self.rect.center = (self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT//2)
 
-        TITLE = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.05, text="CONFIGURING INIT", gravity="center")
+        TITLE = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.05, text="CONFIGURING INIT", gravity="center")
         btn_save = View(self.rect.x + self.rect.w*0.25 ,self.rect.y+self.rect.h - 20*self.GAME.SCALE_Y, text="LET'S GO!", gravity="mid_bottom")
         btn_back = View(self.rect.x + self.rect.w*0.738 , self.rect.y+self.rect.h - 20*self.GAME.SCALE_Y, text="BACK!", gravity="mid_bottom")
-        tv_coin = View(self.rect.x + self.rect.w * 0.428, self.rect.y + self.rect.h * 0.225, text="Enter coins:", gravity="mid_left")
-        tv_distance = View(self.rect.x + self.rect.w * 0.428, self.rect.y + self.rect.h * 0.35, text="Range of map:", gravity="mid_left")
-        ip_coin = InputBox(self.rect.x + self.rect.w * 0.77 - 100*self.GAME.SCALE_X, self.rect.y + self.rect.h * 0.225 - 25*self.GAME.SCALE_Y, 200*self.GAME.SCALE_X, 50*self.GAME.SCALE_Y, "", isdigit=True)
-        ip_distance = InputBox(self.rect.x + self.rect.w * 0.77 - 100*self.GAME.SCALE_X, self.rect.y + self.rect.h * 0.35 - 25*self.GAME.SCALE_Y, 200*self.GAME.SCALE_X, 50*self.GAME.SCALE_Y, "", isdigit=True)
-        self.warrningText = View(self.rect.x + self.rect.w * 0.665, self.rect.y + self.rect.h * 0.457, "", gravity="center")
-        self.warrningText2 = View(self.rect.x + self.rect.w * 0.573, self.rect.y + self.rect.h * 0.842, "", gravity="center")
-        tv_star = View(self.rect.x + self.rect.w * 0.486, self.rect.y + self.rect.h * 0.758, text="Star Amulet", gravity="center")
-        tv_shield = View(self.rect.x + self.rect.w * 0.79, self.rect.y + self.rect.h * 0.758, text="Shield", gravity="center")
+        tv_coin = View(self.rect.x + self.rect.w*0.428, self.rect.y + self.rect.h*0.225, text="Enter coins:", gravity="mid_left")
+        tv_distance = View(self.rect.x + self.rect.w*0.428, self.rect.y + self.rect.h*0.35, text="Range of map:", gravity="mid_left")
+        ip_coin = InputBox(self.rect.x + self.rect.w*0.77 - 100*self.GAME.SCALE_X, self.rect.y + self.rect.h*0.225 - 25*self.GAME.SCALE_Y,
+                           200*self.GAME.SCALE_X, 50*self.GAME.SCALE_Y, "", isdigit=True)
+        ip_distance = InputBox(self.rect.x + self.rect.w*0.77 - 100*self.GAME.SCALE_X, self.rect.y + self.rect.h*0.35 - 25*self.GAME.SCALE_Y,
+                           200*self.GAME.SCALE_X, 50*self.GAME.SCALE_Y, "", isdigit=True)
+        self.warrningText = View(self.rect.x + self.rect.w*0.665, self.rect.y + self.rect.h*0.457, "", gravity="center")
+        self.warrningText2 = View(self.rect.x + self.rect.w*0.573, self.rect.y + self.rect.h*0.842, "", gravity="center")
+        tv_star = View(self.rect.x + self.rect.w*0.486, self.rect.y + self.rect.h*0.758, text="Star Amulet", gravity="center")
+        tv_shield = View(self.rect.x + self.rect.w*0.79, self.rect.y + self.rect.h*0.758, text="Shield", gravity="center")
         list_tv = [tv_coin, tv_distance, self.warrningText, self.warrningText2, tv_shield, tv_star, TITLE, btn_save, btn_back]
         list_ip = [ip_coin, ip_distance]
 
@@ -97,8 +94,8 @@ class MainPage():
         imgArrow = self.GAME.IC_ARROW
         imgTick = self.GAME.IC_TICK
 
-        imgStar = ImageView(self.GAME, self.rect.x + self.rect.w * 0.428, self.rect.y + self.rect.h * 0.522, 100, 100, "img/ic_star.png")
-        imgShiled = ImageView(self.GAME, self.rect.x + self.rect.w * 0.721, self.rect.y + self.rect.h * 0.522, 100, 100, "img/ic_shield.png")
+        imgStar = ImageView(self.GAME, self.rect.x + self.rect.w*0.428, self.rect.y + self.rect.h*0.522, 100, 100, "img/ic_star.png")
+        imgShiled = ImageView(self.GAME, self.rect.x + self.rect.w*0.721, self.rect.y + self.rect.h*0.522, 100, 100, "img/ic_shield.png")
         list_imgExtend = [imgStar, imgShiled]
         use_star = False
         use_shield = False
@@ -115,8 +112,8 @@ class MainPage():
                 tv.show()
             for imgE in list_imgExtend:
                 imgE.draw(self.SCREEN)
-            use_star and self.SCREEN.blit(imgTick, (self.rect.x + self.rect.w * 0.54, self.rect.y + self.rect.h * 0.509))
-            use_shield and self.SCREEN.blit(imgTick, (self.rect.x + self.rect.w * 0.831, self.rect.y + self.rect.h * 0.509))
+            use_star and self.SCREEN.blit(imgTick, (self.rect.x + self.rect.w*0.54, self.rect.y + self.rect.h*0.509))
+            use_shield and self.SCREEN.blit(imgTick, (self.rect.x + self.rect.w*0.831, self.rect.y + self.rect.h*0.509))
             for ip in list_ip:
                 ip.draw(self.SCREEN)
             for rc in list_imgRacer:
@@ -144,14 +141,14 @@ class MainPage():
                 else:
                     self.warrningText2.setText("You need buy shield in shop")
                 time.sleep(0.1)
-            if use_star and len(str(ip_coin.text)) > 0 and int(ip_coin.text) < int(user.coins) / 2:
+            if use_star and len(str(ip_coin.text)) > 0 and int(ip_coin.text) < int(user.coins)/2:
                 self.warrningText2.setText("Can't chosse while your bets half less than your coins")
                 use_star = False
                 imgStar.setActive(use_star)
             if btn_back.is_clicked(gameLancher=self.GAME):
-                self.mainForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT // 4, self.GAME.GAME_HEIGHT_DEFAULT // 2)
+                self.mainForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT//4, self.GAME.GAME_HEIGHT_DEFAULT//2)
                 self.rect = self.mainForm.get_rect()
-                self.rect.center = (self.GAME.GAME_WIDTH // 2, self.GAME.GAME_HEIGHT // 2)
+                self.rect.center = (self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT//2)
                 return False, None, None, active_pos, False, False
             if btn_save.is_clicked(gameLancher=self.GAME):
                 if len((list_ip[0].text))==0 or len((list_ip[1].text))==0:
@@ -161,9 +158,9 @@ class MainPage():
                 elif int(list_ip[1].text) > 9000 or int(list_ip[1].text) < 2500:
                     self.warrningText.setText("Please enter distance between 2500 and 9000")
                 else:
-                    self.mainForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT // 4, self.GAME.GAME_HEIGHT_DEFAULT // 2)
+                    self.mainForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT//4, self.GAME.GAME_HEIGHT_DEFAULT//2)
                     self.rect = self.mainForm.get_rect()
-                    self.rect.center = (self.GAME.GAME_WIDTH // 2, self.GAME.GAME_HEIGHT // 2)
+                    self.rect.center = (self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT//2)
                     # return coin - distance
                     return True, list_ip[0].text, int(list_ip[1].text), active_pos, use_star, use_shield
 
@@ -178,9 +175,9 @@ class SettingPage():
     def __init__(self, gameLancher):
         self.GAME = gameLancher
         self.SCREEN = pygame.display.get_surface()
-        self.settingForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT //2, self.GAME.GAME_HEIGHT_DEFAULT // 2)
+        self.settingForm = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT//2, self.GAME.GAME_HEIGHT_DEFAULT//2)
         self.rect = self.settingForm.get_rect()
-        self.rect.center = (self.GAME.GAME_WIDTH //2, self.GAME.GAME_HEIGHT//2)
+        self.rect.center = (self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT//2)
 
         self.TITLE = View(self.rect.x +self.rect.w*0.5, self.rect.y + self.rect.h*0.0535, text="SETTINGS", gravity="center")
         self.btn_setplayer = View(self.rect.x +self.rect.w*0.5, self.rect.y + self.rect.h*0.217, text="Choose set of player", gravity="center")
@@ -200,10 +197,9 @@ class SettingPage():
         self.LIST_RC = []
         self.listRacer = ["rc_turtle", "rc_lead", "rc_snail", "rc_parrot", "rc_player"]
         last_active = 0
-        btn_save = View(self.rect.x + self.rect.w //2, self.rect.y + self.rect.h - 30*self.GAME.SCALE_X, text="SAVE", gravity="center")
-        img_info = []
+        btn_save = View(self.rect.x + self.rect.w//2, self.rect.y + self.rect.h - 30*self.GAME.SCALE_X, text="SAVE", gravity="center")
         for i in range(0, len(self.listRacer)):
-            self.LIST_RC.append(ImageView(self.GAME, 150*self.GAME.SCALE_X * (i % 3) + self.GAME.GAME_WIDTH / 3, 100*self.GAME.SCALE_Y * (i // 3) + self.GAME.GAME_HEIGHT / 3, 60*self.GAME.SCALE_X, 60*self.GAME.SCALE_Y, "img/" + self.listRacer[i] + "1.png"))
+            self.LIST_RC.append(ImageView(self.GAME, 150*self.GAME.SCALE_X*(i % 3) + self.GAME.GAME_WIDTH/3, 100*self.GAME.SCALE_Y*(i//3) + self.GAME.GAME_HEIGHT/3, 60*self.GAME.SCALE_X, 60*self.GAME.SCALE_Y, "img/" + self.listRacer[i] + "1.png"))
             if self.listRacer[i] == (self.GAME.DEFAULT_RACERS_CODE):
                 self.LIST_RC[i].setActive(True)
                 last_active = i
@@ -228,7 +224,7 @@ class SettingPage():
         self.TITLE.setText("MAPS CHOOSER")
         self.LIST_BG = []
         last_active = 0
-        btn_save = View(self.rect.x + self.rect.w //2, self.rect.y + self.rect.h - 30*self.GAME.SCALE_Y,text="SAVE", gravity="center")
+        btn_save = View(self.rect.x + self.rect.w//2, self.rect.y + self.rect.h - 30*self.GAME.SCALE_Y,text="SAVE", gravity="center")
         img_info = []
         # create table of maps element
         row = 2
@@ -238,8 +234,8 @@ class SettingPage():
                 fname = "img/Background"+str(i*2+j)+".png"
                 try:
                     open(fname, 'r').close()
-                    self.LIST_BG.append(ImageView(self.GAME, self.rect.x + self.rect.w*0.15 + (170 + 60)*self.GAME.SCALE_X * j, self.rect.y + self.rect.h*0.18 + (95.625+ 35)*self.GAME.SCALE_Y *i, 170, -1, fname))
-                    img_info.append(View(self.rect.x + self.rect.w*0.15 + (170+60)*self.GAME.SCALE_X * j + 170/2*self.GAME.SCALE_X,
+                    self.LIST_BG.append(ImageView(self.GAME, self.rect.x + self.rect.w*0.15 + (170 + 60)*self.GAME.SCALE_X*j, self.rect.y + self.rect.h*0.18 + (95.625+ 35)*self.GAME.SCALE_Y *i, 170, -1, fname))
+                    img_info.append(View(self.rect.x + self.rect.w*0.15 + (170+60)*self.GAME.SCALE_X*j + 170/2*self.GAME.SCALE_X,
                                            self.rect.y + self.rect.h*0.18 + (95.625+35)*self.GAME.SCALE_Y *(i+1) - 35/2*self.GAME.SCALE_Y, "", gravity="center"))
                     if i*2+j == int(self.GAME.DEFAULT_MAP_CODE):
                         self.LIST_BG[i*2+j].setActive(True)
@@ -271,12 +267,10 @@ class SettingPage():
             pygame.display.flip()
     def drawOptionSound(self):
         self.TITLE.setText("SOUND OPTIONS")
-        btn_save = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h - 30*self.GAME.SCALE_Y, text="SAVE",
-                          gravity="center")
-        btn_theme = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h * (1 - 0.6), text="THEME SONG:", gravity="center")
-        btn_racing = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h * (1 - 0.5), text="RACING SONG:", gravity="center")
-        btn_effect = View(self.rect.x + self.rect.w // 2, self.rect.y + self.rect.h * (1 - 0.4), text="EFFECT SOUND:", gravity="center")
-
+        btn_save = View(self.rect.x + self.rect.w//2, self.rect.y + self.rect.h - 30*self.GAME.SCALE_Y, text="SAVE", gravity="center")
+        btn_theme = View(self.rect.x + self.rect.w//2, self.rect.y + self.rect.h*(1 - 0.6), text="THEME SONG:", gravity="center")
+        btn_racing = View(self.rect.x + self.rect.w//2, self.rect.y + self.rect.h*(1 - 0.5), text="RACING SONG:", gravity="center")
+        btn_effect = View(self.rect.x + self.rect.w//2, self.rect.y + self.rect.h*(1 - 0.4), text="EFFECT SOUND:", gravity="center")
         if self.GAME.DEFAULT_SOUND_CODE[0] == 1:
             btn_theme.text += " ON"
         else:
@@ -346,8 +340,8 @@ class InfoZone():
         self.SCREEN.blit(self.GAME.IC_PLAYED_TIME, (15*self.GAME.SCALE_X, 150*self.GAME.SCALE_Y))
         self.SCREEN.blit(self.GAME.IC_WINRATE, (15*self.GAME.SCALE_X, 200*self.GAME.SCALE_Y))
         self.shield = View(70*self.GAME.SCALE_X, 125*self.GAME.SCALE_Y, text=str(self.USER.item_shield), gravity="center_horizontal")
-        self.playedTime = View(60*self.GAME.SCALE_X, 170*self.GAME.SCALE_Y, text="played time: "+str(self.USER.playTime), gravity="center_horizontal")
-        self.winrate = View(60*self.GAME.SCALE_X, 220*self.GAME.SCALE_Y, text="win rate: "+str(self.USER.winrate), gravity="center_horizontal")
+        self.playedTime = View(60*self.GAME.SCALE_X, 170*self.GAME.SCALE_Y, text="time played: "+str(self.USER.playTime), gravity="center_horizontal")
+        self.winrate = View(60*self.GAME.SCALE_X, 220*self.GAME.SCALE_Y, text="win rate: "+str(self.USER.winrate)+"%", gravity="center_horizontal")
         list = [self.winrate, self.playedTime, self.shield, self.playedTime, self.player_name, self.coin]
         for v in list:
             v.show()
@@ -355,33 +349,30 @@ class InfoZone():
         return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
 class HistoryPage():
     def __init__(self, gameLancher):
-
         self.GAME = gameLancher
         self.SCREEN = pygame.display.get_surface()
         self.i = 0
         #add img
-        self.historyForm = self.settingForm = self.GAME.load_img("img/pg_history_board.png", self.GAME.GAME_WIDTH_DEFAULT //2, self.GAME.GAME_HEIGHT_DEFAULT // 2)
+        self.historyForm = self.GAME.load_img("img/pg_history_board.png", self.GAME.GAME_WIDTH_DEFAULT//2, self.GAME.GAME_HEIGHT_DEFAULT//2)
         self.size = self.historyForm.get_rect().size
         self.scroll = self.GAME.load_img("img/ic_scroll.png", self.size[0]*7/150, -1)
-        self.scroll_y = self.GAME.GAME_HEIGHT // 4
+        self.scroll_y = self.GAME.GAME_HEIGHT//4
         self.scroll_y_step = 0
-        self.scroll_x = self.GAME.GAME_WIDTH // 4 + self.size[0] * (1 - 7/150)
+        self.scroll_x = self.GAME.GAME_WIDTH//4 + self.size[0]*(1 - 7/150)
         self.size_scroll = self.scroll.get_rect().size
         #add text
-        self.btn_back = View(gameLancher.GAME_WIDTH // 2, 520*self.GAME.SCALE_Y, "Back", color="#3ae300", gravity="center")
+        self.btn_back = View(gameLancher.GAME_WIDTH//2, 520*self.GAME.SCALE_Y, "Back", color="#3ae300", gravity="center")
         self.listRacerTypeText = []
         self.listCoinResultText = []
         i = 0
         while i < 5:
             self.listRacerTypeText.append(gameLancher.load_img("img/rc_snail1.png", -1, 50))
-            self.listCoinResultText.append(View(self.GAME.GAME_WIDTH / 1.6, self.GAME.GAME_HEIGHT / 2.6 + (i + 1) * 50*self.GAME.SCALE_Y, color="#FFFFFF"))
+            self.listCoinResultText.append(View(self.GAME.GAME_WIDTH/1.6, self.GAME.GAME_HEIGHT/2.6 + (i + 1)*50*self.GAME.SCALE_Y, color="#FFFFFF"))
             i += 1
-        # set title
-        self.typeTitle = View(self.GAME.GAME_WIDTH / 3.5, self.GAME.GAME_HEIGHT / 2.6, text="Type", color="#FFFFFF")
-        #self.listRacerNumText[0].setText("Number")
-        self.coinTitle = View(self.GAME.GAME_WIDTH / 1.6, self.GAME.GAME_HEIGHT / 2.6, text="Result", color="#FFFFFF")
+        self.typeTitle = View(self.GAME.GAME_WIDTH/3.5, self.GAME.GAME_HEIGHT/2.6, text="Type", color="#FFFFFF")
+        self.coinTitle = View(self.GAME.GAME_WIDTH/1.6, self.GAME.GAME_HEIGHT/2.6, text="Result", color="#FFFFFF")
 
-        self.warning = View(self.GAME.GAME_WIDTH / 3, self.GAME.GAME_HEIGHT / 2.6, text="You have not played yet", color="#FFFFFF")
+        self.warning = View(self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT/2.6, text="You have not played yet", color="#FFFFFF", gravity="center")
         pass
 
     def Up(self):
@@ -413,7 +404,7 @@ class HistoryPage():
                 self.listCoinResultText[i].setText(history[len(history) - (self.i + i + 1)].coinResult)
 
     def draw(self, history):
-        self.SCREEN.blit(self.historyForm, (self.GAME.GAME_WIDTH // 4, self.GAME.GAME_HEIGHT // 4))
+        self.SCREEN.blit(self.historyForm, (self.GAME.GAME_WIDTH//4, self.GAME.GAME_HEIGHT//4))
 
         if (len(history) == 0):
             self.warning.show()
@@ -421,7 +412,7 @@ class HistoryPage():
         else:
             for i in range(0,3):
                 if (i < len(history)):
-                    self.SCREEN.blit(self.listRacerTypeText[i],(self.GAME.GAME_WIDTH // 3.5, self.GAME.GAME_HEIGHT // 2.6 + (i + 1) * 50 * self.GAME.SCALE_Y))
+                    self.SCREEN.blit(self.listRacerTypeText[i],(self.GAME.GAME_WIDTH//3.6, self.GAME.GAME_HEIGHT//2.7 + (i + 1)*50*self.GAME.SCALE_Y))
                     self.listCoinResultText[i].show()
             self.coinTitle.show()
             self.typeTitle.show()
@@ -433,19 +424,19 @@ class Shoppage():
     def __init__(self, gameLancher,user):
         self.GAME = gameLancher
         self.SCREEN = pygame.display.get_surface()
-        self.SHOP = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT // 2,self.GAME.GAME_HEIGHT_DEFAULT // 2)
+        self.SHOP = self.GAME.load_img("img/pg_mainpage_no_title.png", self.GAME.GAME_WIDTH_DEFAULT//2,self.GAME.GAME_HEIGHT_DEFAULT//2)
         self.SHIELD = self.GAME.load_img("img/ic_shield.png", self.GAME.GAME_WIDTH_DEFAULT//10, self.GAME.GAME_HEIGHT_DEFAULT//7)
         self.rect = self.SHOP.get_rect()
-        self.rect.center = (self.GAME.GAME_WIDTH // 2, self.GAME.GAME_HEIGHT // 2)
-        self.TITLE = View(self.rect.x + self.rect.w * 0.5, self.rect.y + self.rect.h * 0.0535, text="SHOP", gravity="center")
+        self.rect.center = (self.GAME.GAME_WIDTH//2, self.GAME.GAME_HEIGHT//2)
+        self.TITLE = View(self.rect.x + self.rect.w*0.5, self.rect.y + self.rect.h*0.0535, text="SHOP", gravity="center")
         self.btn_back = View(self.rect.x +self.rect.w*0.5, self.rect.y + self.rect.h*0.8226, text="Back", gravity="center")
         self.val_price_shield = 1000
         self.tv_shield = View(self.rect.x +self.rect.w*0.32, self.rect.y + self.rect.h*0.279, "SHIELD", gravity="center_horizontal")
         self.tv_shield_val = View(self.rect.x +self.rect.w*0.32, self.rect.y + self.rect.h*0.455, text="You own: "+str(user.item_shield), gravity="center_horizontal")
         self.price_shield = View(self.rect.x +self.rect.w*0.743, self.rect.y + self.rect.h*0.455, str(self.val_price_shield)+"$")
 
-        self.tv_coin = View(self.rect.x + self.rect.w * 0.084, self.rect.y + self.rect.h * 0.7, "ADD MONEY", gravity="center_horizontal")
-        self.buy_coin = View(self.rect.x + self.rect.w * 0.743, self.rect.y + self.rect.h * 0.7, "BUY 10000$", gravity="center")
+        self.tv_coin = View(self.rect.x + self.rect.w*0.084, self.rect.y + self.rect.h*0.7, "ADD MONEY", gravity="center_horizontal")
+        self.buy_coin = View(self.rect.x + self.rect.w*0.743, self.rect.y + self.rect.h*0.7, "BUY 10000$", gravity="center")
         self.list_view = [self.TITLE, self.btn_back, self.tv_shield_val, self.tv_shield, self.price_shield, self.tv_coin, self.buy_coin]
         pass
     def DrawShop(self, user):
@@ -460,3 +451,4 @@ class Shoppage():
         self.buy_coin.setBackground(gameLancher=self.GAME, img_link="img/S_price1.png")
         for v in self.list_view:
             v.show()
+    pass
