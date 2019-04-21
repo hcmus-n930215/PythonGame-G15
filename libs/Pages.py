@@ -8,7 +8,7 @@ class LoginPage():
         #load gameplay from main
         self.GAME = gameLancher
         self.SCREEN = pygame.display.get_surface()
-        self.loginForm = self.GAME.load_img("img/pg_mainpage_no_title.png", -1, self.GAME.GAME_HEIGHT // 2)
+        self.loginForm = self.GAME.load_img("img/pg_mainpage_no_title.png", -1, 720/2)
         self.rect = self.loginForm.get_rect()
         self.rect.center = (self.GAME.GAME_WIDTH //2, self.GAME.GAME_HEIGHT//2)
         #add text and input

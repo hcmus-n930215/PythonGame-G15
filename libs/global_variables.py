@@ -232,9 +232,6 @@ class Amulet(pygame.sprite.Sprite):
         self.kind = kind
         self.game = game
 
-
-
-
     def stop_amulet(self):                      #1
         """Bua dung"""
         self.speed = 0
@@ -242,16 +239,12 @@ class Amulet(pygame.sprite.Sprite):
     def slow_amulet(self):                      #2
         """Bua giam toc"""
         self.speed=0.75
-        #self.x+=self.speed
-
-
 
     def fast_amulet(self):                      #3
         """Bua tang toc"""
-        self.speed = 2
-        self.x += self.speed
-        self.time-=2
-
+        if self.speed + 2 <= 5:
+            self.speed += 2
+        self.time -= 2
 
     def return_start_amulet(self):              #4
         """Bua quay ve vi tri xuat phat"""
@@ -278,61 +271,46 @@ class Amulet(pygame.sprite.Sprite):
         if(self.kind ==  1):
             if(self.exist_shield_amulet != True):
                 self.stop_amulet()
-                self.exist_IC_SAD=True
+
             else:
                 self.kind = 0
                 self.exist_shield_amulet = False
         elif(self.kind ==  2):
             if (self.exist_shield_amulet != True):
                 self.slow_amulet()
-                self.exist_IC_SAD=True
             else:
                 self.kind=0
                 self.exist_shield_amulet = False
-        elif (self.kind == 3):
-            if (self.exist_shield_amulet != True):
+        elif self.kind == 3:
+            if self.exist_shield_amulet != True:
                 self.fast_amulet()
-                self.exist_IC_HAPPY = True
             else:
                 self.kind = 0
                 self.exist_shield_amulet = False
-
-
-        elif (self.kind == 4):
-            if (self.exist_shield_amulet != True):
+        elif self.kind == 4:
+            if self.exist_shield_amulet != True:
                 self.return_start_amulet()
-                self.exist_IC_SAD = True
             else:
                 self.kind = 0
                 self.exist_shield_amulet = False
-
-
-        elif (self.kind == 5):
+        elif self.kind == 5:
             if (self.exist_shield_amulet != True):
                 self.teleport_amulet()
-                self.IC_HAPPY = True
             else:
                 self.kind = 0
                 self.exist_shield_amulet = False
-
-
         elif (self.kind == 6):
             if (self.exist_shield_amulet != True):
                 self.win_amulet()
-                self.exist_IC_HAPPY = True
             else:
                 self.kind = 0
                 self.exist_shield_amulet = False
-
-
         elif (self.kind == 7):
             if (self.exist_shield_amulet != True):
                 self.turnback_amulet()
-                self.exist_IC_SAD = True
             else:
                 self.kind = 0
                 self.exist_shield_amulet = False
-
         self.exist_amulet = False
 
     def Amulet_appear(self):
@@ -348,12 +326,8 @@ class Amulet(pygame.sprite.Sprite):
         else:
             self.kind=0
 
-
-
-
     def draw_amulet(self, rollback):
         if self.exist_amulet:
-
             if (self.kind == 1):
                 self.game.SCREEN.blit(self.IC_STOP, (self.amulet_x + rollback, self.y))
             elif (self.kind == 2):
@@ -370,6 +344,8 @@ class Amulet(pygame.sprite.Sprite):
                 self.game.SCREEN.blit(self.IC_TURNBACK, (self.amulet_x + rollback, self.y))
             self.amulet_x += +rollback
             # self.game.SCREEN.blit(img_amulet, (self.amulet_x, self.y))
+
+
 class Racer(Amulet):
     """ Doi tuong dua """
     def __init__(self, x, y, game, pack="rc_snail", num="0"):
@@ -412,9 +388,6 @@ class Racer(Amulet):
         self.button_shield_amulet = True
         self.pos_rank = self.rank
 
-
-
-
     def update(self,camera):
         #if self.distance > self.game.DISTANCE:
         #    return False
@@ -447,6 +420,7 @@ class Racer(Amulet):
     def updatespeed(self):
         self.speed = random.randrange(15, 30) / 10
 
+
 class History():
     def __init__(self):
         self.racerType = ""
@@ -454,6 +428,8 @@ class History():
         self.coinResult = ""
 
     pass
+
+
 class Ranking():
     """ Bang xep hang"""
     def __init__(self, game, rs):
@@ -485,16 +461,9 @@ class Ranking():
             for j in range(0, 6):
                 if rs[i].x > rs[j].x and rs[i].rank > rs[j].rank:
                     rs[i].rank, rs[j].rank = rs[j].rank, rs[i].rank
-                """if int(rs[i].x) > int(rs[j].x):
-                    self.racers[i].rank -= 1
-                if rs[i].x == rs[j].x:
-                    if rs[i].rank <= rs[j].rank:
-                        if i!=j:
-                            self.racers[i].rank -= 1
-                            """
-
         self.draw(rs)
-        #return self.racers
+
+
 class User():
     def __init__(self, coin = "100000"):
         self.ID = 0
@@ -514,6 +483,8 @@ class User():
         temp_user.coins = self.coins
         temp_user.item_shield = self.item_shield
     pass
+
+
 class Camera():
     def __init__(self, game):
         self.game = game
@@ -542,8 +513,6 @@ class Camera():
             self.delta = max(abs(delta)/3, 25)*(delta/abs(delta))
 
         # change following
-
-
         if pygame.key.get_pressed()[pygame.K_1]:
             self.follow = 0
             return
@@ -562,7 +531,6 @@ class Camera():
         if pygame.key.get_pressed()[pygame.K_6]:
             self.follow = 5
             return
-
     pass
 
 

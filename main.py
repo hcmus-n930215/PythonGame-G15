@@ -403,9 +403,9 @@ def main_game(listUser, userIndex, history):
             minimap.update(racers, racer_play_pos, camera.follow)
             camera.update(racers[camera.follow])
             if not isScrolling:
-                ranking.show_top1 = True
-                if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
-                    ranking.y += 3
+                #ranking.show_top1 = True
+                #if ranking.y < gameLancher.GAME_HEIGHT / 3.5:
+                #    ranking.y += 3
                 coinResult, finish_r, temp_user = finish_race(gameLancher, winner, racers[racer_play_pos], user,
                                                               coin_input)
 
