@@ -40,6 +40,7 @@ class INIT_GAME():
         self.IC_APP_NAME = self.load_img("img/ic_app_name.png", self.GAME_WIDTH//2, -1)
         self.IC_RANK = self.load_img("img/ic_rank.png",0.8,0.8)
         self.IC_MINIMAP = self.load_img("img/minimap.png", 300, 50)
+        self.IC_MINIMAP_BG = self.load_img("img/minimap_backgound.png", 400, 50)
         self.IC_POINT_B = self.load_img("img/point_blue.png", 11, 11)
         self.IC_POINT_R = self.load_img("img/point_red.png", 11, 11)
         self.IC_MINIMAP_CAMERA = self.load_img("img/minimap_camera.png", 38, 21)
@@ -520,8 +521,10 @@ class Minimap():
         self.size_c = self.img_camera.get_rect().size
         self.x = game.GAME_WIDTH/2 - self.size[0]/2
         self.y = game.GAME_HEIGHT/10*9
-
+        self.img_minimap_bg = game.IC_MINIMAP_BG
+        self.xbg = game.GAME_WIDTH / 2 - self.size[0] / 3 * 2
     def update(self, racers, play_choose, camera_follow):
+        self.GAME.SCREEN.blit(self.img_minimap_bg, (self.xbg, self.y))
         self.GAME.SCREEN.blit(self.img_minimap, (self.x, self.y))
         a = self.GAME.GAME_WIDTH/3
         for r in racers:
